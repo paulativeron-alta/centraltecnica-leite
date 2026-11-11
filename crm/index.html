@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#17305C">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" href="../icones/icone.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<script src="../config.js"></script>
+<script src="../core/alta.js"></script>
+<script>if(!ALTA.guarda())document.documentElement.style.display='none';</script>
+<title>CRM da Equipe Leite</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: app shell — sticky header with tabs, content column up to 1120px, sheets slide up for forms and details */
+:root{
+  --bg:#f2f6f3; --surface:#ffffff; --sunk:#e8efea; --ink:#15221b; --muted:#56675d; --line:#d6e0da;
+  --accent:#1e6b47; --accent-ink:#ffffff; --soft:#dcebe2;
+  --good:#1d7a48; --warn:#a85a07; --bad:#b3261e; --info:#2d5f8a;
+  --good-bg:#dff1e6; --warn-bg:#fbecd6; --bad-bg:#f9dedb; --info-bg:#dde9f4;
+  --shadow:0 1px 2px rgb(20 40 30 / .06),0 8px 24px rgb(20 40 30 / .08);
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1511; --surface:#161f1a; --sunk:#111915; --ink:#e4ece7; --muted:#97a89e; --line:#28362e;
+  --accent:#5fc28d; --accent-ink:#0b1a12; --soft:#1b2d23;
+  --good:#6fd39c; --warn:#f0aa5f; --bad:#f2847a; --info:#8cb9e6;
+  --good-bg:#173022; --warn-bg:#33240f; --bad-bg:#371815; --info-bg:#15263a;
+  --shadow:0 1px 2px rgb(0 0 0 / .3),0 8px 24px rgb(0 0 0 / .35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1511; --surface:#161f1a; --sunk:#111915; --ink:#e4ece7; --muted:#97a89e; --line:#28362e;
+  --accent:#5fc28d; --accent-ink:#0b1a12; --soft:#1b2d23;
+  --good:#6fd39c; --warn:#f0aa5f; --bad:#f2847a; --info:#8cb9e6;
+  --good-bg:#173022; --warn-bg:#33240f; --bad-bg:#371815; --info-bg:#15263a;
+  --shadow:0 1px 2px rgb(0 0 0 / .3),0 8px 24px rgb(0 0 0 / .35); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.brand{display:flex;align-items:center;gap:12px;padding-block:12px 4px;flex-wrap:wrap}
+.mark{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;flex:none}
+.brand h1{font-size:1.25rem;font-weight:700}
+.brand small{display:block;color:var(--muted);font-size:.78rem;letter-spacing:.04em}
+.brand .grow{flex:1;min-width:140px}
+nav.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{background:none;border:0;padding:10px 12px 11px;font-weight:600;color:var(--muted);border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+nav.tabs .count{font-weight:500;font-size:.78rem;color:var(--muted);margin-left:4px}
+
+main{padding-block:20px 80px}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.bar h2{font-size:1.35rem;flex:1;min-width:160px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);padding:8px 14px;border-radius:999px;font-weight:600;cursor:pointer;font-size:.92rem}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.danger{color:var(--bad);border-color:var(--bad)}
+.btn.danger.armed{background:var(--bad);color:var(--surface)}
+.btn.small{padding:5px 11px;font-size:.84rem}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.field{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 10px;min-width:0}
+.filters .field{flex:1 1 160px}
+.filters label.chk{display:flex;align-items:center;gap:6px;font-size:.9rem;color:var(--muted);padding:0 4px}
+
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px}
+@media (max-width:760px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.kpi .lbl{font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
+.kpi .val{font-family:var(--f-display);font-size:1.75rem;font-weight:700;line-height:1.2;margin-top:4px}
+.kpi .sub{font-size:.84rem;color:var(--muted)}
+.kpi.alert .val{color:var(--bad)}
+
+.grid2{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px}
+@media (max-width:860px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0}
+.panel h3{font-size:1.02rem;margin-bottom:12px;display:flex;align-items:baseline;gap:8px}
+.panel h3 .hint{font-family:var(--f-body);font-weight:500;font-size:.8rem;color:var(--muted)}
+.stack{display:grid;gap:16px}
+
+.rows{display:grid}
+.row{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0;padding-top:2px}
+.row .main{flex:1;min-width:0}
+.row .t{font-weight:600}
+.row .s{color:var(--muted);font-size:.86rem}
+.row.click{cursor:pointer}
+.row.click:hover .t{color:var(--accent)}
+
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.chip.good{background:var(--good-bg);color:var(--good)}
+.chip.warn{background:var(--warn-bg);color:var(--warn)}
+.chip.bad{background:var(--bad-bg);color:var(--bad)}
+.chip.info{background:var(--info-bg);color:var(--info)}
+.chip.key{background:var(--soft);color:var(--accent)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+
+.hbar{display:grid;grid-template-columns:minmax(80px,140px) minmax(0,1fr) auto;gap:10px;align-items:center;padding:6px 0;font-size:.9rem}
+.hbar .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hbar .track{height:10px;background:var(--sunk);border-radius:6px;overflow:hidden}
+.hbar .fill{height:100%;background:var(--accent);border-radius:6px}
+.hbar .v{font-weight:600;min-width:2ch;text-align:right}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;cursor:pointer;display:grid;gap:4px;text-align:left;width:100%;min-width:0}
+.card:hover{border-color:var(--accent)}
+.card .t{font-weight:700;font-size:1.02rem}
+.card .s{color:var(--muted);font-size:.86rem}
+.card .meta{display:flex;justify-content:space-between;gap:8px;font-size:.84rem;color:var(--muted);margin-top:6px;flex-wrap:wrap}
+
+.kanban{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,1fr);gap:12px;overflow-x:auto;padding-bottom:8px}
+.col{background:var(--sunk);border-radius:var(--r);padding:10px;display:grid;gap:8px;align-content:start;min-width:0}
+.col header{display:flex;justify-content:space-between;align-items:baseline;padding:2px 4px 4px}
+.col header b{font-family:var(--f-display);font-size:.98rem}
+.col header span{font-size:.8rem;color:var(--muted)}
+.op{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:4px}
+.op .t{font-weight:600}
+.op .s{font-size:.84rem;color:var(--muted)}
+.op .foot{display:flex;gap:6px;align-items:center;justify-content:space-between;margin-top:4px}
+.op select{font-size:.82rem;padding:4px 6px;border-radius:6px;border:1px solid var(--line);background:var(--surface)}
+.closed{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+
+.empty{border:1.5px dashed var(--line);border-radius:var(--r);padding:28px 20px;text-align:center;color:var(--muted);display:grid;gap:10px;justify-items:center}
+.empty b{color:var(--ink);font-size:1.05rem;font-family:var(--f-display)}
+.empty p{margin:0;max-width:52ch}
+.steps{display:grid;gap:8px;margin:0;padding:0;list-style:none;text-align:left;max-width:440px;width:100%}
+.steps li{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--ink)}
+.steps li i{font-style:normal;width:24px;height:24px;border-radius:50%;background:var(--soft);color:var(--accent);display:grid;place-items:center;font-weight:700;font-size:.8rem;flex:none}
+.steps li.done i{background:var(--accent);color:var(--accent-ink)}
+.steps li span{flex:1}
+
+.notice{border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:.9rem;background:var(--info-bg);color:var(--info)}
+.notice.bad{background:var(--bad-bg);color:var(--bad)}
+
+/* sheet */
+.backdrop{position:fixed;inset:0;background:rgb(10 20 15 / .45);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:640px;max-height:92%;overflow:auto;border-radius:16px 16px 0 0;box-shadow:var(--shadow);padding:18px max(18px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px))}
+@media (min-width:700px){.backdrop{align-items:center}.sheet{border-radius:16px;max-height:88%}}
+.sheet .head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sheet .head h2{flex:1;font-size:1.25rem}
+.x{border:0;background:var(--sunk);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1.2rem;line-height:1}
+form.f{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:520px){form.f{grid-template-columns:minmax(0,1fr)}}
+form.f .full{grid-column:1/-1}
+form.f label{display:grid;gap:4px;font-size:.84rem;font-weight:600;color:var(--muted)}
+form.f label.inline{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:500;font-size:.92rem}
+form.f .field{width:100%}
+form.f textarea{min-height:76px;resize:vertical}
+form.f .actions{grid-column:1/-1;display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-top:4px}
+form.f .actions .right{display:flex;gap:8px;margin-left:auto}
+.req{color:var(--bad)}
+.dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;font-size:.92rem;margin:0 0 16px}
+.dl dt{color:var(--muted)}
+.dl dd{margin:0}
+.sheet h3{font-size:1rem;margin:18px 0 8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:600;z-index:30;font-size:.9rem;box-shadow:var(--shadow)}
+.sel{white-space:pre-wrap;word-break:break-word}
+@media (prefers-reduced-motion:no-preference){.sheet{animation:up .18s ease-out}@keyframes up{from{transform:translateY(16px);opacity:.6}}}
+</style>
+<style>
+:root{--accent:#295097;--s-ag:#295097}
+.alta-barra{background:linear-gradient(120deg,#17305C,#071427);color:#fff;font:500 13px/1.2 Inter,system-ui,sans-serif}
+.alta-barra .in{max-width:1180px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:12px}
+.alta-barra a{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.alta-barra a:focus-visible,.alta-barra button:focus-visible{outline:2px solid #6fd8ff;outline-offset:2px}
+.alta-barra .esp{flex:1}
+.alta-barra .quem2{color:#6fd8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.alta-barra button{background:none;border:1px solid rgb(255 255 255/.25);color:#fff;border-radius:8px;padding:5px 10px;cursor:pointer;font:inherit}
+a.mark{text-decoration:none}
+</style>
+<style>html,body{margin:0}*{box-sizing:border-box}</style>
+</head>
+<body>
+<div class="alta-barra"><div class="in">
+  <a href="../" title="Voltar à plataforma"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span id="altaNome">Plataforma Leite</span></a>
+  <span class="esp"></span><span class="quem2" id="altaQuem"></span><button type="button" id="altaSair">Sair</button>
+</div></div>
+<script>(function(){var u=ALTA.usuario()||{};document.getElementById('altaNome').textContent=(ALTA.config.nome||'Plataforma Leite');document.getElementById('altaQuem').textContent=u.nome||u.email||'';document.getElementById('altaSair').onclick=function(){ALTA.sair()};})();</script>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <a class="mark" href="../" title="Voltar à plataforma" aria-label="Voltar à plataforma">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8l-1 4v2l3 4v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-8l3-4V6z"/><path d="M6 14h12"/></svg>
+      </a>
+      <div class="grow"><h1>CRM da Equipe Leite</h1><small>CONTAS · VISITAS · FUNIL · EQUIPE</small></div>
+      <button class="btn small" id="btnExport" type="button" hidden>Exportar planilhas</button>
+    </div>
+    <nav class="tabs" role="tablist" id="tabs"></nav>
+  </div>
+</header>
+<main class="wrap" id="app"></main>
+<div id="sheetRoot"></div>
+
+<script>
+(function(){
+const COL={contas:'contas',visitas:'visitas',ops:'oportunidades',equipe:'consultores'};
+const TIPOS_CONTA=['Fazenda','Cooperativa','Laticínio','Revenda','Outro'];
+const TIPOS_VISITA=['Técnica','Comercial','Pós-venda','Prospecção','Treinamento'];
+const PRODUTOS=['Colostro Bovino em Pó','Genética / sêmen','Programa Alta CRIA','Consultoria técnica','Outro'];
+const ETAPAS=['Prospecção','Qualificação','Proposta','Negociação','Ganha','Perdida'];
+const ABERTAS=ETAPAS.slice(0,4);
+const TABS=[['painel','Painel'],['contas','Contas'],['visitas','Visitas'],['funil','Funil'],['equipe','Equipe']];
+
+const S={contas:[],visitas:[],ops:[],equipe:[],loaded:{},tab:'painel',canWrite:true,db:null,dbState:'loading',f:{q:'',cons:'',chave:false,vcons:'',vtipo:'',fcons:''}};
+try{const t=localStorage.getItem('crm-tab');if(t&&TABS.some(x=>x[0]===t))S.tab=t}catch(e){}
+try{const h=location.hash.slice(1);if(TABS.some(x=>x[0]===h))S.tab=h}catch(e){}
+
+const $=s=>document.querySelector(s);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hoje=()=>new Date().toLocaleDateString('sv');
+const dias=(a,b)=>Math.round((new Date(b+'T12:00')-new Date(a+'T12:00'))/864e5);
+const fmtD=d=>{if(!d)return'—';const[y,m,dd]=d.split('-');return `${dd}/${m}/${y}`};
+const brl=n=>(Number(n)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
+const int=n=>(Number(n)||0).toLocaleString('pt-BR');
+const byId=(arr,id)=>arr.find(x=>x.id===id);
+const nomeCons=id=>byId(S.equipe,id)?.nome||'Sem consultor';
+const nomeConta=id=>byId(S.contas,id)?.nome||'Conta removida';
+const sortNome=arr=>[...arr].sort((a,b)=>(a.nome||'').localeCompare(b.nome||'','pt-BR'));
+
+function ultimaVisita(contaId){let u=null;for(const v of S.visitas){if(v.contaId===contaId&&(!u||v.data>u.data))u=v}return u}
+function visitas30(){const h=hoje();return S.visitas.filter(v=>v.data&&dias(v.data,h)<=30&&dias(v.data,h)>=0)}
+function recencia(contaId){
+  const u=ultimaVisita(contaId);
+  if(!u)return{cls:'bad',txt:'Nunca visitada',d:Infinity};
+  const d=dias(u.data,hoje());
+  return{cls:d>45?'bad':d>30?'warn':'good',txt:d<=0?'Visitada hoje':`Última visita há ${d} dia${d===1?'':'s'}`,d};
+}
+function followups(){
+  const h=hoje(),out=[];
+  for(const c of S.contas){const u=ultimaVisita(c.id);if(u&&u.proximoContato){const d=dias(h,u.proximoContato);if(d<=7)out.push({c,u,d})}}
+  return out.sort((a,b)=>a.d-b.d);
+}
+
+/* ---------- toast ---------- */
+let tt;function toast(m){let el=$('.toast');if(!el){el=document.createElement('div');el.className='toast';el.setAttribute('role','status');document.body.appendChild(el)}el.textContent=m;el.hidden=false;clearTimeout(tt);tt=setTimeout(()=>el.hidden=true,2600)}
+
+/* ---------- tabs ---------- */
+function renderTabs(){
+  const cnt={contas:S.contas.length,visitas:S.visitas.length,funil:S.ops.filter(o=>ABERTAS.includes(o.etapa)).length,equipe:S.equipe.length};
+  $('#tabs').innerHTML=TABS.map(([k,l])=>`<button role="tab" type="button" data-tab="${k}" aria-selected="${S.tab===k}">${l}${cnt[k]?`<span class="count num">${cnt[k]}</span>`:''}</button>`).join('');
+}
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(!b)return;S.tab=b.dataset.tab;try{localStorage.setItem('crm-tab',S.tab)}catch(e){}render();window.scrollTo(0,0)});
+
+function render(){
+  renderTabs();
+  const app=$('#app');
+  let pre='';
+  if(S.dbState==='none')pre=`<div class="notice bad">Os dados não estão disponíveis nesta visualização. Abra o CRM pelo link do claude.ai, conectado à sua conta, para ver e registrar informações.</div>`;
+  else if(!S.canWrite)pre=`<div class="notice">Você tem acesso só para consulta. Peça à coordenação acesso de Colaborador para registrar visitas e contas.</div>`;
+  const loading=S.dbState==='loading'||(S.dbState==='ok'&&Object.keys(S.loaded).length<4);
+  if(loading){app.innerHTML=pre+`<div class="empty"><b>Carregando a carteira…</b><p>Buscando contas, visitas e oportunidades da equipe.</p></div>`;return}
+  app.innerHTML=pre+({painel,contas,visitas,funil,equipe}[S.tab])();
+  $('#btnExport').hidden=!(S.contas.length||S.visitas.length||S.ops.length);
+}
+
+/* ---------- onboarding ---------- */
+function onboarding(){
+  const s1=S.equipe.length>0,s2=S.contas.length>0,s3=S.visitas.length>0;
+  return `<div class="empty"><b>Vamos montar a carteira da equipe</b><p>Três passos e o painel começa a mostrar quem precisa de visita, os retornos combinados e o funil de cada consultor.</p>
+  <ol class="steps">
+   <li class="${s1?'done':''}"><i>${s1?'✓':'1'}</i><span>Cadastre os consultores</span>${s1?'':`<button class="btn small primary" data-act="novo" data-ent="equipe" type="button">Adicionar</button>`}</li>
+   <li class="${s2?'done':''}"><i>${s2?'✓':'2'}</i><span>Cadastre as contas e marque as contas-chave</span>${s2?'':`<button class="btn small ${s1?'primary':''}" data-act="novo" data-ent="contas" type="button">Adicionar</button>`}</li>
+   <li class="${s3?'done':''}"><i>${s3?'✓':'3'}</i><span>Registre a primeira visita</span>${s3?'':`<button class="btn small ${s2?'primary':''}" data-act="novo" data-ent="visitas" type="button" ${s2?'':'disabled'}>Registrar</button>`}</li>
+  </ol></div>`;
+}
+
+/* ---------- painel ---------- */
+function painel(){
+  if(!S.contas.length||!S.visitas.length)return `<div class="bar"><h2>Painel da coordenação</h2></div>`+onboarding();
+  const h=hoje(),v30=visitas30(),abertas=S.ops.filter(o=>ABERTAS.includes(o.etapa));
+  const chave=S.contas.filter(c=>c.chave);
+  const chaveSem=chave.map(c=>({c,r:recencia(c.id)})).filter(x=>x.r.d>30).sort((a,b)=>b.r.d-a.r.d);
+  const fu=followups(),atras=fu.filter(x=>x.d<0).length;
+  const mesIni=h.slice(0,8)+'01';
+  const ganhasMes=S.ops.filter(o=>o.etapa==='Ganha'&&(o.fechadaEm||'')>=mesIni);
+
+  const porCons=sortNome(S.equipe).map(c=>({n:c.nome,v:v30.filter(x=>x.consultorId===c.id).length}));
+  const semCons=v30.filter(x=>!byId(S.equipe,x.consultorId)).length;if(semCons)porCons.push({n:'Sem consultor',v:semCons});
+  const maxV=Math.max(1,...porCons.map(x=>x.v));
+
+  const porEtapa=ABERTAS.map(e=>{const l=abertas.filter(o=>o.etapa===e);return{e,n:l.length,v:l.reduce((s,o)=>s+(+o.valor||0),0)}});
+  const maxE=Math.max(1,...porEtapa.map(x=>x.v));
+
+  return `<div class="bar"><h2>Painel da coordenação</h2><button class="btn primary" data-act="novo" data-ent="visitas" type="button">+ Registrar visita</button></div>
+  <div class="kpis">
+    <div class="kpi"><div class="lbl">Contas na carteira</div><div class="val num">${int(S.contas.length)}</div><div class="sub">${chave.length} conta${chave.length===1?'':'s'}-chave</div></div>
+    <div class="kpi"><div class="lbl">Visitas · 30 dias</div><div class="val num">${int(v30.length)}</div><div class="sub">${new Set(v30.map(v=>v.contaId)).size} contas atendidas</div></div>
+    <div class="kpi"><div class="lbl">Funil em aberto</div><div class="val num">${brl(abertas.reduce((s,o)=>s+(+o.valor||0),0))}</div><div class="sub">${abertas.length} oportunidade${abertas.length===1?'':'s'} · ${ganhasMes.length} ganha${ganhasMes.length===1?'':'s'} no mês</div></div>
+    <div class="kpi ${atras||chaveSem.length?'alert':''}"><div class="lbl">Precisam de atenção</div><div class="val num">${atras+chaveSem.length}</div><div class="sub">${atras} retorno${atras===1?'':'s'} atrasado${atras===1?'':'s'} · ${chaveSem.length} conta${chaveSem.length===1?'':'s'}-chave sem visita</div></div>
+  </div>
+  <div class="grid2">
+    <div class="stack">
+      <section class="panel"><h3>Retornos combinados <span class="hint">atrasados e próximos 7 dias</span></h3>
+        ${fu.length?`<div class="rows">${fu.map(({c,u,d})=>`<div class="row click" data-act="conta" data-id="${c.id}"><div class="main"><div class="t">${esc(c.nome)}</div><div class="s">${esc(nomeCons(u.consultorId))} · ${esc(u.proximosPassos||u.assunto||'')}</div></div><span class="chip ${d<0?'bad':d===0?'warn':'info'} num">${d<0?`Atrasado ${-d}d`:d===0?'Hoje':fmtD(u.proximoContato)}</span></div>`).join('')}</div>`:`<p class="s" style="margin:0;color:var(--muted)">Nenhum retorno marcado para os próximos 7 dias. Ao registrar uma visita, preencha "Próximo contato" para ele aparecer aqui.</p>`}
+      </section>
+      <section class="panel"><h3>Contas-chave sem visita <span class="hint">mais de 30 dias</span></h3>
+        ${!chave.length?`<p style="margin:0;color:var(--muted)">Marque as contas-chave no cadastro da conta para acompanhá-las aqui.</p>`:chaveSem.length?`<div class="rows">${chaveSem.map(({c,r})=>`<div class="row click" data-act="conta" data-id="${c.id}"><div class="main"><div class="t">${esc(c.nome)}</div><div class="s">${esc(nomeCons(c.consultorId))}${c.cidade?` · ${esc(c.cidade)}${c.uf?'/'+esc(c.uf):''}`:''}</div></div><span class="chip ${r.cls}">${r.d===Infinity?'Nunca visitada':r.d+' dias'}</span></div>`).join('')}</div>`:`<p style="margin:0;color:var(--good);font-weight:600">Todas as contas-chave foram visitadas nos últimos 30 dias.</p>`}
+      </section>
+    </div>
+    <div class="stack">
+      <section class="panel"><h3>Visitas por consultor <span class="hint">30 dias</span></h3>
+        ${porCons.length?porCons.map(x=>`<div class="hbar"><span class="name">${esc(x.n)}</span><div class="track"><div class="fill" style="width:${x.v/maxV*100}%"></div></div><span class="v num">${x.v}</span></div>`).join(''):`<p style="margin:0;color:var(--muted)">Cadastre a equipe para ver a distribuição.</p>`}
+      </section>
+      <section class="panel"><h3>Funil por etapa <span class="hint">valor estimado</span></h3>
+        ${porEtapa.map(x=>`<div class="hbar"><span class="name">${x.e} <span style="color:var(--muted)" class="num">(${x.n})</span></span><div class="track"><div class="fill" style="width:${x.v/maxE*100}%"></div></div><span class="v num">${brl(x.v)}</span></div>`).join('')}
+      </section>
+    </div>
+  </div>`;
+}
+
+/* ---------- contas ---------- */
+function contas(){
+  const f=S.f;
+  let l=sortNome(S.contas);
+  if(f.q){const q=f.q.toLowerCase();l=l.filter(c=>[c.nome,c.cidade,c.contatoNome].some(x=>(x||'').toLowerCase().includes(q)))}
+  if(f.cons)l=l.filter(c=>c.consultorId===f.cons);
+  if(f.chave)l=l.filter(c=>c.chave);
+  return `<div class="bar"><h2>Contas</h2><button class="btn primary" data-act="novo" data-ent="contas" type="button">+ Nova conta</button></div>
+  ${S.contas.length?`<div class="filters">
+    <input class="field" id="fq" type="search" placeholder="Buscar por nome, cidade ou contato" value="${esc(f.q)}">
+    <select class="field" id="fcons"><option value="">Todos os consultores</option>${sortNome(S.equipe).map(c=>`<option value="${c.id}" ${f.cons===c.id?'selected':''}>${esc(c.nome)}</option>`).join('')}</select>
+    <label class="chk"><input type="checkbox" id="fchave" ${f.chave?'checked':''}> Só contas-chave</label>
+  </div>`:''}
+  ${!S.contas.length?onboarding():!l.length?`<div class="empty"><b>Nenhuma conta com esses filtros</b><p>Limpe a busca ou escolha outro consultor.</p></div>`:
+  `<div class="cards">${l.map(c=>{const r=recencia(c.id);const ab=S.ops.filter(o=>o.contaId===c.id&&ABERTAS.includes(o.etapa)).length;return `<button class="card" type="button" data-act="conta" data-id="${c.id}">
+     <span class="t">${esc(c.nome)}</span>
+     <span class="s">${esc(c.tipo||'')}${c.cidade?` · ${esc(c.cidade)}${c.uf?'/'+esc(c.uf):''}`:''}</span>
+     <span class="chips">${c.chave?'<span class="chip key">Conta-chave</span>':''}<span class="chip ${r.cls}">${r.txt}</span>${ab?`<span class="chip info">${ab} no funil</span>`:''}</span>
+     <span class="meta"><span>${esc(nomeCons(c.consultorId))}</span><span class="num">${c.vacas?int(c.vacas)+' vacas':''}${c.vacas&&c.litros?' · ':''}${c.litros?int(c.litros)+' L/dia':''}</span></span>
+   </button>`}).join('')}</div>`}`;
+}
+
+/* ---------- visitas ---------- */
+function visitas(){
+  const f=S.f;
+  let l=[...S.visitas].sort((a,b)=>(b.data||'').localeCompare(a.data||'')||(b.criadoEm||0)-(a.criadoEm||0));
+  if(f.vcons)l=l.filter(v=>v.consultorId===f.vcons);
+  if(f.vtipo)l=l.filter(v=>v.tipo===f.vtipo);
+  return `<div class="bar"><h2>Visitas</h2><button class="btn primary" data-act="novo" data-ent="visitas" type="button" ${S.contas.length?'':'disabled'}>+ Registrar visita</button></div>
+  ${S.visitas.length?`<div class="filters">
+    <select class="field" id="fvcons"><option value="">Todos os consultores</option>${sortNome(S.equipe).map(c=>`<option value="${c.id}" ${f.vcons===c.id?'selected':''}>${esc(c.nome)}</option>`).join('')}</select>
+    <select class="field" id="fvtipo"><option value="">Todos os tipos</option>${TIPOS_VISITA.map(t=>`<option ${f.vtipo===t?'selected':''}>${t}</option>`).join('')}</select>
+  </div>`:''}
+  ${!S.visitas.length?onboarding():!l.length?`<div class="empty"><b>Nenhuma visita com esses filtros</b></div>`:
+  `<section class="panel"><div class="rows">${l.slice(0,300).map(v=>visitaRow(v,true)).join('')}</div></section>`}`;
+}
+function visitaRow(v,showConta){
+  return `<div class="row click" data-act="editar" data-ent="visitas" data-id="${v.id}"><div class="main">
+    <div class="t">${showConta?esc(nomeConta(v.contaId)):esc(v.tipo||'Visita')}</div>
+    <div class="s">${esc(nomeCons(v.consultorId))}${showConta&&v.tipo?' · '+esc(v.tipo):''}</div>
+    <div class="sel" style="margin-top:4px">${esc(v.assunto||'')}</div>
+    ${v.proximosPassos?`<div class="s sel" style="margin-top:2px"><b>Próximos passos:</b> ${esc(v.proximosPassos)}</div>`:''}
+    ${v.proximoContato?`<div class="chips"><span class="chip info num">Retorno ${fmtD(v.proximoContato)}</span></div>`:''}
+  </div><span class="chip num">${fmtD(v.data)}</span></div>`;
+}
+
+/* ---------- funil ---------- */
+function funil(){
+  const f=S.f;
+  let l=S.ops;if(f.fcons)l=l.filter(o=>o.consultorId===f.fcons);
+  const card=o=>`<div class="op"><div class="t" role="button" tabindex="0" data-act="editar" data-ent="ops" data-id="${o.id}" style="cursor:pointer">${esc(nomeConta(o.contaId))}</div>
+    <div class="s">${esc(o.produto||'')}${o.descricao?' · '+esc(o.descricao):''}</div>
+    <div class="s">${esc(nomeCons(o.consultorId))}${o.previsao?' · previsão '+fmtD(o.previsao):''}</div>
+    <div class="foot"><b class="num">${brl(o.valor)}</b>${S.canWrite?`<select data-etapa="${o.id}" aria-label="Mover etapa">${ETAPAS.map(e=>`<option ${o.etapa===e?'selected':''}>${e}</option>`).join('')}</select>`:`<span class="chip">${esc(o.etapa)}</span>`}</div></div>`;
+  const ganhas=l.filter(o=>o.etapa==='Ganha'),perdidas=l.filter(o=>o.etapa==='Perdida');
+  return `<div class="bar"><h2>Funil de vendas</h2><button class="btn primary" data-act="novo" data-ent="ops" type="button" ${S.contas.length?'':'disabled'}>+ Nova oportunidade</button></div>
+  ${S.ops.length?`<div class="filters"><select class="field" id="ffcons" style="max-width:280px"><option value="">Todos os consultores</option>${sortNome(S.equipe).map(c=>`<option value="${c.id}" ${f.fcons===c.id?'selected':''}>${esc(c.nome)}</option>`).join('')}</select></div>`:''}
+  ${!S.ops.length?(S.contas.length?`<div class="empty"><b>Nenhuma oportunidade no funil</b><p>Cadastre uma oportunidade a partir de uma conta, com produto, valor estimado e previsão de fechamento. Depois é só mudar a etapa conforme a negociação avança.</p><button class="btn primary" data-act="novo" data-ent="ops" type="button">+ Nova oportunidade</button></div>`:onboarding()):
+  `<div class="kanban">${ABERTAS.map(e=>{const c=l.filter(o=>o.etapa===e).sort((a,b)=>(a.previsao||'9').localeCompare(b.previsao||'9'));return `<div class="col"><header><b>${e}</b><span class="num">${c.length} · ${brl(c.reduce((s,o)=>s+(+o.valor||0),0))}</span></header>${c.map(card).join('')||'<span style="color:var(--muted);font-size:.84rem;padding:4px">Nada nesta etapa</span>'}</div>`}).join('')}</div>
+  <div class="closed"><span class="chip good num">Ganhas: ${ganhas.length} · ${brl(ganhas.reduce((s,o)=>s+(+o.valor||0),0))}</span><span class="chip bad num">Perdidas: ${perdidas.length} · ${brl(perdidas.reduce((s,o)=>s+(+o.valor||0),0))}</span></div>
+  ${ganhas.length||perdidas.length?`<section class="panel" style="margin-top:14px"><h3>Fechadas</h3><div class="rows">${[...ganhas,...perdidas].sort((a,b)=>(b.fechadaEm||'').localeCompare(a.fechadaEm||'')).slice(0,50).map(o=>`<div class="row click" data-act="editar" data-ent="ops" data-id="${o.id}"><div class="main"><div class="t">${esc(nomeConta(o.contaId))}</div><div class="s">${esc(o.produto||'')} · ${esc(nomeCons(o.consultorId))}${o.fechadaEm?' · '+fmtD(o.fechadaEm):''}</div></div><span class="chip ${o.etapa==='Ganha'?'good':'bad'} num">${brl(o.valor)}</span></div>`).join('')}</div></section>`:''}`}`;
+}
+
+/* ---------- equipe ---------- */
+function equipe(){
+  const v30=visitas30();
+  return `<div class="bar"><h2>Equipe</h2><button class="btn primary" data-act="novo" data-ent="equipe" type="button">+ Novo consultor</button></div>
+  ${!S.equipe.length?onboarding():`<div class="cards">${sortNome(S.equipe).map(c=>{
+    const ct=S.contas.filter(x=>x.consultorId===c.id),ab=S.ops.filter(o=>o.consultorId===c.id&&ABERTAS.includes(o.etapa));
+    const sem=ct.filter(x=>x.chave&&recencia(x.id).d>30).length;
+    return `<button class="card" type="button" data-act="editar" data-ent="equipe" data-id="${c.id}">
+      <span class="t">${esc(c.nome)}</span><span class="s">${esc(c.regiao||'Região não informada')}${c.telefone?' · '+esc(c.telefone):''}</span>
+      <span class="chips"><span class="chip num">${ct.length} contas</span><span class="chip num">${v30.filter(v=>v.consultorId===c.id).length} visitas/30d</span><span class="chip info num">${brl(ab.reduce((s,o)=>s+(+o.valor||0),0))} no funil</span>${sem?`<span class="chip bad num">${sem} chave sem visita</span>`:''}</span>
+    </button>`}).join('')}</div>`}`;
+}
+
+/* ---------- filtros ---------- */
+document.addEventListener('input',e=>{
+  const id=e.target.id,m={fq:'q',fcons:'cons',fvcons:'vcons',fvtipo:'vtipo',ffcons:'fcons'};
+  if(id==='fchave'){S.f.chave=e.target.checked;render();return}
+  if(m[id]){S.f[m[id]]=e.target.value;const pos=e.target.selectionStart;render();const el=document.getElementById(id);if(el){el.focus();try{if(pos!=null)el.setSelectionRange(pos,pos)}catch(_){}}}
+});
+
+/* ---------- forms ---------- */
+const consOpts=()=>[['','— Selecione —'],...sortNome(S.equipe).map(c=>[c.id,c.nome])];
+const contaOpts=()=>[['','— Selecione a conta —'],...sortNome(S.contas).map(c=>[c.id,c.nome])];
+const SCHEMA={
+  equipe:{titulo:'consultor',campos:[['nome','Nome','text',1,'full'],['regiao','Região de atuação','text'],['telefone','Telefone / WhatsApp','tel']]},
+  contas:{titulo:'conta',campos:[['nome','Nome da conta (fazenda, cooperativa…)','text',1,'full'],['tipo','Tipo','select',0,'',()=>TIPOS_CONTA.map(t=>[t,t])],['consultorId','Consultor responsável','select',0,'',consOpts],['cidade','Cidade','text'],['uf','UF','text'],['chave','Conta-chave','check',0,'full'],['vacas','Vacas em lactação','number'],['litros','Produção (L/dia)','number'],['contatoNome','Contato principal','text'],['contatoFuncao','Função do contato','text'],['contatoTelefone','Telefone do contato','tel','', 'full'],['obs','Observações','textarea',0,'full']]},
+  visitas:{titulo:'visita',campos:[['data','Data da visita','date',1],['contaId','Conta','select',1,'',contaOpts],['consultorId','Consultor','select',0,'',consOpts],['tipo','Tipo de visita','select',0,'',()=>TIPOS_VISITA.map(t=>[t,t])],['assunto','O que foi feito / assunto','textarea',1,'full'],['proximosPassos','Próximos passos','textarea',0,'full'],['proximoContato','Próximo contato','date']]},
+  ops:{titulo:'oportunidade',campos:[['contaId','Conta','select',1,'',contaOpts],['produto','Produto','select',0,'',()=>PRODUTOS.map(t=>[t,t])],['descricao','Detalhe (quantidade, condição…)','text',0,'full'],['valor','Valor estimado (R$)','number'],['etapa','Etapa','select',0,'',()=>ETAPAS.map(t=>[t,t])],['previsao','Previsão de fechamento','date'],['consultorId','Consultor','select',0,'',consOpts]]}
+};
+function openForm(ent,id,preset){
+  const sc=SCHEMA[ent],doc=id?byId(S[ent],id):null,v=Object.assign({},preset||{},doc||{});
+  if(!doc){if(ent==='visitas'&&!v.data)v.data=hoje();if(ent==='visitas'&&!v.tipo)v.tipo='Técnica';if(ent==='ops'&&!v.etapa)v.etapa='Prospecção';if(ent==='contas'&&!v.tipo)v.tipo='Fazenda';
+    if((ent==='visitas'||ent==='ops')&&v.contaId&&!v.consultorId)v.consultorId=byId(S.contas,v.contaId)?.consultorId||''}
+  const ro=!S.canWrite;
+  const fields=sc.campos.map(([k,l,t,req,cls,opts])=>{
+    const nm=`f_${ent}_${k}`,val=v[k]??'',r=req?'required':'';
+    if(t==='check')return `<label class="inline ${cls||''}"><input type="checkbox" id="${nm}" name="${k}" ${val?'checked':''} ${ro?'disabled':''}> ${l}</label>`;
+    let inp;
+    if(t==='select')inp=`<select class="field" id="${nm}" name="${k}" ${r} ${ro?'disabled':''}>${opts().map(([ov,ol])=>`<option value="${esc(ov)}" ${String(val)===String(ov)?'selected':''}>${esc(ol)}</option>`).join('')}</select>`;
+    else if(t==='textarea')inp=`<textarea class="field" id="${nm}" name="${k}" ${r} ${ro?'readonly':''}>${esc(val)}</textarea>`;
+    else inp=`<input class="field" id="${nm}" name="${k}" type="${t}" ${t==='number'?'min="0" step="any" inputmode="decimal"':''} ${k==='uf'?'maxlength="2"':''} value="${esc(val)}" ${r} ${ro?'readonly':''}>`;
+    return `<label class="${cls||''}">${l}${req?' <span class="req">*</span>':''}${inp}</label>`;
+  }).join('');
+  const titulo=(doc?(ro?'':'Editar '):'Nova ')+sc.titulo;
+  sheet(`<div class="head"><h2>${titulo.charAt(0).toUpperCase()+titulo.slice(1)}</h2><button class="x" type="button" data-act="fechar" aria-label="Fechar">×</button></div>
+   <form class="f" id="frm" data-ent="${ent}" data-id="${id||''}" novalidate>${fields}
+    <p class="full" id="ferr" hidden style="margin:0;color:var(--bad);font-size:.88rem"></p>
+    ${ro?'':`<div class="actions">${doc?`<button class="btn danger" type="button" data-act="excluir">Excluir</button>`:''}<div class="right"><button class="btn" type="button" data-act="fechar">Cancelar</button><button class="btn primary" type="submit">Salvar</button></div></div>`}
+   </form>`);
+  const fc=document.getElementById(`f_${ent}_contaId`),fcons=document.getElementById(`f_${ent}_consultorId`);
+  if(fc&&fcons)fc.addEventListener('change',()=>{const c=byId(S.contas,fc.value);if(c&&c.consultorId&&!fcons.value)fcons.value=c.consultorId});
+}
+function sheet(html){
+  $('#sheetRoot').innerHTML=`<div class="backdrop" data-act="fundo"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;
+  document.body.style.overflow='hidden';
+  const first=$('#sheetRoot').querySelector('input:not([type=checkbox]),select,textarea');if(first&&!('ontouchstart' in window))first.focus();
+}
+function closeSheet(){$('#sheetRoot').innerHTML='';document.body.style.overflow=''}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#sheetRoot').innerHTML)closeSheet();if((e.key==='Enter'||e.key===' ')&&e.target.matches('[role=button][data-act]')){e.preventDefault();e.target.click()}});
+
+document.addEventListener('submit',async e=>{
+  if(e.target.id!=='frm')return;e.preventDefault();
+  const f=e.target,ent=f.dataset.ent,id=f.dataset.id,sc=SCHEMA[ent],err=$('#ferr');
+  const data={};
+  for(const [k,l,t,req] of sc.campos){const el=f.elements[k];if(!el)continue;
+    let val=t==='check'?el.checked:t==='number'?(el.value===''?null:Number(el.value)):el.value.trim();
+    if(k==='uf'&&val)val=val.toUpperCase();
+    if(req&&(val===''||val==null)){err.textContent=`Preencha "${l}" para salvar.`;err.hidden=false;el.focus();return}
+    data[k]=val}
+  const old=id?byId(S[ent],id):null;
+  if(ent==='ops'){const fechou=['Ganha','Perdida'].includes(data.etapa);data.fechadaEm=fechou?(old&&old.etapa===data.etapa&&old.fechadaEm?old.fechadaEm:hoje()):null}
+  data.criadoEm=old?.criadoEm||Date.now();data.atualizadoEm=Date.now();
+  if(S.uid){data.atualizadoPor=S.uid;if(!old)data.criadoPor=S.uid;else if(old.criadoPor)data.criadoPor=old.criadoPor}
+  const btn=f.querySelector('[type=submit]');btn.disabled=true;btn.textContent='Salvando…';
+  try{
+    const col=S.db.collection(COL[ent]);
+    if(id)await col.doc(id).set(data);else await col.add(data);
+    closeSheet();toast(`${SCHEMA[ent].titulo.charAt(0).toUpperCase()+SCHEMA[ent].titulo.slice(1)} salva`.replace('Consultor salva','Consultor salvo'));
+  }catch(x){btn.disabled=false;btn.textContent='Salvar';err.textContent=x&&x.code==='invalid_argument'?'Você não tem permissão para salvar. Peça à coordenação acesso de Colaborador.':'Não foi possível salvar agora. Verifique a conexão e tente de novo.';err.hidden=false;
+    if(x&&x.code==='invalid_argument'){S.canWrite=false;render()}}
+});
+
+/* ---------- conta detalhe ---------- */
+function openConta(id){
+  const c=byId(S.contas,id);if(!c)return;
+  const vs=S.visitas.filter(v=>v.contaId===id).sort((a,b)=>(b.data||'').localeCompare(a.data||''));
+  const os=S.ops.filter(o=>o.contaId===id);
+  const r=recencia(id);
+  const dl=[['Tipo',c.tipo],['Local',[c.cidade,c.uf].filter(Boolean).join('/')],['Consultor',nomeCons(c.consultorId)],['Rebanho',c.vacas?int(c.vacas)+' vacas em lactação':''],['Produção',c.litros?int(c.litros)+' L/dia':''],['Contato',[c.contatoNome,c.contatoFuncao].filter(Boolean).join(' · ')],['Telefone',c.contatoTelefone],['Observações',c.obs]].filter(x=>x[1]);
+  sheet(`<div class="head"><h2>${esc(c.nome)}</h2><button class="x" type="button" data-act="fechar" aria-label="Fechar">×</button></div>
+   <div class="chips" style="margin:-6px 0 14px">${c.chave?'<span class="chip key">Conta-chave</span>':''}<span class="chip ${r.cls}">${r.txt}</span></div>
+   <dl class="dl">${dl.map(([k,v])=>`<dt>${k}</dt><dd class="sel">${esc(v)}</dd>`).join('')}</dl>
+   ${S.canWrite?`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary small" type="button" data-act="novo" data-ent="visitas" data-conta="${id}">+ Registrar visita</button><button class="btn small" type="button" data-act="novo" data-ent="ops" data-conta="${id}">+ Oportunidade</button><button class="btn small" type="button" data-act="editar" data-ent="contas" data-id="${id}">Editar conta</button></div>`:''}
+   <h3>Oportunidades <span class="chip num">${os.length}</span></h3>
+   ${os.length?`<div class="rows">${os.map(o=>`<div class="row click" data-act="editar" data-ent="ops" data-id="${o.id}"><div class="main"><div class="t">${esc(o.produto||'')}</div><div class="s">${esc(o.descricao||'')}${o.previsao?' · previsão '+fmtD(o.previsao):''}</div></div><span class="chip ${o.etapa==='Ganha'?'good':o.etapa==='Perdida'?'bad':'info'}">${esc(o.etapa)} · ${brl(o.valor)}</span></div>`).join('')}</div>`:`<p style="margin:0;color:var(--muted)">Nenhuma oportunidade registrada.</p>`}
+   <h3>Histórico de visitas <span class="chip num">${vs.length}</span></h3>
+   ${vs.length?`<div class="rows">${vs.map(v=>visitaRow(v,false)).join('')}</div>`:`<p style="margin:0;color:var(--muted)">Nenhuma visita registrada ainda.</p>`}`);
+}
+
+/* ---------- clicks ---------- */
+let armed=null;
+document.addEventListener('click',async e=>{
+  const t=e.target.closest('[data-act]');if(!t)return;
+  const a=t.dataset.act;
+  if(a==='fundo'){if(e.target===t)closeSheet();return}
+  if(a==='fechar')return closeSheet();
+  if(a==='conta')return openConta(t.dataset.id);
+  if(a==='novo'){if(!S.canWrite)return toast('Seu acesso é só para consulta');return openForm(t.dataset.ent,null,t.dataset.conta?{contaId:t.dataset.conta}:null)}
+  if(a==='editar')return openForm(t.dataset.ent,t.dataset.id);
+  if(a==='excluir'){
+    const f=$('#frm');
+    if(armed!==t){armed=t;t.classList.add('armed');t.textContent='Toque de novo para excluir';setTimeout(()=>{if(armed===t){armed=null;t.classList.remove('armed');t.textContent='Excluir'}},4000);return}
+    armed=null;
+    try{await S.db.collection(COL[f.dataset.ent]).doc(f.dataset.id).delete();closeSheet();toast('Registro excluído')}
+    catch(x){$('#ferr').textContent='Não foi possível excluir. Verifique a permissão e a conexão.';$('#ferr').hidden=false}
+  }
+});
+document.addEventListener('change',async e=>{
+  const id=e.target.dataset?.etapa;if(!id)return;
+  const o=byId(S.ops,id);if(!o)return;
+  const etapa=e.target.value,data={...o};delete data.id;
+  data.etapa=etapa;data.fechadaEm=['Ganha','Perdida'].includes(etapa)?hoje():null;data.atualizadoEm=Date.now();if(S.uid)data.atualizadoPor=S.uid;
+  try{await S.db.collection(COL.ops).doc(id).set(data);toast(`Movida para ${etapa}`)}catch(x){toast('Não foi possível mover a oportunidade');render()}
+});
+
+/* ---------- export ---------- */
+function csv(rows,cols){const q=v=>{v=v==null?'':String(v);return /[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};return '﻿'+[cols.map(c=>q(c[0])).join(';'),...rows.map(r=>cols.map(c=>q(c[1](r))).join(';'))].join('\r\n')}
+$('#btnExport').addEventListener('click',async()=>{
+  const dl=await window.claude?.use?.('downloads');
+  if(!dl)return toast('A exportação não está disponível nesta visualização');
+  const files=[
+    ['contas.csv',csv(sortNome(S.contas),[['Conta',r=>r.nome],['Tipo',r=>r.tipo],['Cidade',r=>r.cidade],['UF',r=>r.uf],['Consultor',r=>nomeCons(r.consultorId)],['Conta-chave',r=>r.chave?'Sim':'Não'],['Vacas em lactação',r=>r.vacas],['Produção L/dia',r=>r.litros],['Contato',r=>r.contatoNome],['Função',r=>r.contatoFuncao],['Telefone',r=>r.contatoTelefone],['Última visita',r=>fmtD(ultimaVisita(r.id)?.data)],['Observações',r=>r.obs]])],
+    ['visitas.csv',csv([...S.visitas].sort((a,b)=>(b.data||'').localeCompare(a.data||'')),[['Data',r=>fmtD(r.data)],['Conta',r=>nomeConta(r.contaId)],['Consultor',r=>nomeCons(r.consultorId)],['Tipo',r=>r.tipo],['Assunto',r=>r.assunto],['Próximos passos',r=>r.proximosPassos],['Próximo contato',r=>r.proximoContato?fmtD(r.proximoContato):'']])],
+    ['oportunidades.csv',csv(S.ops,[['Conta',r=>nomeConta(r.contaId)],['Produto',r=>r.produto],['Detalhe',r=>r.descricao],['Valor estimado',r=>r.valor],['Etapa',r=>r.etapa],['Previsão',r=>r.previsao?fmtD(r.previsao):''],['Fechada em',r=>r.fechadaEm?fmtD(r.fechadaEm):''],['Consultor',r=>nomeCons(r.consultorId)]])]
+  ];
+  const nome={contas:'contas.csv',visitas:'visitas.csv',funil:'oportunidades.csv'}[S.tab]||'contas.csv';
+  const f=files.find(x=>x[0]===nome);
+  try{await dl.save({filename:`crm-leite-${hoje()}-${f[0]}`,data:new Blob([f[1]],{type:'text/csv;charset=utf-8'})});toast('Planilha pronta')}
+  catch(x){if(x&&x.code!=='cancelled'&&x.code!=='declined')toast('Não foi possível gerar a planilha')}
+});
+
+/* ---------- boot ---------- */
+render();
+(async()=>{
+  const c=window.claude;
+  if(!c||!c.use){S.dbState='none';render();return}
+  const db=await c.use('db');
+  if(!db){S.dbState='none';render();return}
+  S.db=db;S.dbState='ok';render();
+  try{const u=await c.use('user');if(u){const w=await u.can('data.write');S.canWrite=w!==false;try{S.uid=await u.id()}catch(_){}}}catch(_){}
+  for(const k of Object.keys(COL)){
+    db.collection(COL[k]).limit(1000).onSnapshot(snap=>{S[k]=snap.docs.map(d=>({id:d.id,...d.data()}));S.loaded[k]=1;render();
+      // re-open nothing; sheets keep their own DOM
+    },err=>{S.loaded[k]=1;render();toast('Falha ao sincronizar. Recarregue a página.')});
+  }
+})();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Plataforma Leite</title>
+<meta name="theme-color" content="#17305C">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icones/icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icones/icone-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="core/plataforma.css">
+<script src="config.js"></script>
+<script src="core/alta.js"></script>
+</head>
+<body>
+<div id="raiz"></div>
+
+<script>
+(function () {
+  ALTA.ehHub = true;
+  const $ = s => document.querySelector(s);
+  const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const NOME = (ALTA.config.nome || 'Plataforma Leite');
+  const PAPEL = { gestao: 'Gestão', tecnico: 'Equipe técnica', representante: 'Representante' };
+  const params = new URLSearchParams(location.search);
+
+  const MODULOS = [
+    { id: 'central', nome: 'Central de Atendimento Técnico', desc: 'Pedidos de agenda técnica, agendamento, relatórios de visita e indicadores.', href: 'central/', tag: 'Atendimento',
+      icone: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/>' },
+    { id: 'crm', nome: 'CRM da Equipe Leite', desc: 'Contas, visitas, funil de oportunidades e equipe.', href: 'crm/', tag: 'Relacionamento',
+      icone: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>' },
+    { id: 'novo1', nome: 'Nova ferramenta', desc: 'Espaço reservado para a próxima ferramenta da equipe.', breve: true,
+      icone: '<path d="M12 5v14M5 12h14"/>' },
+    { id: 'novo2', nome: 'Nova ferramenta', desc: 'Espaço reservado para a próxima ferramenta da equipe.', breve: true,
+      icone: '<path d="M12 5v14M5 12h14"/>' }
+  ];
+
+  const S = { passo: 'email', email: '', msg: '', erro: '', ocupado: false, aba: 'inicio', usuarios: null, edit: null, imp: null };
+
+  function svg(p, s) { return `<svg width="${s || 22}" height="${s || 22}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`; }
+  const MARCA = `<span class="marca" aria-hidden="true">${svg('<path d="M12 2.5c3.5 4.2 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 2.5-6.8 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>', 20)}</span>`;
+
+  /* ====================== login ====================== */
+  function telaLogin() {
+    const semConfig = !ALTA.configurado();
+    $('#raiz').innerHTML = `
+    <div class="login">
+      <section class="login-lado">
+        <div class="login-card">
+          <div class="login-marca">${MARCA}<span>${esc(NOME)}</span></div>
+          <h1>${esc(NOME)}</h1>
+          <p class="sub">Acesso restrito à equipe da Alta. Entre com seu e-mail institucional.</p>
+          ${params.get('expirou') ? '<p class="aviso">Sua sessão terminou. Entre novamente.</p>' : ''}
+          ${semConfig ? `<p class="aviso">A plataforma ainda não está ligada à planilha. Cole o endereço do Apps Script no arquivo <b>config.js</b> (veja o guia de instalação).</p>` : ''}
+          ${S.passo === 'email' ? `
+          <form id="femail" novalidate>
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="nome@altagenetics.com" value="${esc(S.email)}" required ${semConfig ? 'disabled' : ''}>
+            <button class="btn primario" type="submit" ${S.ocupado || semConfig ? 'disabled' : ''}>${S.ocupado ? 'Enviando…' : 'Enviar código de acesso'}</button>
+          </form>` : `
+          <form id="fcodigo" novalidate>
+            <p class="ok">Enviamos um código de 6 dígitos para <b>${esc(S.email)}</b>. Ele vale por 10 minutos.</p>
+            <label for="codigo">Código de acesso</label>
+            <input id="codigo" name="codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" class="codigo" required>
+            <button class="btn primario" type="submit" ${S.ocupado ? 'disabled' : ''}>${S.ocupado ? 'Entrando…' : 'Entrar'}</button>
+            <div class="linha-acoes"><button class="link" type="button" id="outro">Usar outro e-mail</button><button class="link" type="button" id="reenviar">Reenviar código</button></div>
+          </form>`}
+          <p class="erro" role="alert">${esc(S.erro)}</p>
+          <p class="rodape">Se seu e-mail não estiver autorizado, fale com ${esc(ALTA.config.contato || 'a gestão da plataforma')}.</p>
+        </div>
+      </section>
+      <aside class="login-hero" aria-hidden="true">
+        <div class="hero-grade"></div>
+        <div class="hero-texto">
+          <span class="hero-tag">Equipe técnica de leite</span>
+          <h2>Atendimento, relacionamento e indicadores em um só lugar.</h2>
+          <ul><li>Central de Atendimento Técnico</li><li>CRM da Equipe Leite</li><li>Novas ferramentas em breve</li></ul>
+        </div>
+      </aside>
+    </div>`;
+    const fe = $('#femail'), fc = $('#fcodigo');
+    if (fe) {
+      $('#email').focus();
+      fe.addEventListener('submit', async e => {
+        e.preventDefault();
+        const v = $('#email').value.trim().toLowerCase();
+        if (!/^\S+@\S+\.\S+$/.test(v)) { S.erro = 'Digite um e-mail válido.'; return telaLogin(); }
+        S.email = v; S.erro = ''; S.ocupado = true; telaLogin();
+        try { await ALTA.pedirCodigo(v); S.passo = 'codigo'; } catch (x) { S.erro = x.message; }
+        S.ocupado = false; telaLogin();
+      });
+    }
+    if (fc) {
+      const ci = $('#codigo'); ci.focus();
+      ci.addEventListener('input', () => { ci.value = ci.value.replace(/\D/g, '').slice(0, 6); if (ci.value.length === 6) fc.requestSubmit(); });
+      fc.addEventListener('submit', async e => {
+        e.preventDefault();
+        if (S.ocupado) return;
+        const v = ci.value.trim();
+        if (v.length !== 6) { S.erro = 'O código tem 6 dígitos.'; return telaLogin(); }
+        S.erro = ''; S.ocupado = true; telaLogin();
+        try {
+          await ALTA.entrar(S.email, v);
+          S.ocupado = false;
+          const volta = params.get('voltar');
+          if (volta && /^\/[\w\-\/\.]*$/.test(volta)) { location.replace(volta); return; }
+          history.replaceState(null, '', location.pathname);
+          return telaInicio();
+        } catch (x) { S.erro = x.message; }
+        S.ocupado = false; telaLogin();
+      });
+      $('#outro').addEventListener('click', () => { S.passo = 'email'; S.erro = ''; telaLogin(); });
+      $('#reenviar').addEventListener('click', async () => {
+        S.erro = ''; try { await ALTA.pedirCodigo(S.email); S.erro = 'Novo código enviado.'; } catch (x) { S.erro = x.message; } telaLogin();
+      });
+    }
+  }
+
+  /* ====================== início ====================== */
+  function topo(u) {
+    return `<header class="topo"><div class="topo-in">
+      <a class="topo-marca" href="./">${MARCA}<span>${esc(NOME)}</span></a>
+      <div class="topo-dir">
+        <span class="quem"><b>${esc(u.nome || u.email)}</b><small>${esc(PAPEL[u.papel] || u.papel)}</small></span>
+        <button class="btn fantasma" id="sair" type="button">Sair</button>
+      </div></div></header>`;
+  }
+  function telaInicio() {
+    const u = ALTA.usuario();
+    if (!u) return telaLogin();
+    const gest = u.papel === 'gestao';
+    const primeiro = (u.nome || '').split(' ')[0];
+    $('#raiz').innerHTML = topo(u) + `
+    <main class="painel">
+      <section class="boas">
+        <div><span class="kicker">${esc(PAPEL[u.papel] || '')}</span><h1>Olá${primeiro ? ', ' + esc(primeiro) : ''}!</h1><p>Escolha uma ferramenta para começar.</p></div>
+      </section>
+      ${gest ? `<nav class="abas" role="tablist">
+        <button role="tab" data-aba="inicio" aria-selected="${S.aba === 'inicio'}">Ferramentas</button>
+        <button role="tab" data-aba="usuarios" aria-selected="${S.aba === 'usuarios'}">Usuários</button>
+        <button role="tab" data-aba="dados" aria-selected="${S.aba === 'dados'}">Dados e backup</button>
+      </nav>` : ''}
+      <div id="conteudo"></div>
+    </main>`;
+    $('#sair').addEventListener('click', () => ALTA.sair());
+    document.querySelectorAll('[data-aba]').forEach(b => b.addEventListener('click', () => { S.aba = b.dataset.aba; telaInicio(); }));
+    if (!gest || S.aba === 'inicio') return abaFerramentas();
+    if (S.aba === 'usuarios') return abaUsuarios();
+    if (S.aba === 'dados') return abaDados();
+  }
+
+  function abaFerramentas() {
+    $('#conteudo').innerHTML = `<div class="modulos">${MODULOS.map(m => m.breve ? `
+      <div class="modulo breve"><span class="mod-ic">${svg(m.icone)}</span><span class="tag">Em breve</span><h2>${esc(m.nome)}</h2><p>${esc(m.desc)}</p></div>` : `
+      <a class="modulo" href="${m.href}"><span class="mod-ic">${svg(m.icone)}</span><span class="tag">${esc(m.tag)}</span><h2>${esc(m.nome)}</h2><p>${esc(m.desc)}</p><span class="abrir">Abrir ${svg('<path d="M5 12h14M13 6l6 6-6 6"/>', 16)}</span></a>`).join('')}</div>`;
+  }
+
+  /* ====================== usuários (Gestão) ====================== */
+  async function abaUsuarios(recarregar) {
+    const c = $('#conteudo');
+    if (!S.usuarios || recarregar) {
+      c.innerHTML = '<p class="vazio">Carregando usuários…</p>';
+      try { S.usuarios = (await ALTA.api('usuarios')).usuarios; } catch (x) { c.innerHTML = `<p class="erro">${esc(x.message)}</p>`; return; }
+    }
+    const l = [...S.usuarios].sort((a, b) => (a.papel + a.nome).localeCompare(b.papel + b.nome));
+    const e = S.edit || { email: '', nome: '', papel: 'representante', ativo: true, novo: true };
+    c.innerHTML = `<div class="duas">
+      <section class="cartao">
+        <h2>Pessoas com acesso <span class="cont">${l.length}</span></h2>
+        <input class="busca" id="ubusca" type="search" placeholder="Procurar por nome ou e-mail">
+        <div class="tabela-wrap"><table class="tabela" id="utab"><thead><tr><th>Nome</th><th>E-mail</th><th>Papel</th><th>Situação</th><th></th></tr></thead><tbody>
+        ${l.map(x => `<tr data-q="${esc((x.nome + ' ' + x.email).toLowerCase())}"><td>${esc(x.nome || '—')}</td><td>${esc(x.email)}</td><td>${esc(PAPEL[x.papel])}</td><td>${x.ativo ? '<span class="chip ok">Ativo</span>' : '<span class="chip">Bloqueado</span>'}</td><td><button class="link" data-editar="${esc(x.email)}">Editar</button></td></tr>`).join('')}
+        </tbody></table></div>
+      </section>
+      <section class="cartao">
+        <h2>${e.novo ? 'Dar acesso a alguém' : 'Editar acesso'}</h2>
+        <form id="fusu" class="form">
+          <label>E-mail<input name="email" type="email" required value="${esc(e.email)}" ${e.novo ? '' : 'readonly'}></label>
+          <label>Nome<input name="nome" value="${esc(e.nome)}" placeholder="Nome e sobrenome"></label>
+          <label>Papel<select name="papel">${Object.keys(PAPEL).map(p => `<option value="${p}" ${e.papel === p ? 'selected' : ''}>${PAPEL[p]}</option>`).join('')}</select></label>
+          <label class="check"><input type="checkbox" name="ativo" ${e.ativo ? 'checked' : ''}> Acesso ativo</label>
+          <p class="ajuda">Gestão: aceita pedidos, envia e-mails, vê indicadores e bases. Equipe técnica: agenda e relatórios. Representante: faz e acompanha pedidos.</p>
+          <p class="erro" id="uerr" role="alert"></p>
+          <div class="linha-acoes">
+            <button class="btn primario" type="submit">${e.novo ? 'Dar acesso' : 'Salvar'}</button>
+            ${e.novo ? '' : `<button class="btn" type="button" id="ucancel">Cancelar</button><button class="btn perigo" type="button" id="uremover">Remover acesso</button>`}
+          </div>
+        </form>
+      </section></div>`;
+    $('#ubusca').addEventListener('input', ev => { const q = ev.target.value.trim().toLowerCase(); document.querySelectorAll('#utab tbody tr').forEach(tr => { tr.hidden = q && !tr.dataset.q.includes(q); }); });
+    c.querySelectorAll('[data-editar]').forEach(b => b.addEventListener('click', () => { S.edit = S.usuarios.find(x => x.email === b.dataset.editar); abaUsuarios(); $('#fusu').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }));
+    const f = $('#fusu');
+    f.addEventListener('submit', async ev => {
+      ev.preventDefault();
+      const d = { email: f.email.value.trim().toLowerCase(), nome: f.nome.value.trim(), papel: f.papel.value, ativo: f.ativo.checked };
+      if (!/^\S+@\S+\.\S+$/.test(d.email)) { $('#uerr').textContent = 'Digite um e-mail válido.'; return; }
+      f.querySelector('[type=submit]').disabled = true;
+      try { await ALTA.api('usuarioSalvar', { usuario: d }); S.edit = null; toast('Acesso salvo'); abaUsuarios(true); }
+      catch (x) { $('#uerr').textContent = x.message; f.querySelector('[type=submit]').disabled = false; }
+    });
+    const cancel = $('#ucancel'); if (cancel) cancel.addEventListener('click', () => { S.edit = null; abaUsuarios(); });
+    const rem = $('#uremover');
+    if (rem) rem.addEventListener('click', async () => {
+      if (rem.dataset.conf !== '1') { rem.dataset.conf = '1'; rem.textContent = 'Confirmar remoção'; return; }
+      try { await ALTA.api('usuarioRemover', { email: e.email }); S.edit = null; toast('Acesso removido'); abaUsuarios(true); }
+      catch (x) { $('#uerr').textContent = x.message; }
+    });
+  }
+
+  /* ====================== dados e backup (Gestão) ====================== */
+  function abaDados() {
+    const p = S.imp;
+    $('#conteudo').innerHTML = `<div class="duas">
+      <section class="cartao">
+        <h2>Importar dados</h2>
+        <p>Use para carregar o arquivo <b>backup-inicial.json</b> (cadastros, técnicos, bases de vendas e programas) ou um backup feito aqui. Documentos com a mesma identificação são substituídos.</p>
+        <label class="arquivo"><input type="file" id="arq" accept=".json,application/json"><span>${p && p.nome ? esc(p.nome) : 'Escolher arquivo .json'}</span></label>
+        ${p && p.total ? `<div class="barra"><span style="width:${Math.round(100 * p.feito / p.total)}%"></span></div><p class="ajuda">${p.feito} de ${p.total} documentos${p.fim ? ' — concluído' : '…'}</p>` : ''}
+        <p class="erro" role="alert">${esc(p && p.erro || '')}</p>
+        <button class="btn primario" id="importar" type="button" ${p && p.docs && !p.rodando && !p.fim ? '' : 'disabled'}>${p && p.rodando ? 'Importando…' : 'Importar'}</button>
+      </section>
+      <section class="cartao">
+        <h2>Fazer backup</h2>
+        <p>Baixa um arquivo com todos os dados da plataforma. Os dados também ficam na própria Planilha Google, que mantém histórico de versões (Arquivo › Histórico de versões).</p>
+        <p class="erro" id="berr" role="alert"></p>
+        <button class="btn" id="backup" type="button">Baixar backup</button>
+      </section></div>`;
+    $('#arq').addEventListener('change', async ev => {
+      const f = ev.target.files[0]; if (!f) return;
+      S.imp = { nome: f.name };
+      try {
+        const j = JSON.parse(await f.text());
+        const docs = Array.isArray(j) ? j : j.docs;
+        if (!Array.isArray(docs) || !docs.every(d => d && d.col && d.id && typeof d.data === 'object')) throw new Error();
+        S.imp.docs = docs; S.imp.total = docs.length; S.imp.feito = 0;
+      } catch (x) { S.imp.erro = 'Este arquivo não é um backup da plataforma.'; }
+      abaDados();
+    });
+    $('#importar').addEventListener('click', importar);
+    $('#backup').addEventListener('click', async ev => {
+      const b = ev.target; b.disabled = true; b.textContent = 'Preparando…';
+      try {
+        const cols = (await ALTA.api('colecoes')).colecoes;
+        const docs = [];
+        for (const c of cols) { const r = await ALTA.api('ler', { col: c }); (r.docs || []).forEach(d => docs.push({ col: c, id: d.id, data: d.data })); }
+        const nome = 'plataforma-leite-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+        const dl = await window.claude.use('downloads');
+        await dl.save({ filename: nome, data: new Blob([JSON.stringify({ versao: 1, criadoEm: Date.now(), docs: docs })], { type: 'application/json' }) });
+        toast(docs.length + ' documentos no backup');
+      } catch (x) { $('#berr').textContent = x.message; }
+      b.disabled = false; b.textContent = 'Baixar backup';
+    });
+  }
+  async function importar() {
+    const p = S.imp; if (!p || !p.docs) return;
+    p.rodando = true; p.erro = ''; abaDados();
+    // envia em lotes de até ~1,5 MB para não estourar o tempo do Apps Script
+    let lote = [], tam = 0;
+    const enviar = async () => { if (!lote.length) return; await ALTA.api('importar', { docs: lote }); p.feito += lote.length; lote = []; tam = 0; abaDados(); };
+    try {
+      for (const d of p.docs.slice(p.feito)) {
+        const t = JSON.stringify(d).length;
+        if (lote.length && (tam + t > 1500000 || lote.length >= 25)) await enviar();
+        lote.push(d); tam += t;
+      }
+      await enviar();
+      p.fim = true; toast('Importação concluída');
+    } catch (x) { p.erro = x.message + ' Clique em Importar para continuar de onde parou.'; }
+    p.rodando = false; abaDados();
+  }
+
+  let tt;
+  function toast(m) {
+    let t = $('#toast'); if (!t) { t = document.createElement('div'); t.id = 'toast'; t.className = 'toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+    t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 2600);
+  }
+
+  /* ====================== início ====================== */
+  if (ALTA.sessao()) {
+    const antes = JSON.stringify(ALTA.usuario());
+    telaInicio();
+    ALTA.conferir().then(u => { if (JSON.stringify(u) !== antes) telaInicio(); }).catch(() => { if (!ALTA.sessao()) telaLogin(); });
+  } else telaLogin();
+
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+})();
+</script>
+</body>
+</html>

@@ -11,7 +11,8 @@
 <script src="../config.js"></script>
 <script src="../core/alta.js"></script>
 <script>if(!ALTA.guarda())document.documentElement.style.display='none';</script>
-<title>Central de Atendimento Técnico</title>
+<title>Central de Atendimento Técnico de Leite</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Public+Sans:wght@400;500;600;700&display=swap">
@@ -341,22 +342,196 @@ h4.subsec{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:v
 a.mark{text-decoration:none}
 </style>
 <style>html,body{margin:0}*{box-sizing:border-box}</style>
+<style>
+/* ===== identidade da plataforma (cabeçalho azul Alta) ===== */
+:root{--alta:#295097;--alta-deep:#17305C;--navy:#071427;--cyan:#6fd8ff;--gold:#d7c36e}
+header.top{background:linear-gradient(120deg,#17305C 0%,#0d1e3d 60%,#071427 100%);border-bottom:2px solid var(--cyan);color:#fff}
+header.top .brand{padding-block:12px 6px}
+header.top .brand h1{color:#fff;font-family:"Space Grotesk",var(--f-display);font-size:1.12rem}
+header.top .brand small{color:#9fdcff}
+header.top .ouro{color:var(--gold)}
+.cx-logo{display:flex;align-items:center;flex:none}
+.cx-logo img{width:78px;height:auto;display:block}
+.cx-div{width:1px;height:28px;background:rgb(255 255 255 / .2);flex:none}
+.cx-user{display:flex;align-items:center;gap:10px;margin-left:auto}
+.cx-av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:700 13px/1 "Space Grotesk",sans-serif;color:#071427;background:linear-gradient(135deg,#8be2ff,#4fb8e8);flex:none}
+.cx-av:empty{display:none}
+.cx-quem{display:flex;flex-direction:column;line-height:1.2;font-size:.84rem}
+.cx-quem b{color:#fff}.cx-quem small{color:#8fdcff}
+.cx-btn{min-height:34px;padding:0 12px;border-radius:9px;border:1px solid rgb(255 255 255 / .22);background:transparent;color:#fff;font-weight:600;font-size:.84rem;cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.cx-btn:hover{background:rgb(255 255 255 / .08)}
+.cx-btn:focus-visible,.cx-logo:focus-visible{outline:2px solid #fff;outline-offset:2px}
+@media (max-width:760px){.cx-quem,.cx-div{display:none}.cx-logo img{width:62px}header.top .brand h1{font-size:1rem}}
+header.top .tabs button{color:#b9c8de}
+header.top .tabs button[aria-selected="true"]{color:#fff;border-bottom-color:var(--cyan)}
+header.top .tabs button:focus-visible{outline:2px solid #fff;outline-offset:-2px}
+header.top .tabs .badge{background:var(--gold);color:#071427}
+/* trilha da Gestão: as etapas numeradas */
+.tabs.trilha button i{font-style:normal;display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;margin-right:7px;font-size:.72rem;font-weight:800;background:rgb(255 255 255 / .14);color:#fff}
+.tabs.trilha button[aria-selected="true"] i{background:var(--cyan);color:#071427}
+
+/* ===== cabeçalho de cada etapa ===== */
+.etapa-h{align-items:flex-start;margin-top:18px}
+.etapa-h h2{font-family:"Space Grotesk",var(--f-display);font-size:1.5rem;margin:0}
+.etapa-sub{margin:4px 0 0;font-size:.92rem}
+.etapa-n{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font:800 1.15rem/1 "Space Grotesk",sans-serif;color:#fff;background:linear-gradient(135deg,var(--alta),var(--alta-deep));flex:none;box-shadow:0 8px 18px -10px rgb(23 48 92 / .8)}
+.subnav{display:flex;gap:4px;padding:4px;border-radius:12px;background:var(--sunk);margin:0 0 18px;overflow-x:auto;width:max-content;max-width:100%}
+.subnav button{border:0;background:none;padding:8px 14px;border-radius:9px;font-weight:700;font-size:.9rem;color:var(--muted);cursor:pointer;white-space:nowrap}
+.subnav button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgb(0 0 0 / .14)}
+.subnav button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+/* ===== visão geral: quadros em linha do tempo ===== */
+.trilha-q{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:6px 0 22px;position:relative}
+.trilha-q::before{content:"";position:absolute;left:4%;right:4%;top:34px;height:2px;background:linear-gradient(90deg,var(--alta),var(--cyan));opacity:.35;z-index:0}
+@media (max-width:980px){.trilha-q{grid-template-columns:repeat(2,minmax(0,1fr))}.trilha-q::before{display:none}}
+@media (max-width:560px){.trilha-q{grid-template-columns:minmax(0,1fr)}}
+.quadro{position:relative;z-index:1;text-align:left;display:flex;flex-direction:column;gap:8px;padding:18px;border-radius:14px;border:1px solid var(--line);background:var(--surface);cursor:pointer;box-shadow:var(--shadow);transition:transform .15s,border-color .15s;color:var(--ink);font:inherit}
+.quadro:hover{transform:translateY(-2px);border-color:var(--alta)}
+.quadro:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.q-n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:800 1rem/1 "Space Grotesk",sans-serif;color:#fff;background:linear-gradient(135deg,var(--alta),var(--alta-deep));box-shadow:0 0 0 5px var(--bg)}
+.q-t{font-family:"Space Grotesk",var(--f-display);font-size:1.15rem}
+.q-d{color:var(--muted);font-size:.86rem;line-height:1.45}
+.q-m{display:grid;gap:4px;margin-top:4px;padding-top:10px;border-top:1px solid var(--line)}
+.q-m span{font-size:.84rem;color:var(--muted);display:flex;gap:8px;align-items:baseline}
+.q-m b{font-family:"Space Grotesk",var(--f-display);font-size:1.15rem;color:var(--ink);min-width:2.2ch}
+.q-m .alerta b{color:var(--bad)}
+.q-a{margin-top:auto;padding-top:6px;color:var(--accent);font-weight:700;font-size:.88rem}
+
+/* ===== acompanhamento: funil e linha do tempo ===== */
+.pipe{display:flex;align-items:stretch;gap:8px;margin-bottom:6px;overflow-x:auto;padding-bottom:2px}
+.pipe-c{flex:1 1 0;min-width:130px;text-align:left;border:1px solid var(--line);border-top:4px solid var(--k);background:var(--surface);border-radius:12px;padding:12px 14px;cursor:pointer;display:grid;gap:2px;color:var(--ink);font:inherit}
+.pipe-c b{font-family:"Space Grotesk",var(--f-display);font-size:1.7rem;line-height:1.1}
+.pipe-l{font-weight:700;font-size:.9rem}
+.pipe-c small{color:var(--muted);font-size:.76rem}
+.pipe-c[aria-pressed="true"]{background:var(--soft);border-color:var(--k);box-shadow:0 0 0 1px var(--k)}
+.pipe-c:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.pipe-seta{align-self:center;color:var(--muted);font-weight:700}
+.pipe-x{display:flex;gap:16px;margin:4px 0 14px;font-size:.84rem}
+.trows{padding:4px 16px}
+.trow{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.5fr) auto;gap:16px;align-items:center;padding:12px 0;border-top:1px solid var(--line);cursor:pointer}
+.trow:first-child{border-top:0}
+.trow:hover .t{color:var(--accent)}
+.trow:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.tr-main .t{font-weight:700}.tr-main .s{font-size:.84rem;color:var(--muted)}
+.trow .end{display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+.tl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);position:relative}
+.tl li{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.72rem;color:var(--muted);position:relative;text-align:center}
+.tl li i{width:12px;height:12px;border-radius:50%;border:2px solid var(--line);background:var(--surface);z-index:1}
+.tl li:not(:first-child)::before{content:"";position:absolute;top:5px;right:50%;width:100%;height:2px;background:var(--line)}
+.tl li.ok i{background:var(--s-ok);border-color:var(--s-ok)}
+.tl li.ok:not(:first-child)::before{background:var(--s-ok)}
+.tl li.cur i{border-color:var(--s-sol);box-shadow:0 0 0 3px var(--s-sol-bg)}
+.tl li.ok span,.tl li.cur span{color:var(--ink);font-weight:600}
+.tl small{font-size:.7rem;min-height:1em}
+.tl-x{opacity:.45}
+@media (max-width:820px){.trow{grid-template-columns:minmax(0,1fr) auto}.trow .tl{grid-column:1/-1;grid-row:2}}
+.att-det{margin-top:18px}
+.att-det>summary{cursor:pointer;font-weight:700;margin-bottom:10px}
+
+/* ===== agenda técnica ===== */
+.agctl{align-items:flex-end}
+.lblf{display:grid;gap:4px;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;flex:0 1 260px}
+.agmes{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.agmes .field{flex:0 0 auto;width:auto}
+.agcal{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:18px}
+.agcab{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:20px 24px;color:#fff;background:linear-gradient(120deg,#1e3f86,#17305C 60%,#0d1e3d)}
+.agcab small{font-size:.7rem;letter-spacing:.12em;color:#bcd2f5;font-weight:700}
+.agcab h3{margin:2px 0;font-family:"Space Grotesk",var(--f-display);font-size:1.4rem;color:#fff}
+.agcab span{font-size:.84rem;color:#c9d6ec}
+.agmesb{border:1px solid rgb(255 255 255 / .35);border-radius:999px;padding:6px 14px;font-size:.88rem;white-space:nowrap}
+.agres{display:flex;gap:14px;flex-wrap:wrap;align-items:center;padding:10px 24px;background:var(--sunk);font-size:.82rem;color:var(--muted)}
+.agres .lbl{font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:.72rem}
+.agres span{display:inline-flex;align-items:center;gap:5px}
+.agres i,.agleg i{width:9px;height:9px;border-radius:3px;display:inline-block}
+.aganiv{padding:8px 24px;background:#fdf6d8;color:#7a5a00;font-size:.86rem}
+.aggrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.agw{padding:8px;text-align:center;font-weight:800;font-size:.76rem;letter-spacing:.06em;color:#29466f;background:#dbe6f6}
+.agw.fds{color:#5d7398}
+.agd{min-height:108px;border-top:1px solid var(--line);border-left:1px solid var(--line);padding:6px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.agd:nth-child(7n+8){border-left:0}
+.agd.fds{background:color-mix(in srgb,var(--sunk) 75%,var(--surface))}
+.agd.fer{background:#fdecec}
+.agd.vazio{background:var(--bg)}
+.agd.hoje{box-shadow:inset 0 0 0 2px var(--alta)}
+.agd.ed{cursor:pointer}
+.agd.ed:hover{background:var(--soft)}
+.agd.ed:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.agn{display:flex;align-items:center;gap:6px;font-weight:700;font-size:.86rem;color:var(--ink)}
+.agd.fer .agn{color:#c0392b}
+.agn em{font-style:normal;font-size:.62rem;font-weight:800;background:var(--alta);color:#fff;border-radius:999px;padding:1px 6px}
+.agchip{display:block;font-size:.74rem;line-height:1.25;padding:3px 6px;border-radius:5px;border-left:3px solid var(--c);background:color-mix(in srgb,var(--c) 13%,var(--surface));color:color-mix(in srgb,var(--c) 70%,var(--ink));overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.agchip i{font-style:normal;margin-right:4px}
+.agchip.agvis{border-left-style:dashed;font-weight:700;cursor:pointer}
+@media (max-width:760px){.agd{min-height:74px;padding:3px}.agchip{font-size:.62rem;padding:2px 3px}.agchip i{display:none}.agcab{padding:14px 16px}.agres,.aganiv{padding-inline:16px}}
+.agmat{border-collapse:separate;border-spacing:0;font-size:.78rem}
+.agmat th,.agmat td{padding:3px 2px;text-align:center;border-bottom:1px solid var(--line)}
+.agmat th:first-child,.agmat td:first-child{text-align:left;padding-right:10px;position:sticky;left:0;background:var(--surface);z-index:1;white-space:nowrap}
+.agmat th small{color:var(--muted);font-weight:500}
+.agmat .fds{background:var(--sunk)}
+.agmat .hj{box-shadow:inset 0 0 0 2px var(--alta)}
+.agq{display:grid;place-items:center;width:24px;height:24px;border-radius:6px;font-size:.78rem;background:var(--c,transparent);border:1px solid var(--line);margin:auto}
+.agq[style]{border-color:transparent}
+.agq.ed{cursor:pointer}
+.agleg{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:.78rem;color:var(--muted)}
+.agleg span{display:inline-flex;gap:5px;align-items:center}
+.aglinha{display:grid;grid-template-columns:minmax(150px,200px) minmax(0,1fr) auto;gap:8px;margin-bottom:8px}
+.agrep{display:flex !important;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.agrep label{display:grid;gap:4px}
+.chk{display:flex !important;align-items:center;gap:8px;font-weight:600}
+.chk input{width:18px;height:18px}
+.agaviso{border-left:3px solid var(--s-sol);background:var(--s-sol-bg);color:var(--ink)}
+.shead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.shead h2{margin:2px 0 0;font-size:1.15rem}
+
+/* ===== dados e backup ===== */
+.usu-grid{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}
+@media (max-width:900px){.usu-grid{grid-template-columns:minmax(0,1fr)}}
+.btn.danger{color:var(--bad)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chipbtn{cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.filebox{display:block;margin:12px 0}
+.filebox input{position:absolute;opacity:0;width:1px;height:1px}
+.filebox span{display:flex;align-items:center;justify-content:center;min-height:60px;border:1.5px dashed var(--line);border-radius:10px;color:var(--muted);font-weight:600;cursor:pointer;padding:8px;text-align:center}
+.filebox input:focus-visible+span{outline:2px solid var(--accent)}
+.barra{height:8px;border-radius:99px;background:var(--sunk);overflow:hidden;margin-top:8px}
+.barra span{display:block;height:100%;background:var(--alta);transition:width .3s}
+header.top .who{color:#c9d6ec}
+header.top .who b{color:#fff}
+header.top .linkbtn{color:#8fdcff}
+/* ===== navegação por cards (sem barra de abas) ===== */
+header.top .tabs{display:none}
+header.top .brand{padding-block:12px}
+.trilha-q.n3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:980px){.trilha-q.n3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.trilha-q.n3{grid-template-columns:minmax(0,1fr)}}
+.trilha-mini{display:flex;align-items:stretch;gap:6px;margin:18px 0 6px;overflow-x:auto;padding:2px 2px 6px}
+.trilha-mini button{font:inherit;color:var(--ink);cursor:pointer;border:1px solid var(--line);background:var(--surface);border-radius:12px;display:flex;align-items:center;gap:10px;padding:10px 14px;text-align:left;flex:1 1 0;min-width:150px;transition:border-color .15s,transform .15s}
+.trilha-mini button:hover{border-color:var(--alta);transform:translateY(-1px)}
+.trilha-mini button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.trilha-mini .tm-ini{flex:0 0 auto;min-width:0;color:var(--muted)}
+.trilha-mini .tm-ini span{font-size:1.1rem}
+.tm-n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:800 .9rem/1 "Space Grotesk",sans-serif;background:var(--sunk);color:var(--muted);flex:none}
+.tm-t{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+.tm-t b{font-size:.92rem;white-space:nowrap}
+.tm-t small{font-size:.76rem;color:var(--muted);white-space:nowrap}
+.tm-c[aria-current="step"]{border:2px solid var(--alta);background:var(--soft);box-shadow:0 8px 20px -14px rgb(23 48 92 / .9)}
+.tm-c[aria-current="step"] .tm-n{background:linear-gradient(135deg,var(--alta),var(--alta-deep));color:#fff}
+.tm-seta{align-self:center;color:var(--muted);font-weight:800;font-size:1.2rem}
+.trilha-mini+.etapa-h{margin-top:10px}
+
+</style>
 </head>
 <body>
-<div class="alta-barra"><div class="in">
-  <a href="../" title="Voltar à plataforma"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span id="altaNome">Plataforma Leite</span></a>
-  <span class="esp"></span><span class="quem2" id="altaQuem"></span><button type="button" id="altaSair">Sair</button>
-</div></div>
-<script>(function(){var u=ALTA.usuario()||{};document.getElementById('altaNome').textContent=(ALTA.config.nome||'Plataforma Leite');document.getElementById('altaQuem').textContent=u.nome||u.email||'';document.getElementById('altaSair').onclick=function(){ALTA.sair()};})();</script>
+
 
 <header class="top">
   <div class="wrap">
     <div class="brand">
-      <a class="mark" href="../" title="Voltar à plataforma" aria-label="Voltar à plataforma">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>
-      </a>
-      <div class="grow"><h1>Central de Atendimento Técnico</h1><small>Equipe técnica de leite</small></div>
+      <a class="cx-logo" href="../" title="Voltar ao início" aria-label="Voltar ao início"><img src="../logo-alta-branca.png" alt="Alta"></a>
+      <span class="cx-div" aria-hidden="true"></span>
+      <div class="grow"><h1>Central de Atendimento Técnico de <span class="ouro">Leite</span></h1><small id="cxArea">Equipe técnica de leite</small></div>
       <div id="areaCtl"></div>
+      <div class="cx-user"><span class="cx-av" id="cxAv" aria-hidden="true"></span><span class="cx-quem"><b id="cxNome"></b><small id="cxPapel"></small></span><a class="cx-btn" href="../">Áreas</a><button class="cx-btn" type="button" id="cxSair">Sair</button></div>
     </div>
     <nav class="tabs" role="tablist" id="tabs"></nav>
   </div>
@@ -385,17 +560,19 @@ const PUB={treinEquipe:'pessoas treinadas',palestras:'pessoas no público',event
 const ORIGENS=['Necessidade da equipe técnica','Necessidade da equipe comercial','Necessidade do cliente'];
 const ATIV=[['treinEquipe','Treinamentos da equipe Alta'],['palestras','Treinamentos ou palestras externas'],['coops','Visitas a cooperativas e/ou revendas'],['eventos','Participações em eventos, julgamentos ou feiras']];
 const CFG_PADRAO={segA:300000,segB:100000,prazoRel:3,metaAceite:90,metaVisita:80,metaRel:90,metaCanc:10,metaNaoAg:10,ocupMin:60,ocupMax:80,assinatura:'Dra. Paula Tiveron\nCoordenadora de Produtos e Serviços Leite'};
-const AREAS={rep:'Representante',tec:'Equipe técnica',gest:'Gestão'};
+const AREAS={rep:'Distritais e Regionais',tec:'Equipe Técnica',gest:'Gestão'};
 const TABS={
-  rep:[['rinicio','Resumo'],['nova','Solicitar agenda'],['rlista','Minhas solicitações'],['rconc','Visitas concluídas']],
-  tec:[['tagenda','Minha agenda'],['tpend','Relatórios pendentes'],['tconc','Concluídos']],
-  gest:[['gpainel','Indicadores'],['glista','Solicitações'],['gagenda','Agenda técnica'],['grel','Relatórios'],['gbases','Bases de dados'],['gcad','Cadastros']]
+  rep:[['rinicio','Início'],['nova','Solicitar agenda'],['rlista','Minhas solicitações'],['rconc','Visitas concluídas']],
+  tec:[['tinicio','Início'],['tagenda','Minha agenda'],['tpend','Relatórios pendentes'],['tconc','Concluídos']],
+  gest:[['gvisao','Visão geral'],['gsol','<i>1</i>Solicitações'],['gagt','<i>2</i>Agenda Técnica'],['grel2','<i>3</i>Relatórios'],['gdados','<i>4</i>Dados e backup']]
 };
 
 const S={sol:[],tec:[],reg:[],dist:[],cfg:{},perfil:null,loaded:{},gestor:false,canWrite:true,uid:null,db:null,dbState:'loading',
   area:null,tab:null,verTec:'',relDrafts:{},pc:{},clientes:[],prosp:[],vendas:null,vendasMeta:null,cria:null,integra:null,criaIx:null,integraIx:null,f:{reg:'',dist:'',st:'Todas',q:'',per:'30',creg:'',ctec:'',cper:'ano',rtodas:false,cadq:'',trend:'mes'},draft:null};
 try{const x=JSON.parse(localStorage.getItem('cat-ui')||'{}');if(x.area)S.area=x.area;if(x.tab)S.tab=x.tab;if(x.per)S.f.per=x.per}catch(e){}
 const salvarUI=()=>{try{localStorage.setItem('cat-ui',JSON.stringify({area:S.area,tab:S.tab,per:S.f.per}))}catch(e){}};
+const AREA_URL=(()=>{const a=new URLSearchParams(location.search).get('area');return['gest','tec','rep'].includes(a)?a:null})();
+if(AREA_URL){S.area=AREA_URL;S.tab=new URLSearchParams(location.search).get('tab')||null;try{history.replaceState(null,'',location.pathname)}catch(_){}}
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -550,7 +727,7 @@ const mailDe=s=>s.status==='Não agendada'?emailNaoAg(s):emailConfirmacao(s);
 const mailto=m=>`mailto:${encodeURIComponent(m.para)}?${m.cc?`cc=${encodeURIComponent(m.cc)}&`:''}subject=${encodeURIComponent(m.assunto)}&body=${encodeURIComponent(m.corpo)}`;
 
 /* ================= área / abas ================= */
-function areasPermitidas(){if(S.gestor)return['gest','tec','rep'];if(S.perfil?.papel==='tecnico')return['tec'];if(S.perfil?.papel==='rep')return['rep'];return[]}
+function areasPermitidas(){if(window.ALTA){const p=(ALTA.usuario()||{}).papel;if(p==='gestao')return['gest','tec','rep'];if(p==='tecnico')return S.perfil?.papel==='tecnico'?['tec']:[];if(['distrital','regional','representante'].includes(p))return S.perfil?.papel==='rep'?['rep']:[];return[]}if(S.gestor)return['gest','tec','rep'];if(S.perfil?.papel==='tecnico')return['tec'];if(S.perfil?.papel==='rep')return['rep'];return[]}
 function ajustarArea(){
   const ok=areasPermitidas();
   if(!ok.includes(S.area))S.area=ok[0]||null;
@@ -560,13 +737,16 @@ function meuTecId(){return S.area==='tec'?(S.gestor?(S.verTec||(S.perfil?.papel=
 function renderHeader(){
   const c=$('#areaCtl');
   if(S.dbState!=='ok'||!S.loaded.perfil){c.innerHTML='';$('#tabs').innerHTML='';return}
-  if(S.gestor)c.innerHTML=`<div class="areas" role="group" aria-label="Área">${areasPermitidas().map(a=>`<button type="button" data-area="${a}" aria-pressed="${S.area===a}">${AREAS[a]}</button>`).join('')}</div>`;
+  const ca=document.getElementById('cxArea');if(ca)ca.textContent=S.area?'Área: '+AREAS[S.area]:'Equipe técnica de leite';
+  if(window.ALTA&&S.gestor)c.innerHTML='';
+  else if(S.gestor)c.innerHTML=`<div class="areas" role="group" aria-label="Área">${areasPermitidas().map(a=>`<button type="button" data-area="${a}" aria-pressed="${S.area===a}">${AREAS[a]}</button>`).join('')}</div>`;
   else if(S.perfil)c.innerHTML=`<div class="who"><span>${AREAS[S.area]} · <b>${esc(S.perfil.papel==='tecnico'?tecNome(S.perfil.tecnicoId):S.perfil.nome)}</b></span><button class="linkbtn" type="button" data-act="perfil">alterar</button></div>`;
   else c.innerHTML='';
   if(!S.area){$('#tabs').innerHTML='';return}
   const pendG=S.sol.filter(s=>etapa(s)==='Solicitada').length;
   const pendT=S.sol.filter(s=>etapa(s)==='Relatório pendente'&&s.agendamento?.tecnicoId===meuTecId()).length;
-  $('#tabs').innerHTML=TABS[S.area].map(([k,l])=>{const b=k==='glista'&&pendG?pendG:k==='tpend'&&pendT?pendT:0;return `<button role="tab" type="button" data-tab="${k}" aria-selected="${S.tab===k}">${l}${b?`<span class="badge num">${b}</span>`:''}</button>`}).join('');
+  $('#tabs').classList.toggle('trilha',S.area==='gest');
+  $('#tabs').innerHTML=TABS[S.area].map(([k,l])=>{const b=(k==='glista'||k==='gsol')&&pendG?pendG:k==='tpend'&&pendT?pendT:0;return `<button role="tab" type="button" data-tab="${k}" aria-selected="${S.tab===k}">${l}${b?`<span class="badge num">${b}</span>`:''}</button>`}).join('');
 }
 document.addEventListener('click',e=>{
   const a=e.target.closest('[data-area]');if(a){S.area=a.dataset.area;S.tab=TABS[S.area][0][0];salvarUI();render();window.scrollTo(0,0);return}
@@ -582,8 +762,8 @@ function render(){
   if(loading){app.innerHTML=`<div class="empty"><b>Carregando a central…</b><p>Buscando solicitações, agenda e cadastros.</p></div>`;return}
   if(!S.canWrite)pre=`<div class="notice">Seu acesso é só para consulta. Para solicitar agenda ou enviar relatórios, peça à gestão acesso de Colaborador.</div>`;
   if(!S.area){app.innerHTML=pre+telaPerfil();return}
-  const V={rinicio,nova,rlista,rconc,tagenda,tpend,tconc,gpainel,glista,gagenda,grel,gbases,gcad};
-  app.innerHTML=pre+(V[S.tab]||rinicio)();
+  const V={rinicio,nova,rlista,rconc,tagenda,tpend,tconc,gpainel,glista,gagenda,grel,gbases,gcad,gvisao,gsol,gagt,grel2,gdados,tinicio};
+  app.innerHTML=pre+(typeof navArea==='function'?navArea():'')+(V[S.tab]||rinicio)();
   if(S.tab==='nova')bindNova();
 }
 
@@ -649,7 +829,7 @@ function rinicio(){
   const by=e=>l.filter(s=>etapa(s)===e);
   const sol=by('Solicitada'),ag=[...by('Agendada'),...by('Relatório pendente')].sort(ordAg),ok=by('Concluída').sort((a,b)=>(b.relatorio?.fim||'').localeCompare(a.relatorio?.fim||''));
   const cl=ok.flatMap(s=>s.relatorio?.clientes||[]);
-  const head=`<div class="bar"><h2>Área do representante</h2>${S.canWrite?`<button class="btn primary" type="button" data-tab="nova">+ Solicitar agenda técnica</button>`:''}</div>${escopoRep()}`;
+  const head=`<div class="bar"><h2>Resumo</h2>${S.canWrite?`<button class="btn primary" type="button" data-tab="nova">+ Solicitar agenda técnica</button>`:''}</div>${escopoRep()}`;
   if(!l.length)return head+`<div class="empty"><b>Nenhuma solicitação por aqui ainda</b><p>Use "Solicitar agenda técnica" para pedir um atendimento. Você acompanha aqui o que foi solicitado, agendado e concluído, e recebe a confirmação por e-mail.</p>${S.canWrite?'<button class="btn primary" type="button" data-tab="nova">+ Solicitar agenda técnica</button>':''}</div>`;
   return head+`<div class="kpis">
     <div class="kpi" style="--k:var(--s-sol)"><div class="lbl">Aguardando agendamento</div><div class="val num">${sol.length}</div><div class="sub">em avaliação pela gestão</div></div>
@@ -792,7 +972,8 @@ function rconc(){return telaConcluidas(minhas(),'Visitas concluídas',escopoRep(
 function seletorTec(){return S.gestor?`<div class="filters"><select class="field" id="fvertec" style="max-width:320px">${tecOpts(S.verTec,'— Ver a área de qual técnico? —')}</select></div>`:''}
 function doTec(){const id=meuTecId();return id?S.sol.filter(s=>s.agendamento?.tecnicoId===id&&s.status!=='Cancelada'):[]}
 function semTec(){return S.gestor&&!meuTecId()?`<div class="empty"><b>Escolha um técnico</b><p>Como gestão, você pode ver a área de qualquer técnico.</p></div>`:''}
-function tagenda(){
+function tagenda(){const _cal=typeof tagendaCal==='function'?tagendaCal():'';return _cal+tagendaLista();}
+function tagendaLista(){
   const l=doTec().filter(s=>etapa(s)==='Agendada').sort(ordAg),pend=doTec().filter(s=>etapa(s)==='Relatório pendente');
   return `<div class="bar"><h2>Minha agenda</h2></div>${seletorTec()}${semTec()||`
   ${pend.length?`<div class="notice bad">Você tem ${pend.length} relatório${pend.length===1?'':'s'} de atendimento pendente${pend.length===1?'':'s'}. <button class="linkbtn" type="button" data-tab="tpend">Responder agora</button></div>`:''}
@@ -877,12 +1058,13 @@ document.addEventListener('input',e=>{
 },true);
 
 /* ================= GESTÃO ================= */
-function filtroGest(l){if(S.f.reg)l=l.filter(s=>s.regional===S.f.reg);if(S.f.dist)l=l.filter(s=>s.distrital===S.f.dist);return l}
+function filtroGest(l){if(S.f.reg)l=l.filter(s=>s.regional===S.f.reg);if(S.f.dist)l=l.filter(s=>s.distrital===S.f.dist);if(S.f.tec)l=l.filter(s=>(s.agendamento?.tecnicoId||s.tecPref)===S.f.tec);return l}
 function filtrosGest(comPer){
   return `<div class="filters">
    ${comPer?`<div class="seg" role="group" aria-label="Período">${[['1','Hoje'],['7','7 dias'],['30','30 dias'],['mes','Este mês'],['tri','Trimestre'],['ano','Este ano']].map(([k,l])=>`<button type="button" data-per="${k}" aria-pressed="${S.f.per===k}">${l}</button>`).join('')}</div>`:''}
    ${cbFiltroDist()}
    ${cbFiltroReg('cbFReg','reg')}
+   <select class="field" id="ftec" aria-label="Técnico" style="flex:0 1 230px">${tecOpts(S.f.tec,'Todos os técnicos')}</select>
   </div>`;
 }
 function bk(titulo,mapa,total,hint){
@@ -1401,6 +1583,7 @@ function formAgendar(s){
     <fieldset class="full" id="wrapTroca" ${(a.tecnicoId||s.tecPref)!==s.tecPref?'':'hidden'}><legend>Por que outro técnico? <span class="req">*</span></legend><div class="opts">${MOT_TROCA.map((m,i)=>`<label><input type="radio" name="trocaMotivo" id="tm_${i}" value="${m}" ${a.trocaMotivo===m?'checked':''}> ${m}</label>`).join('')}</div></fieldset>`:''}
     <label>Data de início <span class="req">*</span><input class="field" type="date" id="a_ini" name="inicio" value="${esc(a.inicio||s.dataSugerida||'')}"></label>
     <label>Data de término<input class="field" type="date" id="a_fim" name="fim" value="${esc(a.fim||'')}"></label>
+    <div class="full" id="agConf"></div>
     ${a.tecnicoId?`<fieldset class="full"><legend>Reagendamento por necessidade de quem? <span class="req">*</span></legend><div class="opts">${ORIGENS.map((o,i)=>`<label><input type="radio" name="reagOrigem" id="ro_${i}" value="${o}"> ${o}</label>`).join('')}</div></fieldset>
     <label class="full">Motivo do reagendamento <span class="req">*</span><input class="field" id="a_rmot" name="reagMotivo" placeholder="Ex.: chuva impediu o acesso à fazenda; técnico deslocado para urgência"></label>`:''}
     <label class="full">Observação para o e-mail (opcional)<textarea class="field" id="a_obs" name="obs" placeholder="Ex.: chegada prevista às 8h na fazenda.">${esc(a.obs||'')}</textarea></label>
@@ -1410,7 +1593,7 @@ function formAgendar(s){
 }
 
 /* ================= sheet ================= */
-function sheet(html){$('#sheetRoot').innerHTML=`<div class="backdrop" data-act="fundo"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;document.body.style.overflow='hidden'}
+function sheet(html){$('#sheetRoot').innerHTML=`<div class="backdrop" data-act="fundo"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;document.body.style.overflow='hidden';if(document.getElementById('agConf')&&typeof agConflitoHint==='function')agConflitoHint()}
 function closeSheet(){if(S.relDraft&&S.relId){S.relDrafts[S.relId]=S.relDraft;try{localStorage.setItem('cat-rel-'+S.relId,JSON.stringify(S.relDraft))}catch(_){}}$('#sheetRoot').innerHTML='';document.body.style.overflow='';S.relDraft=null;S.relId=null}
 document.addEventListener('change',e=>{if(e.target.id==='a_tec'){const w=$('#wrapTroca');if(w)w.hidden=!e.target.dataset.pref||e.target.value===e.target.dataset.pref}});
 document.addEventListener('keydown',e=>{if(e.defaultPrevented)return;if(e.key==='Escape'&&$('#sheetRoot').innerHTML)closeSheet();if((e.key==='Enter'||e.key===' ')&&e.target.matches('[role=button][data-act]')){e.preventDefault();e.target.click()}});
@@ -1750,12 +1933,522 @@ async function reconstruirClientes(){
 }
 
 
+/* ================= PLATAFORMA: áreas, Gestão em etapas e Agenda Técnica ================= */
+const NA_PLATAFORMA=!!window.ALTA;
+const papelPlat=()=>(NA_PLATAFORMA&&ALTA.usuario()||{}).papel||'';
+const PAPEL_LBL={gestao:'Gestão',tecnico:'Equipe técnica',distrital:'Distrital',regional:'Regional'};
+S.sub=Object.assign({gsol:'acomp',gagt:'cal',grel2:'cap',gdados:'usu'},(()=>{try{return JSON.parse(localStorage.getItem('cat-sub')||'{}')}catch(_){return{}}})());
+S.ag={docs:{},carregada:false,pessoa:'',ano:+hoje().slice(0,4),mes:+hoje().slice(5,7)};
+S.f.tec=S.f.tec||'';S.f.aper=S.f.aper||'tudo';
+const salvarSub=()=>{try{localStorage.setItem('cat-sub',JSON.stringify(S.sub))}catch(_){}};
+const subnav=(tab,itens)=>`<div class="subnav" role="tablist" aria-label="Seções">${itens.map(([k,l])=>`<button type="button" role="tab" data-sub="${tab}:${k}" aria-selected="${S.sub[tab]===k}">${l}</button>`).join('')}</div>`;
+const titulo=(n,t,sub,dir)=>`<div class="bar etapa-h">${n?`<span class="etapa-n">${n}</span>`:''}<div class="grow"><h2>${t}</h2>${sub?`<p class="muted etapa-sub">${sub}</p>`:''}</div>${dir||''}</div>`;
+
+/* ---------- painel de indicadores dividido em partes ---------- */
+function painelPartes(){
+  const html=gpainel();
+  const iNav=html.indexOf('<nav class="secnav"');
+  const iSec=html.indexOf('<h3 class="sec" id="sec-');
+  const head=html.slice(0,iNav).replace(/<div class="bar"><h2>Indicadores da gestão<\/h2>/,'<div class="bar">');
+  const navFim=html.indexOf('</nav>',iNav)+6;
+  const P={head,atencao:html.slice(navFim,iSec)};
+  html.slice(iSec).split('<h3 class="sec" id="sec-').filter(Boolean).forEach(ch=>{const id=ch.slice(0,ch.indexOf('"'));P[id]='<h3 class="sec" id="sec-'+ch});
+  if(P.placar){const k=P.placar.indexOf('<h3>Regionais</h3>');const j=P.placar.lastIndexOf('<section',k);P.placarTec=P.placar.slice(0,j);P.placarReg=`<h3 class="sec">Placar das regionais<span>período</span></h3>`+P.placar.slice(j)}
+  return P;
+}
+const secnav=itens=>`<nav class="secnav" aria-label="Seções">${itens.map(([k,l])=>`<button type="button" data-sec="${k}">${l}</button>`).join('')}</nav>`;
+
+/* ---------- Visão geral: os quadros na ordem do atendimento ---------- */
+/* ---------- linha dos processos em cards (substitui a barra de abas) ---------- */
+const INICIO_AREA={gest:'gvisao',tec:'tinicio',rep:'rinicio'};
+const AREA_TXT={gest:['Gestão','O atendimento técnico na ordem em que acontece: pedido, agenda, visita, relatório e resultado.'],tec:['Equipe Técnica','Sua agenda, as visitas agendadas e os relatórios de atendimento, na ordem do trabalho.'],rep:['Distritais e Regionais','Peça agenda técnica e acompanhe cada atendimento até o relatório.']};
+function etapasArea(){
+  const h=hoje(),l=S.sol,A=S.area;
+  if(A==='gest'){
+    const n=e=>l.filter(s=>etapa(s)===e).length;
+    const urg=l.filter(s=>etapa(s)==='Solicitada'&&s.urgencia==='Alta').length;
+    const atras=l.filter(s=>etapa(s)==='Relatório pendente'&&atrasoRel(s)>0).length;
+    const concMes=l.filter(s=>etapa(s)==='Concluída'&&tsDia(s.relatorio.enviadoEm)>=h.slice(0,8)+'01').length;
+    const hojeCat=S.tec.map(t=>agPrincipal(t.id,h));
+    const emCampo=hojeCat.filter(c=>c==='atendimento'||c==='deslocamento').length,ferias=hojeCat.filter(c=>c==='ferias').length;
+    const prox7=l.filter(s=>s.status!=='Cancelada'&&s.agendamento?.inicio>h&&s.agendamento.inicio<=addDias(h,7)).length;
+    const cap=agCapacidade(+h.slice(0,4),+h.slice(5,7));const ocup=cap.tot.uteis?Math.round(cap.tot.campo/cap.tot.uteis*100):null;
+    const bases=[S.vendasMeta,S.cria,S.integra].filter(Boolean).length;
+    return[
+     ['gsol','Solicitações','Pedidos que chegaram e o caminho de cada um até o relatório.',[[n('Solicitada'),'chegaram',urg?'alerta':''],[n('Agendada'),'agendadas'],[n('Relatório pendente'),'realizadas, sem relatório',atras?'alerta':''],[concMes,'concluídas no mês']]],
+     ['gagt','Agenda Técnica','Calendário de cada técnico, agenda geral do leite e visitas agendadas.',[[emCampo,'técnicos em campo hoje'],[ferias,'de férias hoje'],[prox7,'visitas nos próximos 7 dias']]],
+     ['grel2','Relatórios','Capacidade de atendimento, cobertura da carteira e resultados.',[[ocup==null?'—':ocup+'%','em campo no mês'],[atras,'relatórios em atraso',atras?'alerta':''],[S.reg.length,'regionais na carteira']]],
+     ['gdados','Dados e backup','Acessos, usuários, cadastros e bases de dados.',[[S.tec.length,'técnicos'],[S.reg.length,'regionais'],[bases+'/3','bases carregadas']]]];
+  }
+  if(A==='tec'){
+    const d=meuTecId()?doTec():[];const by=e=>d.filter(s=>etapa(s)===e);
+    const prox=by('Agendada').sort(ordAg)[0];const pend=by('Relatório pendente');const atr=pend.filter(s=>atrasoRel(s)>0).length;
+    return[
+     ['tagenda','Minha agenda','Calendário do mês, visitas agendadas e compromissos.',[[by('Agendada').length,'visitas agendadas'],[prox?fmtD(prox.agendamento.inicio).slice(0,5):'—','próxima visita']]],
+     ['tpend','Relatórios pendentes','Visitas realizadas que ainda precisam do relatório.',[[pend.length,'aguardando relatório',pend.length?'alerta':''],[atr,'em atraso',atr?'alerta':'']]],
+     ['tconc','Concluídos','Atendimentos com relatório entregue.',[[by('Concluída').length,'relatórios entregues']]]];
+  }
+  const m=minhas();const by=e=>m.filter(s=>etapa(s)===e).length;
+  return[
+   ['nova','Solicitar agenda','Peça um atendimento da equipe técnica.',[['+','novo pedido']]],
+   ['rlista','Minhas solicitações','Acompanhe o que foi pedido e agendado.',[[by('Solicitada'),'aguardando agendamento'],[by('Agendada')+by('Relatório pendente'),'agendadas']]],
+   ['rconc','Visitas concluídas','Atendimentos com relatório entregue.',[[by('Concluída'),'concluídas']]]];
+}
+function navArea(){
+  if(!S.area||!S.perfil&&!S.gestor)return'';
+  const ini=INICIO_AREA[S.area],E=etapasArea(),k=E.findIndex(x=>x[0]===S.tab);
+  if(S.tab===ini){
+    const[t,d]=AREA_TXT[S.area];
+    return titulo('',t,d)+`<div class="trilha-q n${E.length}">${E.map(([tab,tt,desc,met],i)=>`<button type="button" class="quadro" data-tab="${tab}"><span class="q-n">${i+1}</span><b class="q-t">${tt}</b><span class="q-d">${desc}</span><span class="q-m">${met.map(([v,lb,cl])=>`<span class="${cl||''}"><b class="num">${v}</b>${lb}</span>`).join('')}</span><span class="q-a">Abrir →</span></button>`).join('')}</div>`;
+  }
+  if(k<0)return'';
+  return `<nav class="trilha-mini" aria-label="Etapas">
+   <button type="button" class="tm-ini" data-tab="${ini}" aria-label="Início da área"><span aria-hidden="true">⌂</span><b>Início</b></button>
+   ${E.map(([tab,tt,,met],i)=>`<span class="tm-seta" aria-hidden="true">›</span><button type="button" class="tm-c" data-tab="${tab}" aria-current="${i===k?'step':'false'}"><span class="tm-n">${i+1}</span><span class="tm-t"><b>${tt}</b><small>${met[0]?esc(String(met[0][0]))+' '+esc(met[0][1]):''}</small></span></button>`).join('')}
+  </nav>`;
+}
+function gvisao(){return painelPartes().atencao}
+function tinicio(){
+  const id=meuTecId();
+  if(!id)return seletorTec()+semTec();
+  const pend=doTec().filter(s=>etapa(s)==='Relatório pendente');
+  return (S.gestor?seletorTec():'')+(pend.length?`<div class="notice bad">Você tem ${pend.length} relatório${pend.length===1?'':'s'} de atendimento pendente${pend.length===1?'':'s'}. <button class="linkbtn" type="button" data-tab="tpend">Responder agora</button></div>`:'<div class="notice">Tudo em dia: nenhum relatório pendente.</div>');
+}
+
+/* ---------- 1. Solicitações ---------- */
+function gsol(){
+  const sub=S.sub.gsol==='ind'?'ind':'acomp';
+  return titulo(1,'Solicitações','Acompanhe cada pedido até o relatório e veja os indicadores das solicitações.')+subnav('gsol',[['acomp','Acompanhamento'],['ind','Indicadores']])+(sub==='acomp'?gsolAcomp():gsolInd());
+}
+const ESTAG=[['Todas','Todas','solicitações','var(--accent)'],['Solicitada','Chegaram','aguardando aceite e agendamento','var(--s-sol)'],['Agendada','Agendadas','visita marcada','var(--s-ag)'],['Relatório pendente','Realizadas','visita feita, sem relatório','var(--c3)'],['Concluída','Concluídas','relatório entregue','var(--s-ok)']];
+function noPeriodoA(s){if(S.f.aper==='tudo')return true;const d=tsDia(s.criadoEm),h=hoje();const ini=S.f.aper==='ano'?h.slice(0,4)+'-01-01':S.f.aper==='mes'?h.slice(0,8)+'01':addDias(h,-(+S.f.aper)+1);return d>=ini}
+function linhaTempo(s){
+  const e=etapa(s),a=s.agendamento||{},r=s.relatorio||{};
+  const enc=encerrada(s);
+  const pass=[
+   ['Pedido',fmtTs(s.criadoEm).slice(0,5),true],
+   ['Agendada',a.agendadoEm?fmtTs(a.agendadoEm).slice(0,5):'',!!a.tecnicoId],
+   ['Realizada',a.inicio?fmtD(fimAg(a)).slice(0,5):'',['Relatório pendente','Concluída'].includes(e)],
+   ['Relatório',r.enviadoEm?fmtTs(r.enviadoEm).slice(0,5):'',e==='Concluída']];
+  const cur=pass.findIndex(p=>!p[2]);
+  return `<ol class="tl${enc?' tl-x':''}" aria-label="Linha do tempo">${pass.map((p,i)=>`<li class="${p[2]?'ok':i===cur&&!enc?'cur':''}"><i aria-hidden="true"></i><span>${p[0]}</span><small class="num">${p[1]||(i===2&&a.inicio?'prev. '+fmtD(a.inicio).slice(0,5):'')}</small></li>`).join('')}</ol>`;
+}
+function linhaAcomp(s){
+  const e=etapa(s),a=s.agendamento;
+  const extra=e==='Relatório pendente'&&atrasoRel(s)>0?`<span class="chip urg-Alta">${atrasoRel(s)}d de atraso</span>`:e==='Solicitada'&&s.urgencia==='Alta'?'<span class="chip urg-Alta">Urgente</span>':'';
+  return `<div class="trow" data-act="ver" data-id="${s.id}" role="button" tabindex="0">
+   <div class="tr-main"><div class="t">Regional ${esc(s.regional)}${s.distrital?' · '+esc(s.distrital):''}</div>
+    <div class="s">${esc(s.gerenteNome||'')} · ${(s.temas||[]).map(esc).join(', ')}</div>
+    <div class="s">${a?.tecnicoId?esc(tecNome(a.tecnicoId))+' · '+periodoCurto(a):s.tecPref?'Sugerido: '+esc(tecNome(s.tecPref))+(s.dataSugerida?' · '+fmtD(s.dataSugerida):''):(s.dataSugerida?'Data sugerida '+fmtD(s.dataSugerida):'Sem técnico')}</div></div>
+   ${linhaTempo(s)}
+   <div class="end"><span class="chip dot ${stCls(e)}">${e==='Solicitada'?'Chegou':e==='Relatório pendente'?'Realizada':e}</span>${extra}</div></div>`;
+}
+function gsolAcomp(){
+  const base=filtroGest(S.sol).filter(noPeriodoA);
+  const l=filtroLista(base);
+  const cnt=k=>k==='Todas'?base.length:base.filter(s=>etapa(s)===k).length;
+  const lim=S.f.lim||60;
+  const P=painelPartes();
+  return `<div class="pipe">${ESTAG.map(([k,l1,d,c],i)=>`${i>1?'<span class="pipe-seta" aria-hidden="true">→</span>':''}<button type="button" class="pipe-c" data-st="${k}" aria-pressed="${S.f.st===k}" style="--k:${c}"><span class="pipe-l">${l1}</span><b class="num">${cnt(k)}</b><small>${d}</small></button>`).join('')}</div>
+  <div class="pipe-x">${['Não agendada','Cancelada'].map(k=>`<button type="button" class="linkbtn" data-st="${k}">${k==='Cancelada'?'Canceladas':'Não agendadas'}: <b class="num">${cnt(k)}</b></button>`).join('')}</div>
+  ${filtrosGest(false,true)}
+  <div class="filters"><div class="seg" role="group" aria-label="Pedidos feitos">${[['tudo','Todo o período'],['30','Últimos 30 dias'],['90','Últimos 90 dias'],['mes','Este mês'],['ano','Este ano']].map(([k,t])=>`<button type="button" data-aper="${k}" aria-pressed="${S.f.aper===k}">${t}</button>`).join('')}</div>
+   <input class="field" id="fq" type="search" placeholder="Buscar por representante, tema, cidade, técnico ou código" value="${esc(S.f.q)}"></div>
+  ${!S.sol.length?`<div class="empty"><b>Nenhuma solicitação ainda</b><p>Quando um distrital ou regional pedir agenda, o pedido aparece aqui em "Chegaram".</p></div>`:l.length?`<section class="panel trows">${l.slice(0,lim).map(linhaAcomp).join('')}${l.length>lim?`<button class="btn small" type="button" data-act="mais" style="margin-top:10px">Mostrar mais ${Math.min(60,l.length-lim)} de ${l.length-lim}</button>`:''}</section>`:`<div class="empty"><b>Nada com esses filtros</b></div>`}
+  <details class="att-det" ${P.atencao.includes('Tudo em dia')?'':'open'}><summary>O que precisa da sua atenção</summary>${P.atencao}</details>`;
+}
+function gsolInd(){
+  const P=painelPartes();
+  return P.head+secnav([['metas','Solicitações e prazos-meta'],['tendencia','Tendências'],['prazos','Prazos'],['distribuicao','Distribuição']])+
+   (P.metas||'').replace('Metas do período','Solicitações, data e técnico sugeridos, cancelamentos e reagendamentos')+(P.tendencia||'')+(P.prazos||'')+(P.distribuicao||'');
+}
+
+/* ---------- 3. Relatórios ---------- */
+function grel2(){
+  const sub=['cap','cob','res'].includes(S.sub.grel2)?S.sub.grel2:'cap';
+  const P=painelPartes();
+  let corpo='';
+  if(sub==='cap')corpo=P.head+agCapacidadeHtml()+(P.capacidade||'').replace('Capacidade e carga da equipe técnica','Carga das visitas agendadas')+(P.placarTec||'').replace('Placar individual','Placar dos técnicos');
+  if(sub==='cob')corpo=P.head+(P.cobertura||'')+(P.placarReg||'');
+  if(sub==='res')corpo=P.head+(P.resultado||'')+`<h3 class="sec">Relatórios de atendimento</h3>`+grel().replace(filtrosGest(false),'');
+  return titulo(3,'Relatórios','Capacidade da equipe, cobertura da carteira e resultado dos atendimentos.')+subnav('grel2',[['cap','Capacidade de atendimento'],['cob','Cobertura da carteira'],['res','Resultados']])+corpo;
+}
+
+/* ---------- 4. Dados e backup ---------- */
+function gdados(){
+  const sub=['usu','cad','bases','backup'].includes(S.sub.gdados)?S.sub.gdados:'usu';
+  let corpo='';
+  if(sub==='usu')corpo=telaUsuarios();
+  if(sub==='cad')corpo=gcad().replace(/<div class="bar"><h2>Cadastros<\/h2><\/div>/,'').replace(/<section class="panel"><h3>Quem acessa o quê<\/h3>[\s\S]*?<\/div><\/section>/,'');
+  if(sub==='bases')corpo=gbases().replace(/<div class="bar"><h2>Bases de dados<\/h2>/,'<div class="bar">');
+  if(sub==='backup')corpo=telaBackup();
+  return titulo(4,'Dados e backup','Quem acessa, cadastros da equipe e da carteira, bases de vendas e programas, cópias de segurança.')+subnav('gdados',[['usu','Usuários e acessos'],['cad','Cadastros'],['bases','Bases de dados'],['backup','Backup']])+corpo;
+}
+const ACESSO_TXT=[['Gestão','Gestão, Equipe Técnica e Distritais e Regionais. Aceita pedidos, agenda, envia e-mails, vê indicadores, bases e acessos.'],['Equipe técnica','Equipe Técnica. Vê a agenda da equipe, edita a própria agenda e envia os relatórios de atendimento.'],['Distrital','Distritais e Regionais. Solicita agenda técnica e acompanha os atendimentos.'],['Regional','Distritais e Regionais. Solicita agenda técnica e acompanha os atendimentos.']];
+function telaUsuarios(){
+  if(!NA_PLATAFORMA)return '<div class="notice">Disponível na plataforma.</div>';
+  if(!S.usu&&!S.usuCarregando){S.usuCarregando=true;ALTA.api('usuarios').then(r=>{S.usu=r.usuarios||[];S.usuCarregando=false;render()}).catch(x=>{S.usuCarregando=false;S.usuErro=x.message;render()})}
+  const l=[...(S.usu||[])].sort((a,b)=>(a.papel+a.nome).localeCompare(b.papel+b.nome,'pt-BR'));
+  const e=S.usuEdit||{email:'',nome:'',papel:'tecnico',ativo:true,novo:true};
+  const tecSemUsuario=S.tec.filter(t=>t.email&&!l.some(u=>u.email===String(t.email).toLowerCase()));
+  const q=norm(S.f.uq||'');
+  const vis=l.filter(u=>!q||norm(u.nome+' '+u.email).includes(q));
+  const quando=t=>t?new Date(t).toLocaleDateString('pt-BR')+' '+new Date(t).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'nunca entrou';
+  const porPapel=k=>l.filter(u=>u.papel===k).length;
+  return `<div class="kpis">${['gestao','tecnico','distrital','regional'].map(k=>`<div class="kpi"><div class="lbl">${PAPEL_LBL[k]}</div><div class="val num">${porPapel(k)}</div><div class="sub">${l.filter(u=>u.papel===k&&!u.ativo).length} bloqueado(s)</div></div>`).join('')}</div>
+  <div class="grid2 usu-grid">
+   <section class="panel"><h3>Pessoas com acesso<span class="hint num">${l.length}</span></h3>
+    ${S.usuErro?`<p class="ferr">${esc(S.usuErro)}</p>`:''}
+    <input class="field" id="fuq" type="search" placeholder="Procurar por nome ou e-mail" value="${esc(S.f.uq||'')}" style="margin-bottom:10px">
+    ${S.usu?`<div class="tablewrap"><table style="min-width:560px"><thead><tr><th>Nome</th><th>E-mail</th><th>Papel</th><th>Último acesso</th><th></th></tr></thead><tbody>${vis.map(u=>`<tr style="cursor:default"><td><b>${esc(u.nome||'—')}</b>${u.ativo?'':' <span class="chip urg-Alta">Bloqueado</span>'}</td><td>${esc(u.email)}</td><td>${PAPEL_LBL[u.papel]||esc(u.papel)}</td><td class="num muted">${quando(u.ultimoAcesso)}</td><td><button class="linkbtn" type="button" data-uedit="${esc(u.email)}">Editar</button></td></tr>`).join('')}</tbody></table></div>`:'<p class="mini-empty">Carregando…</p>'}
+   </section>
+   <section class="panel"><h3>${e.novo?'Dar acesso a alguém':'Editar acesso'}</h3>
+    <form class="f" id="fusu" novalidate>
+     <label class="full">E-mail <span class="req">*</span><input class="field" name="email" type="email" value="${esc(e.email)}" ${e.novo?'':'readonly'}></label>
+     <label class="full">Nome<input class="field" name="nome" value="${esc(e.nome)}" placeholder="Nome e sobrenome"></label>
+     <label class="full">Papel<select class="field" name="papel">${Object.keys(PAPEL_LBL).map(p=>`<option value="${p}" ${e.papel===p?'selected':''}>${PAPEL_LBL[p]}</option>`).join('')}</select></label>
+     <label class="full chk"><input type="checkbox" name="ativo" ${e.ativo?'checked':''}> Acesso ativo</label>
+     <p class="hint-box full" style="margin:0">Técnicos: use o mesmo e-mail do cadastro do técnico. É ele que libera a edição da própria agenda.</p>
+     <p class="ferr full" id="uerr" hidden></p>
+     <div class="actions full"><div class="right">${e.novo?'':`<button class="btn" type="button" data-act="ucancel">Cancelar</button><button class="btn danger" type="button" data-act="uremover">Remover acesso</button>`}<button class="btn primary" type="submit">${e.novo?'Dar acesso':'Salvar'}</button></div></div>
+    </form>
+    ${tecSemUsuario.length?`<div class="box" style="margin-top:14px"><b>Técnicos cadastrados ainda sem acesso</b><div class="chips">${tecSemUsuario.map(t=>`<button type="button" class="chip chipbtn" data-unovo="${esc(t.id)}">+ ${esc(t.nome)}</button>`).join('')}</div></div>`:''}
+   </section>
+  </div>
+  <section class="panel" style="margin-top:14px"><h3>Quem acessa o quê</h3><div class="rows" style="font-size:.9rem">${ACESSO_TXT.map(([t,d])=>`<div class="row" style="cursor:default"><div class="main"><div class="t">${t}</div><div class="s">${d}</div></div></div>`).join('')}</div>
+   <p class="mini-empty" style="font-size:.82rem;margin-top:8px">Mudanças de papel ou bloqueio valem em até 1 minuto. As pessoas recebem o código de entrada no e-mail cadastrado aqui.</p></section>`;
+}
+function telaBackup(){
+  const p=S.imp||{};
+  return `<div class="grid2">
+   <section class="panel"><h3>Fazer backup</h3><p class="muted">Baixa um arquivo com todos os dados da central: solicitações, relatórios, agenda, cadastros e bases. A Planilha Google também guarda o histórico de versões (Arquivo › Histórico de versões).</p>
+    <p class="ferr" id="berr" hidden></p><button class="btn primary" type="button" data-act="backup">Baixar backup</button></section>
+   <section class="panel"><h3>Importar dados</h3><p class="muted">Carrega um backup feito aqui ou o arquivo de dados inicial. Documentos com a mesma identificação são substituídos.</p>
+    <label class="filebox"><input type="file" id="arqimp" accept=".json,application/json"><span>${p.nome?esc(p.nome):'Escolher arquivo .json'}</span></label>
+    ${p.total?`<div class="barra"><span style="width:${Math.round(100*p.feito/p.total)}%"></span></div><p class="mini-empty">${p.feito} de ${p.total} documentos${p.fim?' · concluído':''}</p>`:''}
+    ${p.erro?`<p class="ferr">${esc(p.erro)}</p>`:''}
+    <button class="btn primary" type="button" data-act="importarbk" ${p.docs&&!p.rodando&&!p.fim?'':'disabled'}>${p.rodando?'Importando…':'Importar'}</button></section>
+  </div>`;
+}
+
+/* ================= AGENDA TÉCNICA ================= */
+const P_AG='agenda';
+const AG_CAT={atendimento:['Atendimento','#16a34a','🐄'],deslocamento:['Deslocamento','#f59e0b','🚗'],homeoffice:['Home office','#4f46e5','🏠'],reuniao:['Reunião','#0d9488','🤝'],treinamento:['Treinamento','#8b5cf6','🎓'],evento:['Evento','#ec4899','🎪'],ferias:['Férias','#0ea5e9','🏖️'],feriado:['Feriado','#ef4444','🎉'],livre:['Dia livre','#84cc16','☀️'],particular:['Particular','#a8a29e','🔒'],aniversario:['Aniversário','#eab308','🎂'],outros:['Outros','#64748b','•']};
+const AG_PRIO=['ferias','feriado','atendimento','deslocamento','treinamento','evento','reuniao','homeoffice','livre','particular','outros','aniversario'];
+const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DSEM=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const pad2=n=>String(n).padStart(2,'0');
+const isoDe=(a,m,d)=>`${a}-${pad2(m)}-${pad2(d)}`;
+function agGuess(t){const x=norm(t).trim();
+  if(/^niver|aniversari/.test(x))return'aniversario';if(/ferias/.test(x))return'ferias';if(/feriado/.test(x))return'feriado';
+  if(/home ?office|^ho\b/.test(x))return'homeoffice';if(/desloc|viagem|\bvoo\b|estrada/.test(x))return'deslocamento';
+  if(/atendimento|visita|fazenda/.test(x))return'atendimento';if(/curso|treinamento|webinar|capacita|workshop|palestra|aula/.test(x))return'treinamento';
+  if(/reuniao|integra|alinhamento|comite|1:1/.test(x))return'reuniao';if(/evento|feira|expo|congresso|showcase|julgamento|leilao|dia de campo/.test(x))return'evento';
+  if(/dia livre|^livre|folga/.test(x))return'livre';if(/particular/.test(x))return'particular';return'outros'}
+function agParse(s){const m=/^([a-z]+)\|([\s\S]*)$/.exec(String(s));if(m&&AG_CAT[m[1]])return{cat:m[1],txt:m[2]};return{cat:agGuess(s),txt:String(s)}}
+const agDocId=(p,a)=>`${p}__${a}`;
+function agBruto(p,iso){const d=S.ag.docs[agDocId(p,iso.slice(0,4))];return (d&&d[iso.slice(5)])||[]}
+function pascoa(a){const f=Math.floor,G=a%19,C=f(a/100),H=(C-f(C/4)-f((8*C+13)/25)+19*G+15)%30,I=H-f(H/28)*(1-f(29/(H+1))*f((21-G)/11)),J=(a+f(a/4)+I+2-C+f(C/4))%7,L=I-J,m=3+f((L+40)/44),d=L+28-31*f(m/4);return isoDe(a,m,d)}
+const agFerCache={};
+function agFeriados(a){
+  const doc=S.ag.docs[agDocId('feriados',a)];
+  if(doc){const o={};Object.keys(doc).filter(k=>/^\d\d-\d\d$/.test(k)).forEach(k=>o[`${a}-${k}`]=(doc[k]||[]).map(x=>agParse(x).txt));return o}
+  if(agFerCache[a])return agFerCache[a];
+  const p=pascoa(a),o={};const put=(d,t)=>(o[d]=o[d]||[]).push(t);
+  [['01-01','Ano Novo'],['04-21','Tiradentes'],['05-01','Dia do Trabalhador'],['09-07','Independência do Brasil'],['10-12','Nossa Senhora Aparecida'],['11-02','Finados'],['11-15','Proclamação da República'],['11-20','Consciência Negra'],['12-25','Natal']].forEach(([k,t])=>put(`${a}-${k}`,t));
+  put(addDias(p,-48),'Carnaval');put(addDias(p,-47),'Carnaval');put(addDias(p,-2),'Sexta-feira Santa');put(addDias(p,60),'Corpus Christi');
+  return agFerCache[a]=o;
+}
+let agVisMemo=null;
+function agVisitas(){
+  if(agVisMemo&&agVisMemo.sol===S.sol)return agVisMemo.m;
+  const m={};
+  S.sol.forEach(s=>{const a=s.agendamento;if(!a?.tecnicoId||!a.inicio||encerrada(s))return;const fim=fimAg(a);for(let d=a.inicio;d<=fim;d=addDias(d,1)){((m[a.tecnicoId]=m[a.tecnicoId]||{})[d]=m[a.tecnicoId][d]||[]).push(s)}});
+  agVisMemo={sol:S.sol,m};return m;
+}
+function agItens(p,iso){
+  const it=agBruto(p,iso).map((s,i)=>({...agParse(s),i}));
+  const fer=(agFeriados(+iso.slice(0,4))[iso]||[]).map(t=>({cat:'feriado',txt:t,fer:true}));
+  const vis=(agVisitas()[p]||{})[iso]||[];
+  const vi=vis.map(s=>({cat:'atendimento',txt:'Visita · Regional '+(s.regional||''),sol:s}));
+  return [...fer,...vi,...it.filter(x=>!(x.cat==='feriado'&&fer.some(f=>f.txt===x.txt)))];
+}
+function agPrincipal(p,iso){const it=agItens(p,iso);if(!it.length)return'';return AG_PRIO.find(c=>it.some(x=>x.cat===c))||'outros'}
+const fimSemana=iso=>{const d=new Date(iso+'T12:00').getDay();return d===0||d===6};
+function agPodeEditar(p){if(!S.db||!S.canWrite)return false;if(S.gestor)return true;if(p==='geral'||p==='feriados')return false;return papelPlat()==='tecnico'&&S.perfil?.papel==='tecnico'&&S.perfil.tecnicoId===p}
+const agPessoaNome=p=>p==='geral'?'Agenda Geral do Leite':p==='feriados'?'Feriados':tecNome(p);
+function agPessoaPadrao(){if(S.ag.pessoa&&(S.ag.pessoa==='geral'||byId(S.tec,S.ag.pessoa)))return S.ag.pessoa;const meu=S.perfil?.papel==='tecnico'?S.perfil.tecnicoId:'';return meu||'geral'}
+function agControles(modo){
+  const p=agPessoaPadrao();
+  return `<div class="filters agctl">
+   ${modo==='cal'?`<label class="lblf">Agenda<select class="field" id="agpessoa"><option value="geral" ${p==='geral'?'selected':''}>Agenda Geral do Leite</option>${sortN(S.tec).map(t=>`<option value="${t.id}" ${p===t.id?'selected':''}>${esc(t.nome)}</option>`).join('')}</select></label>`:''}
+   ${agMesCtl()}
+   ${S.gestor&&NA_PLATAFORMA?`<button class="btn small" type="button" data-act="agimport">Importar agenda atual</button>`:''}
+  </div>`;
+}
+function agMesCtl(){const anos=[S.ag.ano-1,S.ag.ano,S.ag.ano+1];return `<div class="agmes"><button class="btn small" type="button" data-agmes="-1" aria-label="Mês anterior">‹</button><select class="field" id="agmes" aria-label="Mês">${MESES.map((m,i)=>`<option value="${i+1}" ${S.ag.mes===i+1?'selected':''}>${m}</option>`).join('')}</select><select class="field" id="agano" aria-label="Ano">${anos.map(a=>`<option ${S.ag.ano===a?'selected':''}>${a}</option>`).join('')}</select><button class="btn small" type="button" data-agmes="1" aria-label="Próximo mês">›</button><button class="btn small" type="button" data-agmes="0">Hoje</button></div>`}
+function chipAg(x,p){const[l,c,ic]=AG_CAT[x.cat]||AG_CAT.outros;return `<span class="agchip${x.sol?' agvis':''}" style="--c:${c}" title="${esc(l+': '+x.txt)}"${x.sol?` data-act="ver" data-id="${x.sol.id}" role="button" tabindex="0"`:''}><i aria-hidden="true">${ic}</i>${esc(x.txt)}</span>`}
+function agCalendario(p){
+  const a=S.ag.ano,m=S.ag.mes,nd=new Date(a,m,0).getDate(),dow=new Date(a,m-1,1).getDay(),h=hoje();
+  const pode=agPodeEditar(p);
+  const resumo={};let aniv=[];
+  for(let d=1;d<=nd;d++){agItens(p,isoDe(a,m,d)).forEach(x=>{resumo[x.cat]=(resumo[x.cat]||0)+1;if(x.cat==='aniversario')aniv.push(x.txt.replace(/^niver\s*/i,''))})}
+  const cel=[];for(let i=0;i<dow;i++)cel.push('<div class="agd vazio"></div>');
+  for(let d=1;d<=nd;d++){const iso=isoDe(a,m,d),it=agItens(p,iso),fer=it.some(x=>x.fer);
+    cel.push(`<div class="agd${fimSemana(iso)?' fds':''}${fer?' fer':''}${iso===h?' hoje':''}${pode?' ed':''}"${pode?` data-agdia="${iso}" role="button" tabindex="0" aria-label="${d} de ${MESES[m-1]}: editar"`:''}><div class="agn"><span class="num">${d}</span>${iso===h?'<em>HOJE</em>':''}</div>${it.map(x=>chipAg(x,p)).join('')}</div>`)}
+  return `<section class="agcal">
+   <header class="agcab"><div><small>${p==='geral'?'CALENDÁRIO GERAL':'TÉCNICO(A)'}</small><h3>${esc(agPessoaNome(p))}</h3><span>${p==='geral'?'Eventos gerais · Programas e Serviços · Leite':'Programas e Serviços · Leite'}${pode?' · clique em um dia para lançar':''}</span></div><b class="agmesb">${MESES[m-1]} ${a}</b></header>
+   <div class="agres"><span class="lbl">Resumo do mês</span>${Object.keys(resumo).sort((x,y)=>AG_PRIO.indexOf(x)-AG_PRIO.indexOf(y)).map(k=>`<span><i style="background:${AG_CAT[k][1]}"></i>${AG_CAT[k][2]} ${AG_CAT[k][0]} <b class="num">${resumo[k]}</b></span>`).join('')||'<span class="muted">Nada lançado neste mês</span>'}</div>
+   ${aniv.length?`<div class="aganiv">🎂 <b>Aniversariantes do mês:</b> ${esc([...new Set(aniv)].join(', '))}</div>`:''}
+   <div class="aggrid">${DSEM.map((x,i)=>`<div class="agw${i===0||i===6?' fds':''}">${x}</div>`).join('')}${cel.join('')}</div>
+  </section>`;
+}
+function agEquipe(){
+  const a=S.ag.ano,m=S.ag.mes,nd=new Date(a,m,0).getDate(),h=hoje();
+  const dias=[...Array(nd)].map((_,i)=>isoDe(a,m,i+1));
+  const tecs=sortN(S.tec);
+  return `<section class="panel"><h3>Equipe em ${MESES[m-1]} de ${a}<span class="hint">um quadrado por dia · cor da atividade principal</span></h3>
+   <div class="tablewrap"><table class="agmat"><thead><tr><th>Técnico</th>${dias.map(d=>`<th class="${fimSemana(d)?'fds':''}${d===h?' hj':''}">${+d.slice(8)}<br><small>${DSEM[new Date(d+'T12:00').getDay()][0]}</small></th>`).join('')}</tr></thead>
+   <tbody>${tecs.map(t=>`<tr><td><b>${esc(t.nome)}</b></td>${dias.map(d=>{const c=agPrincipal(t.id,d),it=agItens(t.id,d);const pode=agPodeEditar(t.id);return `<td class="${fimSemana(d)?'fds':''}${d===h?' hj':''}"><span class="agq${pode?' ed':''}" ${c?`style="--c:${AG_CAT[c][1]}"`:''} title="${esc(fmtD(d)+(it.length?' · '+it.map(x=>AG_CAT[x.cat][0]+': '+x.txt).join(' | '):' · sem registro'))}"${pode?` data-agdia="${d}" data-agp="${t.id}" role="button" tabindex="0"`:''}>${c?AG_CAT[c][2]:''}</span></td>`}).join('')}</tr>`).join('')}</tbody></table></div>
+   <div class="agleg">${AG_PRIO.filter(k=>k!=='aniversario').map(k=>`<span><i style="background:${AG_CAT[k][1]}"></i>${AG_CAT[k][0]}</span>`).join('')}</div></section>`;
+}
+function gagt(){
+  const sub=['cal','equipe','visitas'].includes(S.sub.gagt)?S.sub.gagt:'cal';
+  let corpo='';
+  if(sub==='cal')corpo=agControles('cal')+agCalendario(agPessoaPadrao());
+  if(sub==='equipe')corpo=agControles('equipe')+agEquipe();
+  if(sub==='visitas')corpo=gagenda().replace(/<div class="bar"><h2>Agenda técnica<\/h2><\/div>/,'');
+  return titulo(2,'Agenda Técnica','Calendário de cada técnico e da equipe. As visitas agendadas na Central entram sozinhas.')+subnav('gagt',[['cal','Calendário'],['equipe','Visão da equipe'],['visitas','Visitas agendadas']])+(S.ag.carregada?'':'<p class="mini-empty">Carregando a agenda…</p>')+corpo;
+}
+/* Equipe técnica: minha agenda em calendário + visitas */
+function tagendaCal(){
+  const id=meuTecId();
+  if(!id)return '';
+  if(!S.ag.pessoa||S.ag.pessoaTec!==id){S.ag.pessoa=id;S.ag.pessoaTec=id}
+  return agControles('cal')+agCalendario(agPessoaPadrao());
+}
+
+/* ---------- editor do dia ---------- */
+function agAbrirDia(p,iso){
+  if(!agPodeEditar(p))return;
+  const brutos=agBruto(p,iso).map(agParse);
+  S.agEd={p,iso,linhas:brutos.map(x=>({...x,nova:false}))};
+  if(!S.agEd.linhas.length)S.agEd.linhas.push({cat:'atendimento',txt:'',nova:true});
+  agDesenharDia();
+}
+function agDesenharDia(){
+  const E=S.agEd,dt=new Date(E.iso+'T12:00');
+  const fixos=agItens(E.p,E.iso).filter(x=>x.fer||x.sol);
+  sheet(`<div class="shead"><div><small class="muted">${esc(agPessoaNome(E.p))}</small><h2>${dt.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'}).replace(/^./,c=>c.toUpperCase())}</h2></div><button class="btn small" type="button" data-act="fechar">Fechar</button></div>
+   ${fixos.length?`<div class="box" style="margin-bottom:12px">${fixos.map(x=>`<div>${chipAg(x,E.p)} <span class="muted" style="font-size:.82rem">${x.fer?'feriado':'agendada na Central'}</span></div>`).join('')}</div>`:''}
+   <form class="f" id="fagdia" novalidate>
+    <div class="full agl">${E.linhas.map((x,i)=>`<div class="aglinha"><select class="field" data-agl="${i}" data-k="cat" aria-label="Tipo">${Object.keys(AG_CAT).filter(k=>k!=='feriado'||E.p==='geral').map(k=>`<option value="${k}" ${x.cat===k?'selected':''}>${AG_CAT[k][2]} ${AG_CAT[k][0]}</option>`).join('')}</select><input class="field" data-agl="${i}" data-k="txt" value="${esc(x.txt)}" placeholder="Descrição (ex.: Atendimento Ceará, Home office)" aria-label="Descrição"><button class="btn small" type="button" data-agdel="${i}" aria-label="Remover">×</button></div>`).join('')}</div>
+    <div class="full"><button class="btn small" type="button" data-act="agadd">+ Adicionar compromisso</button></div>
+    <fieldset class="full agrep"><legend>Repetir os compromissos novos</legend>
+     <label>até o dia<input class="field" type="date" id="agate" min="${addDias(E.iso,1)}" value="${esc(E.ate||'')}"></label>
+     <label class="chk"><input type="checkbox" id="agutil" ${E.util!==false?'checked':''}> só dias úteis</label></fieldset>
+    <p class="ferr full" id="agerr" hidden></p>
+    <div class="actions full"><div class="right"><button class="btn" type="button" data-act="fechar">Cancelar</button><button class="btn primary" type="submit">Salvar</button></div></div>
+   </form>`);
+}
+const agCodificar=x=>`${x.cat}|${String(x.txt).trim()}`;
+async function agSalvarDia(){
+  const E=S.agEd,err=$('#agerr');
+  const linhas=E.linhas.filter(x=>String(x.txt).trim()||x.cat!=='outros').map(x=>({...x,txt:String(x.txt).trim()||AG_CAT[x.cat][0]}));
+  const ate=$('#agate')?.value||'',util=$('#agutil')?.checked;
+  if(ate&&ate<=E.iso){err.textContent='A data final da repetição precisa ser depois deste dia.';err.hidden=false;return}
+  const muda={};const por=(iso,lista)=>{const id=agDocId(E.p,iso.slice(0,4));(muda[id]=muda[id]||{_pessoa:E.p,_ano:+iso.slice(0,4)})[iso.slice(5)]=lista};
+  por(E.iso,linhas.map(agCodificar));
+  const novas=linhas.filter(x=>x.nova);
+  if(ate&&novas.length){for(let d=addDias(E.iso,1);d<=ate;d=addDias(d,1)){if(util&&(fimSemana(d)||(agFeriados(+d.slice(0,4))[d])))continue;const ex=agBruto(E.p,d);por(d,[...ex,...novas.map(agCodificar).filter(c=>!ex.includes(c))])}}
+  const bt=$('#fagdia [type=submit]');if(bt){bt.disabled=true;bt.textContent='Salvando…'}
+  try{
+   for(const id of Object.keys(muda)){await S.db.collection(P_AG).doc(id).update(muda[id]);Object.assign(S.ag.docs[id]=S.ag.docs[id]||{},muda[id])}
+   closeSheet();S.agEd=null;render();toast('Agenda salva');
+  }catch(x){if(bt){bt.disabled=false;bt.textContent='Salvar'}err.textContent=x&&x.message||'Não foi possível salvar.';err.hidden=false}
+}
+
+/* ---------- capacidade pela agenda ---------- */
+function agCapacidade(a,m){
+  const nd=new Date(a,m,0).getDate(),fer=agFeriados(a);
+  const linhas=sortN(S.tec).map(t=>{const o={t,uteis:0,campo:0,atend:0,desl:0,trein:0,ho:0,aus:0,outros:0,vazio:0};
+    for(let d=1;d<=nd;d++){const iso=isoDe(a,m,d);if(fimSemana(iso)||fer[iso])continue;o.uteis++;const c=agPrincipal(t.id,iso);
+      if(c==='atendimento'){o.atend++;o.campo++}else if(c==='deslocamento'){o.desl++;o.campo++}else if(['treinamento','evento','reuniao'].includes(c))o.trein++;else if(c==='homeoffice')o.ho++;else if(['ferias','livre','particular'].includes(c))o.aus++;else if(c==='outros'||c==='aniversario')o.outros++;else o.vazio++}
+    return o});
+  const tot=linhas.reduce((x,o)=>{Object.keys(o).forEach(k=>{if(k!=='t')x[k]=(x[k]||0)+o[k]});return x},{});
+  return{linhas,tot};
+}
+function agCapacidadeHtml(){
+  const a=S.ag.ano,m=S.ag.mes,{linhas,tot}=agCapacidade(a,m);
+  const pc=(n,t)=>t?Math.round(n/t*100):null;
+  const disp=o=>o.uteis-o.aus;
+  return `<h3 class="sec" id="sec-agcap">Dias da equipe pela Agenda Técnica<span>${MESES[m-1]} de ${a}</span></h3>
+  <div class="filters">${agMesCtl()}</div>
+  <div class="kpis">
+   <div class="kpi" style="--k:var(--s-ok)"><div class="lbl">Dias em campo</div><div class="val num">${tot.campo||0}</div><div class="sub">atendimento e deslocamento · ${pctTxt(pc(tot.campo,tot.uteis))} dos dias úteis</div></div>
+   <div class="kpi" style="--k:var(--accent)"><div class="lbl">Ocupação dos dias disponíveis</div><div class="val num">${pctTxt(pc(tot.campo,(tot.uteis||0)-(tot.aus||0)))}</div><div class="sub">descontando férias, folgas e particulares</div></div>
+   <div class="kpi" style="--k:var(--c3)"><div class="lbl">Treinamento, eventos e reuniões</div><div class="val num">${tot.trein||0}</div><div class="sub">dias</div></div>
+   <div class="kpi" style="--k:var(--line)"><div class="lbl">Dias úteis sem registro</div><div class="val num">${tot.vazio||0}</div><div class="sub">lançar na agenda melhora a leitura</div></div>
+  </div>
+  <section class="panel" style="margin-bottom:16px"><div class="tablewrap"><table class="plac" style="min-width:860px"><thead><tr><th>Técnico</th><th class="r">Dias úteis</th><th class="r">🐄 Atendimento</th><th class="r">🚗 Deslocamento</th><th class="r">🎓 Trein./evento/reunião</th><th class="r">🏠 Home office</th><th class="r">🏖️ Férias/folga</th><th class="r">Sem registro</th><th class="r">Em campo</th></tr></thead><tbody>
+   ${linhas.map(o=>{const p=pc(o.campo,disp(o)),f=farolFaixa(p,cfg().ocupMin,cfg().ocupMax);return `<tr style="cursor:default"><td><b>${esc(o.t.nome)}</b></td><td class="r num">${o.uteis}</td><td class="r num">${o.atend}</td><td class="r num">${o.desl}</td><td class="r num">${o.trein}</td><td class="r num">${o.ho}</td><td class="r num">${o.aus}</td><td class="r num muted">${o.vazio}</td><td class="r num"><span class="chip ${f.cls?'f-'+f.cls:''}">${pctTxt(p)}</span></td></tr>`}).join('')}
+  </tbody></table></div><p class="mini-empty" style="font-size:.8rem;margin-top:8px">Cada dia útil conta pela atividade principal lançada na agenda (visitas agendadas na Central contam como atendimento). "Em campo" = atendimento + deslocamento sobre os dias disponíveis. Faixa ideal ${cfg().ocupMin}–${cfg().ocupMax}%.</p></section>`;
+}
+
+/* ---------- aviso de conflito ao agendar ---------- */
+function agConflitoHint(){
+  const box=$('#agConf');if(!box)return;
+  const f=$('#fag'),tec=f?.elements.tecnicoId.value,ini=f?.elements.inicio.value,fim=f?.elements.fim.value||ini;
+  if(!tec||!ini||fim<ini){box.innerHTML='';return}
+  const sid=f.dataset.id,av=[];
+  for(let d=ini;d<=fim&&av.length<12;d=addDias(d,1)){agItens(tec,d).filter(x=>!(x.sol&&x.sol.id===sid)&&!['aniversario','homeoffice','outros'].includes(x.cat)).forEach(x=>av.push(`${fmtD(d).slice(0,5)}: ${AG_CAT[x.cat][2]} ${esc(x.txt)}`))}
+  box.innerHTML=av.length?`<div class="hint-box agaviso"><b>Atenção à agenda de ${esc(tecNome(tec))}:</b><br>${av.join('<br>')}</div>`:`<div class="hint-box">Agenda de ${esc(tecNome(tec))} livre nesse período.</div>`;
+}
+
+/* ---------- importar a agenda atual (altaleite.github.io/agenda) ---------- */
+const AG_URL='https://altaleite.github.io/agenda/';
+function agExtrair(h,nome){const i=h.search(new RegExp('(const|let|var)\\s+'+nome+'\\s*=\\s*\\{'));if(i<0)return null;let j=h.indexOf('{',i),d=0,k=j,str=null;for(;k<h.length;k++){const c=h[k];if(str){if(c==='\\'){k++;continue}if(c===str)str=null;continue}if(c==='"'||c==="'"||c==='`'){str=c;continue}if(c==='{')d++;else if(c==='}'){d--;if(!d)break}}try{return JSON.parse(h.slice(j,k+1))}catch(e){return null}}
+const slug=s=>norm(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+function agSugerir(nome){
+  if(/geral/i.test(nome))return'geral';
+  const n=norm(nome).split(/\s+/);
+  const t=S.tec.find(t=>{const m=norm(t.nome).split(/\s+/);return m[0]===n[0]&&(n.length<2||m.includes(n[n.length-1]))});
+  return t?t.id:'novo';
+}
+async function agImportarAbrir(){
+  sheet(`<div class="shead"><h2>Importar agenda atual</h2><button class="btn small" type="button" data-act="fechar">Fechar</button></div><p class="muted">Buscando a agenda em altaleite.github.io/agenda…</p>`);
+  try{
+    const r=await fetch(AG_URL,{cache:'no-store'});const h=await r.text();
+    const fontes={2026:agExtrair(h,'AGENDA'),2027:agExtrair(h,'AGENDA_2027')};
+    const fer={2026:agExtrair(h,'FERIADOS_2026'),2027:agExtrair(h,'FERIADOS_2027')};
+    if(!fontes[2026])throw new Error('Não encontrei os dados da agenda na página.');
+    const nomes=[...new Set(Object.values(fontes).filter(Boolean).flatMap(o=>Object.keys(o)))];
+    const conta=n=>Object.values(fontes).filter(Boolean).reduce((t,o)=>t+Object.values(o[n]||{}).reduce((x,mm)=>x+Object.values(mm).reduce((y,l)=>y+(l||[]).length,0),0),0);
+    S.agImp={fontes,fer,nomes:nomes.map(n=>({n,c:conta(n),dest:agSugerir(n)}))};
+    agImportarDesenhar();
+  }catch(x){sheet(`<div class="shead"><h2>Importar agenda atual</h2><button class="btn small" type="button" data-act="fechar">Fechar</button></div><p class="ferr">${esc(x.message||'Não foi possível ler a agenda atual.')}</p>`)}
+}
+function agImportarDesenhar(){
+  const I=S.agImp;
+  sheet(`<div class="shead"><h2>Importar agenda atual</h2><button class="btn small" type="button" data-act="fechar">Fechar</button></div>
+   <p class="muted" style="margin-top:0">Encontrei ${I.nomes.length} agendas em 2026${I.fontes[2027]?' e 2027':''}. Confirme para onde vai cada uma. Os feriados vão para todas as agendas.</p>
+   <div class="tablewrap"><table style="min-width:520px"><thead><tr><th>Na agenda atual</th><th class="r">Lançamentos</th><th>Na plataforma</th></tr></thead><tbody>
+   ${I.nomes.map((x,i)=>`<tr style="cursor:default"><td><b>${esc(x.n)}</b></td><td class="r num">${x.c}</td><td><select class="field" data-agimp="${i}"><option value="">— Não importar —</option><option value="geral" ${x.dest==='geral'?'selected':''}>Agenda Geral do Leite</option>${sortN(S.tec).map(t=>`<option value="${t.id}" ${x.dest===t.id?'selected':''}>${esc(t.nome)}</option>`).join('')}<option value="novo" ${x.dest==='novo'?'selected':''}>+ Cadastrar como novo técnico</option></select></td></tr>`).join('')}
+   </tbody></table></div>
+   <p class="hint-box">O que já estiver lançado na plataforma para essas pessoas será substituído pela agenda atual. Visitas agendadas na Central não são afetadas.</p>
+   <p class="ferr" id="agierr" hidden></p>
+   <div class="actions"><div class="right"><button class="btn" type="button" data-act="fechar">Cancelar</button><button class="btn primary" type="button" data-act="agimpok">Importar</button></div></div>`);
+}
+async function agImportarExecutar(bt){
+  const I=S.agImp,err=$('#agierr');bt.disabled=true;bt.textContent='Importando…';
+  try{
+    const docs=[];
+    for(const x of I.nomes){
+      if(!x.dest)continue;let dest=x.dest;
+      if(dest==='novo'){let id=slug(x.n)||'tecnico';while(byId(S.tec,id))id+='-2';docs.push({col:P_TEC,id,data:{nome:x.n,email:'',criadoEm:Date.now(),origem:'agenda'}});S.tec.push({id,nome:x.n});dest=id}
+      for(const ano of Object.keys(I.fontes)){const src=I.fontes[ano];if(!src||!src[x.n])continue;const d={_pessoa:dest,_ano:+ano};
+        Object.entries(src[x.n]).forEach(([mes,dias])=>{const mi=MESES.indexOf(mes)+1;if(!mi)return;Object.entries(dias||{}).forEach(([dia,l])=>{const k=pad2(mi)+'-'+pad2(dia);const v=(l||[]).map(String).filter(s=>s.trim()&&!/^feriado\|/.test(s)).map(s=>agCodificar(agParse(s)));if(v.length)d[k]=[...(d[k]||[]),...v]})});
+        const id=agDocId(dest,ano),ex=docs.find(z=>z.col===P_AG&&z.id===id);if(ex)Object.entries(d).forEach(([k,v])=>{if(Array.isArray(v))ex.data[k]=[...(ex.data[k]||[]),...v]});else docs.push({col:P_AG,id,data:d})}
+    }
+    Object.entries(I.fer).forEach(([ano,o])=>{if(!o)return;const d={_pessoa:'feriados',_ano:+ano};Object.entries(o).forEach(([mes,dias])=>{const mi=MESES.indexOf(mes)+1;if(!mi)return;Object.entries(dias||{}).forEach(([dia,l])=>{const v=(l||[]).map(s=>'feriado|'+agParse(s).txt);if(v.length)d[pad2(mi)+'-'+pad2(dia)]=v})});docs.push({col:P_AG,id:agDocId('feriados',ano),data:d})});
+    for(let i=0;i<docs.length;i+=20)await ALTA.api('importar',{docs:docs.slice(i,i+20)});
+    docs.filter(z=>z.col===P_AG).forEach(z=>S.ag.docs[z.id]=z.data);
+    closeSheet();toast(`Agenda importada: ${docs.filter(z=>z.col===P_AG).length} calendários`);render();
+  }catch(x){bt.disabled=false;bt.textContent='Importar';err.textContent=x.message||'Falha ao importar.';err.hidden=false}
+}
+
+/* ---------- backup ---------- */
+async function fazerBackup(bt){
+  bt.disabled=true;bt.textContent='Preparando…';
+  try{const cols=(await ALTA.api('colecoes')).colecoes,docs=[];
+    for(const c of cols){const r=await ALTA.api('ler',{col:c});(r.docs||[]).forEach(d=>docs.push({col:c,id:d.id,data:d.data}))}
+    const dl=await window.claude.use('downloads');
+    await dl.save({filename:'central-leite-backup-'+hoje()+'.json',data:new Blob([JSON.stringify({versao:1,criadoEm:Date.now(),docs})],{type:'application/json'})});
+    toast(docs.length+' documentos no backup')}catch(x){const e=$('#berr');if(e){e.textContent=x.message;e.hidden=false}}
+  bt.disabled=false;bt.textContent='Baixar backup';
+}
+async function importarBackup(){
+  const p=S.imp;if(!p?.docs)return;p.rodando=true;p.erro='';render();
+  let lote=[],tam=0;const enviar=async()=>{if(!lote.length)return;await ALTA.api('importar',{docs:lote});p.feito+=lote.length;lote=[];tam=0;render()};
+  try{for(const d of p.docs.slice(p.feito)){const t=JSON.stringify(d).length;if(lote.length&&(tam+t>1500000||lote.length>=25))await enviar();lote.push(d);tam+=t}await enviar();p.fim=true;toast('Importação concluída')}
+  catch(x){p.erro=x.message+' Clique em Importar para continuar de onde parou.'}
+  p.rodando=false;render();
+}
+
+/* ---------- eventos da plataforma ---------- */
+const TAB_ANTIGA={gpainel:['gsol','ind'],glista:['gsol','acomp'],gagenda:['gagt','visitas'],grel:['grel2','res'],gbases:['gdados','bases'],gcad:['gdados','cad']};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-tab]');if(t&&TAB_ANTIGA[t.dataset.tab]){const[n,s]=TAB_ANTIGA[t.dataset.tab];S.sub[n]=s;salvarSub();t.dataset.tab=n}},true);
+document.addEventListener('click',async e=>{
+  const sb=e.target.closest('[data-sub]');if(sb){const[t,k]=sb.dataset.sub.split(':');S.sub[t]=k;salvarSub();render();return}
+  const ap=e.target.closest('[data-aper]');if(ap){S.f.aper=ap.dataset.aper;S.f.lim=60;render();return}
+  const am=e.target.closest('[data-agmes]');if(am){const v=+am.dataset.agmes;if(!v){S.ag.ano=+hoje().slice(0,4);S.ag.mes=+hoje().slice(5,7)}else{let m=S.ag.mes+v,a=S.ag.ano;if(m<1){m=12;a--}if(m>12){m=1;a++}S.ag.mes=m;S.ag.ano=a}render();return}
+  const dd=e.target.closest('[data-agdia]');if(dd&&!e.target.closest('.agvis')){agAbrirDia(dd.dataset.agp||agPessoaPadrao(),dd.dataset.agdia);return}
+  const dl=e.target.closest('[data-agdel]');if(dl){S.agEd.linhas.splice(+dl.dataset.agdel,1);agDesenharDia();return}
+  const ue=e.target.closest('[data-uedit]');if(ue){S.usuEdit=(S.usu||[]).find(u=>u.email===ue.dataset.uedit);render();$('#fusu')?.scrollIntoView({block:'center',behavior:'smooth'});return}
+  const un=e.target.closest('[data-unovo]');if(un){const t=byId(S.tec,un.dataset.unovo);S.usuEdit={email:String(t.email||'').toLowerCase(),nome:t.nome,papel:'tecnico',ativo:true,novo:true};render();$('#fusu')?.scrollIntoView({block:'center',behavior:'smooth'});return}
+  const t=e.target.closest('[data-act]');if(!t)return;
+  switch(t.dataset.act){
+   case'mais':S.f.lim=(S.f.lim||60)+60;render();return;
+   case'agadd':agLerLinhas();S.agEd.linhas.push({cat:'atendimento',txt:'',nova:true});agDesenharDia();return;
+   case'agimport':return agImportarAbrir();
+   case'agimpok':return agImportarExecutar(t);
+   case'ucancel':S.usuEdit=null;render();return;
+   case'uremover':{if(t.dataset.conf!=='1'){t.dataset.conf='1';t.textContent='Toque de novo para remover';return}
+     try{await ALTA.api('usuarioRemover',{email:S.usuEdit.email});S.usuEdit=null;S.usu=null;toast('Acesso removido');render()}catch(x){const er=$('#uerr');er.textContent=x.message;er.hidden=false}return}
+   case'backup':return fazerBackup(t);
+   case'importarbk':return importarBackup();
+  }
+});
+function agLerLinhas(){if(!S.agEd)return;document.querySelectorAll('[data-agl]').forEach(el=>{const l=S.agEd.linhas[+el.dataset.agl];if(l)l[el.dataset.k]=el.value});const a=$('#agate');if(a)S.agEd.ate=a.value;const u=$('#agutil');if(u)S.agEd.util=u.checked}
+document.addEventListener('input',e=>{const t=e.target;
+  if(t.id==='ftec'){S.f.tec=t.value;render();return}
+  if(t.id==='fuq'){S.f.uq=t.value;const p=t.selectionStart;render();const el=$('#fuq');if(el){el.focus();try{el.setSelectionRange(p,p)}catch(_){}}return}
+  if(t.dataset&&t.dataset.agl!=null){const l=S.agEd?.linhas[+t.dataset.agl];if(l){l[t.dataset.k]=t.value;if(t.dataset.k==='txt'&&l.nova&&!l.catManual){const g=agGuess(t.value);if(g!=='outros'){l.cat=g;const s=document.querySelector(`select[data-agl="${t.dataset.agl}"]`);if(s)s.value=g}}if(t.dataset.k==='cat')l.catManual=true}return}
+});
+document.addEventListener('change',e=>{const t=e.target;
+  if(t.id==='agpessoa'){S.ag.pessoa=t.value;render();return}
+  if(t.id==='agmes'){S.ag.mes=+t.value;render();return}
+  if(t.id==='agano'){S.ag.ano=+t.value;render();return}
+  if(t.dataset&&t.dataset.agimp!=null){S.agImp.nomes[+t.dataset.agimp].dest=t.value;return}
+  if(t.id==='arqimp'){const f=t.files[0];if(!f)return;S.imp={nome:f.name};f.text().then(tx=>{try{const j=JSON.parse(tx);const docs=Array.isArray(j)?j:j.docs;if(!Array.isArray(docs)||!docs.every(d=>d&&d.col&&d.id&&typeof d.data==='object'))throw 0;Object.assign(S.imp,{docs,total:docs.length,feito:0})}catch(_){S.imp.erro='Este arquivo não é um backup da central.'}render()});return}
+  if(['a_tec','a_ini','a_fim'].includes(t.id))agConflitoHint();
+});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-agdia],[data-sub]')){e.preventDefault();e.target.click()}});
+document.addEventListener('submit',async e=>{const f=e.target;
+  if(f.id==='fagdia'){e.preventDefault();e.stopImmediatePropagation();agLerLinhas();return agSalvarDia()}
+  if(f.id==='fusu'){e.preventDefault();e.stopImmediatePropagation();const er=$('#uerr');
+    const d={email:f.email.value.trim().toLowerCase(),nome:f.nome.value.trim(),papel:f.papel.value,ativo:f.ativo.checked};
+    if(!/^\S+@\S+\.\S+$/.test(d.email)){er.textContent='Digite um e-mail válido.';er.hidden=false;return}
+    const b=f.querySelector('[type=submit]');b.disabled=true;
+    try{await ALTA.api('usuarioSalvar',{usuario:d});S.usuEdit=null;S.usu=null;toast('Acesso salvo');render()}catch(x){b.disabled=false;er.textContent=x.message;er.hidden=false}}
+},true);
+
+/* técnico da plataforma: perfil automático pelo e-mail do cadastro */
+let perfilAutoFeito=false;
+function perfilAutomatico(){
+  if(perfilAutoFeito||!NA_PLATAFORMA||S.perfil||!S.loaded.perfil||!S.loaded.tec||!S.db||!S.uid)return;
+  const u=ALTA.usuario()||{};if(u.papel!=='tecnico')return;
+  const t=S.tec.find(x=>String(x.email||'').toLowerCase()===String(u.email||'').toLowerCase());if(!t)return;
+  perfilAutoFeito=true;const p={papel:'tecnico',tecnicoId:t.id};
+  S.db.collection('data/users/'+S.uid).doc('perfil').set(p).then(()=>{S.perfil=p;S.area='tec';render()}).catch(()=>{});
+}
+function assinarAgenda(){
+  if(!S.db||S.agSub)return;
+  if(!(S.gestor||papelPlat()==='tecnico'))return;
+  S.agSub=S.db.collection(P_AG).onSnapshot(sn=>{const o={};sn.docs.forEach(d=>o[d.id]=d.data());S.ag.docs=o;S.ag.carregada=true;if(['gagt','tagenda','grel2','gvisao'].includes(S.tab))render()},()=>{S.ag.carregada=true});
+}
+
+
 /* ================= boot ================= */
 function onData(){
+  if(typeof perfilAutomatico==='function')perfilAutomatico();
   if(S.tab==='nova'&&!S.enviado&&document.getElementById('fnova'))renderHeader();else render();
   if(S.pendingOpen){const id=S.pendingOpen;S.pendingOpen=null;openSol(id)}
 }
-if(window.ALTA&&!S.papelDraft){const pp=(ALTA.usuario()||{}).papel;if(pp==='tecnico')S.papelDraft='tecnico';else if(pp==='representante')S.papelDraft='rep'}if(window.ALTA&&!S.pDraft){const uu=ALTA.usuario()||{};S.pDraft={nome:uu.nome||'',email:uu.email||''}}
+if(window.ALTA&&!S.papelDraft){const pp=(ALTA.usuario()||{}).papel;if(pp==='tecnico')S.papelDraft='tecnico';else if(['representante','distrital','regional'].includes(pp))S.papelDraft='rep'}if(window.ALTA&&!S.pDraft){const uu=ALTA.usuario()||{};S.pDraft={nome:uu.nome||'',email:uu.email||''}}
+(function(){if(!window.ALTA)return;const u=ALTA.usuario()||{};const ini=String(u.nome||u.email||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0].toUpperCase()).join('');
+ const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};set('cxAv',ini);set('cxNome',u.nome||u.email||'');set('cxPapel',{gestao:'Gestão',tecnico:'Equipe técnica',distrital:'Distrital',regional:'Regional'}[u.papel]||'');
+ const b=document.getElementById('cxSair');if(b)b.onclick=()=>ALTA.sair();})();
 render();
 (async()=>{
   const c=window.claude;if(!c||!c.use){S.dbState='none';render();return}
@@ -1763,11 +2456,12 @@ render();
   S.db=db;
   try{const u=await c.use('user');if(u){S.gestor=!!(await u.canEdit());const w=await u.can('data.write');S.canWrite=w!==false;try{S.uid=await u.id()}catch(_){}}}catch(_){}
   S.dbState='ok';render();
+  assinarAgenda();
   if(S.uid){try{db.collection('data/users/'+S.uid).doc('perfil').onSnapshot(d=>{S.perfil=d.exists?d.data():null;S.loaded.perfil=1;render()},()=>{S.loaded.perfil=1;render()})}catch(_){S.loaded.perfil=1}}else S.loaded.perfil=1;
   const sub=(path,key)=>db.collection(path).limit(1000).onSnapshot(sn=>{S[key]=sn.docs.map(d=>({id:d.id,...d.data()}));S.loaded[key]=1;onData()},()=>{S.loaded[key]=1;render();toast('Falha ao sincronizar. Recarregue a página.')});
   sub(P_SOL,'sol');sub(P_TEC,'tec');
   db.collection('cad/clientes/partes').limit(100).onSnapshot(sn=>{const l=[];sn.docs.sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true})).forEach(d=>(d.data().lista||[]).forEach(x=>l.push(x)));S.clientes=l},()=>{});
-  db.collection('prospectos').limit(1000).onSnapshot(sn=>{S.prosp=sn.docs.map(d=>({id:d.id,...d.data()}));if(S.tab==='gbases')render()},()=>{});
+  db.collection('prospectos').limit(1000).onSnapshot(sn=>{S.prosp=sn.docs.map(d=>({id:d.id,...d.data()}));if(S.tab==='gbases'||S.tab==='gdados')render()},()=>{});
   if(S.gestor){
     db.doc('bases/vendas').onSnapshot(d=>{const m=d.exists?d.data():null;const mud=(m?.atualizadoEm)!==(S.vendasMeta?.atualizadoEm);S.vendasMeta=m;if(mud)carregarVendas()},()=>{});
     db.doc('bases/cria').onSnapshot(d=>{S.cria=d.exists?d.data():null;S.criaIx=S.cria?indexar(S.cria.lista):null;render()},()=>{});

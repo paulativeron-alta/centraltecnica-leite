@@ -1,6 +1,6 @@
 {
-  "name": "Plataforma Leite",
-  "short_name": "Leite",
+  "name": "Central de Atendimento Técnico de Leite",
+  "short_name": "Atendimento Leite",
   "description": "Ferramentas da equipe técnica de leite: Central de Atendimento Técnico e CRM.",
   "lang": "pt-BR",
   "start_url": "./",

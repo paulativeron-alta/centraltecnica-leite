@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Plataforma Leite</title>
+<title>Central de Atendimento Técnico de Leite</title>
 <meta name="theme-color" content="#17305C">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icones/icone.svg" type="image/svg+xml">
@@ -13,6 +13,163 @@
 <link rel="stylesheet" href="core/plataforma.css">
 <script src="config.js"></script>
 <script src="core/alta.js"></script>
+<style>
+/* ===== abertura (mesmo estilo da Plataforma Azul) ===== */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.gate{position:fixed;inset:0;display:flex;align-items:center;justify-content:flex-start;padding:24px 16px 24px 8vw;overflow:auto;
+  background:#00143a url("fundo-entrada.jpg") right center/cover no-repeat}
+.gate::before{content:"";position:fixed;inset:0;pointer-events:none;
+  background:linear-gradient(95deg,rgba(0,10,32,.55) 0%,rgba(0,10,32,.3) 30%,transparent 52%)}
+.gate-card{position:relative;z-index:1;width:min(440px,100%);margin:auto 0;background:rgba(8,18,38,.68);
+  border:1px solid rgba(111,216,255,.16);border-top:2px solid #6fd8ff;border-radius:16px;padding:44px 36px 36px;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);text-align:center;color:#fff;
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.7),0 0 60px -30px rgba(111,216,255,.4);}
+.gate-card.anim{animation:sobe .7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes sobe{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.gate-card.anim{animation:none}}
+.gate-logo{width:64px;height:auto;display:block;margin:0 auto 16px}
+.logo-txt{font:700 20px/1 var(--f-display);color:#fff;letter-spacing:.02em}
+.gate h1{font:700 26px/1.2 var(--f-display);color:#fff;margin:0 0 12px;text-wrap:balance}
+.ouro{color:#d7c36e}
+.gate-sub{color:#c9d4e8;font-size:14.5px;line-height:1.55;margin:0 0 26px;text-wrap:pretty}
+.gate-sub b{color:#fff;font-weight:600}
+.gate-form{display:flex;flex-direction:column;gap:10px;text-align:left}
+.gate .gate-form input{width:100%;min-height:48px;padding:0 16px;border-radius:10px;border:1px solid rgba(111,216,255,.25);
+  background:rgba(3,10,22,.55);color:#fff;font:inherit;font-size:15px}
+.gate .gate-form input::placeholder{color:#7f8fac}
+.gate .gate-form input:focus-visible{outline:2px solid #6fd8ff;outline-offset:1px;border-color:transparent}
+.gate .gate-form input.codigo{text-align:center;font:600 24px/1 var(--f-display);letter-spacing:.45em}
+.gate-btn{min-height:48px;border:0;border-radius:10px;font:600 15px var(--f-body);cursor:pointer;color:#071427;
+  background:linear-gradient(135deg,#8be2ff,#6fd8ff 45%,#4fb8e8);box-shadow:0 10px 24px -12px rgba(111,216,255,.8);transition:filter .15s,transform .15s}
+.gate-btn:hover{filter:brightness(1.07)}.gate-btn:active{transform:translateY(1px)}
+.gate-btn:disabled{opacity:.55;cursor:default;filter:none}
+.gate-btn:focus-visible,.gate-link:focus-visible,.gate-rodape a:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.gate-links{display:flex;justify-content:center;gap:18px;margin-top:4px}
+.gate-link{background:none;border:0;color:#8fdcff;font:500 13.5px var(--f-body);cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:6px 2px}
+.gate-ok{margin:0 0 4px;font-size:13.5px;color:#c9d4e8;background:rgba(111,216,255,.08);border-radius:10px;padding:10px 12px;text-align:center}
+.gate-ok b{color:#fff}
+.gate-aviso{font-size:13.5px;color:#f3e7b5;background:rgba(215,195,110,.14);border-radius:10px;padding:10px 12px;margin:0 0 14px}
+.gate-erro{color:#ff9d94;font-size:13.5px;min-height:1.2em;margin:12px 0 0}
+.gate-rodape{color:#8d9bb5;font-size:12.5px;margin:22px 0 0;line-height:1.5}
+.gate-rodape a{color:#c9d4e8;font-weight:600;white-space:nowrap}
+@media (max-width:900px){
+  .gate{justify-content:center;padding:24px 16px}
+  .gate{background-position:68% center}
+  .gate::before{background:linear-gradient(180deg,rgba(0,10,32,.72),rgba(0,10,32,.86))}
+  .gate-card{margin:auto}
+}
+@media (max-width:420px){.gate-card{padding:34px 22px 28px}.gate h1{font-size:23px}}
+/* topo da área logada, com a mesma foto */
+.topo-logo{width:84px;height:auto;flex:none;margin-right:6px}
+.topo-marca span{font-size:1.02rem;line-height:1.2}
+@media (max-width:620px){.topo-marca span{display:none}}
+
+/* ===== tela inicial (fundo azul) ===== */
+body.azul{--paper:#06101f;--surface:#0e1f3a;--ink:#e9eef8;--muted:#9fb0cc;--line:rgba(111,216,255,.14);--mist:rgba(111,216,255,.08);
+  --alta:#8fdcff;--ok:#6fd39c;--ok-bg:rgba(111,211,156,.14);--bad:#ff9d94;--shadow:0 20px 50px -30px rgba(0,0,0,.8);color-scheme:dark;
+  min-height:100vh;color:var(--ink);
+  background:radial-gradient(900px 520px at 88% -8%,rgba(41,80,151,.55),transparent 65%),radial-gradient(700px 520px at -10% 105%,rgba(111,216,255,.10),transparent 60%),linear-gradient(180deg,#0a1a33 0%,#06101f 480px,#050d1a 100%)}
+html:has(body.azul){background:#050d1a}
+body.azul::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(111,216,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(111,216,255,.045) 1px,transparent 1px);background-size:56px 56px;
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent 70%);mask-image:linear-gradient(180deg,#000,transparent 70%)}
+body.azul #raiz{position:relative;z-index:1}
+.casa-in{max-width:1180px;margin:0 auto;padding-left:24px;padding-right:24px}
+@media (max-width:600px){.casa-in{padding-left:16px;padding-right:16px}}
+.casa-topo{position:sticky;top:0;z-index:20;background:rgba(6,16,31,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid rgba(111,216,255,.12)}
+.casa-topo-in{display:flex;align-items:center;gap:16px;min-height:68px}
+.casa-marca{display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff;flex:1;min-width:0}
+.casa-logo{width:86px;height:auto;flex:none}
+.casa-div{width:1px;height:26px;background:rgba(255,255,255,.18);flex:none}
+.casa-nome{font:600 15px/1.25 var(--f-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.casa-user{display:flex;align-items:center;gap:12px}
+.casa-av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:700 14px var(--f-display);color:#071427;background:linear-gradient(135deg,#8be2ff,#4fb8e8);box-shadow:0 0 0 3px rgba(111,216,255,.15)}
+.casa-quem{display:flex;flex-direction:column;line-height:1.2}
+.casa-quem b{font-size:14px;color:#fff}.casa-quem small{font-size:12px;color:#8fdcff}
+.casa-sair{min-height:38px;padding:0 14px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff;font:600 13.5px var(--f-body);cursor:pointer}
+.casa-sair:hover{background:rgba(255,255,255,.06)}
+@media (max-width:760px){.casa-div,.casa-nome,.casa-quem{display:none}}
+.casa{padding-top:52px;padding-bottom:40px}
+.casa-hero{position:relative;margin-bottom:34px;animation:sobe .6s cubic-bezier(.2,.7,.2,1) both}
+.casa-hero>*{position:relative;z-index:1}
+.casa-hero::after{content:"";position:absolute;z-index:0;top:-52px;right:-24px;width:58%;height:calc(100% + 120px);pointer-events:none;
+  background:url("fundo-entrada.jpg") 75% 30%/cover no-repeat;opacity:.55;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 50%,#000 82%,transparent 100%),linear-gradient(180deg,#000 55%,transparent);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,transparent 0%,#000 50%,#000 82%,transparent 100%),linear-gradient(180deg,#000 55%,transparent);mask-composite:intersect}
+@media (max-width:900px){.casa-hero::after{display:none}}
+.casa-kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:rgba(111,216,255,.08);border:1px solid rgba(111,216,255,.18);color:#bfe9ff;font-size:12.5px;font-weight:500}
+.casa-kicker i{width:7px;height:7px;border-radius:50%;background:#6fd8ff;box-shadow:0 0 10px #6fd8ff}
+.casa-hero h1{font:700 clamp(34px,5vw,50px)/1.05 var(--f-display);color:#fff;margin:18px 0 10px;letter-spacing:-.02em}
+.casa-hero p{margin:0;color:#b7c5dd;font-size:16.5px;max-width:560px}
+.casa-abas{display:inline-flex;gap:4px;padding:4px;border-radius:12px;background:rgba(8,18,38,.7);border:1px solid rgba(111,216,255,.14);margin-bottom:30px;max-width:100%;overflow-x:auto}
+.casa-abas button{border:0;background:transparent;color:#9fb0cc;font:600 14px var(--f-body);padding:9px 16px;border-radius:9px;cursor:pointer;white-space:nowrap}
+.casa-abas button[aria-selected=true]{background:linear-gradient(135deg,#8be2ff,#6fd8ff 45%,#4fb8e8);color:#071427}
+.casa-abas button:focus-visible,.casa-card:focus-visible,.casa-sair:focus-visible,.casa-marca:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.casa-secao{display:flex;align-items:baseline;gap:12px;margin:0 0 16px}
+.casa-secao h2{font:600 13px var(--f-body);text-transform:uppercase;letter-spacing:.12em;color:#d7c36e;margin:0}
+.casa-secao span{font-size:13px;color:#7f90ad}
+.casa-grade{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:40px}
+.casa-grade-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.casa-grade-1{grid-template-columns:minmax(0,560px)}
+@media (max-width:1000px){.casa-grade-3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.casa-grade{grid-template-columns:minmax(0,1fr)}}
+.casa-card{position:relative;display:flex;flex-direction:column;gap:10px;padding:28px;border-radius:18px;text-decoration:none;color:#fff;overflow:hidden;
+  background:linear-gradient(180deg,rgba(16,35,64,.92),rgba(10,23,45,.92));border:1px solid rgba(111,216,255,.14);
+  box-shadow:0 30px 60px -40px rgba(0,0,0,.9);transition:transform .2s,border-color .2s,box-shadow .2s;animation:sobe .6s .08s cubic-bezier(.2,.7,.2,1) both}
+.casa-card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,#6fd8ff,rgba(111,216,255,0) 70%)}
+.casa-card::after{content:"";position:absolute;width:260px;height:260px;right:-90px;top:-110px;border-radius:50%;background:radial-gradient(closest-side,rgba(111,216,255,.16),transparent);pointer-events:none;transition:opacity .2s;opacity:.6}
+.casa-card:hover{transform:translateY(-3px);border-color:rgba(111,216,255,.45);box-shadow:0 30px 60px -36px rgba(0,0,0,.9),0 0 0 1px rgba(111,216,255,.15),0 0 40px -16px rgba(111,216,255,.45)}
+.casa-card:hover::after{opacity:1}
+.casa-card-topo{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px}
+.casa-ic{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;color:#071427;flex:none;background:linear-gradient(135deg,#8be2ff,#4fb8e8);box-shadow:0 12px 26px -14px rgba(111,216,255,.9)}
+.casa-tag{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8fdcff;padding:5px 10px;border-radius:999px;background:rgba(111,216,255,.08);border:1px solid rgba(111,216,255,.16)}
+.casa-card h3{font:700 23px/1.2 var(--f-display);margin:0}
+.casa-card p{margin:0;color:#a9b8d1;font-size:15px;line-height:1.55}
+.casa-itens{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.casa-itens li{font-size:12.5px;color:#cfe0f5;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.casa-abrir{margin-top:auto;padding-top:16px;display:inline-flex;align-items:center;gap:8px;font-weight:600;color:#6fd8ff;font-size:15px}
+.casa-card:hover .casa-abrir svg{transform:translateX(3px)}.casa-abrir svg{transition:transform .2s}
+.casa-grade-breve{margin-bottom:28px}
+.casa-breve{display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:16px;border:1px dashed rgba(111,216,255,.22);background:rgba(8,18,38,.35)}
+.casa-breve .casa-ic{width:44px;height:44px;border-radius:12px;background:transparent;border:1px dashed rgba(111,216,255,.35);color:#8fdcff;box-shadow:none}
+.casa-breve div{flex:1;min-width:0}
+.casa-breve h3{font:600 16px var(--f-display);margin:0 0 2px;color:#e9eef8}
+.casa-breve p{margin:0;font-size:13.5px;color:#8696b3}
+.ouro-tag{color:#e8d68d;background:rgba(215,195,110,.10);border-color:rgba(215,195,110,.28)}
+.casa-rodape{padding-top:24px;padding-bottom:36px;color:#5f7090;font-size:12.5px;border-top:1px solid rgba(111,216,255,.08)}
+@media (prefers-reduced-motion:reduce){.casa-hero,.casa-card{animation:none}}
+/* abas de Gestão no fundo azul */
+body.azul .cartao{background:linear-gradient(180deg,rgba(16,35,64,.92),rgba(10,23,45,.92));border-color:rgba(111,216,255,.14)}
+body.azul .cartao h2{color:#fff}
+body.azul .btn{background:rgba(255,255,255,.04);color:#e9eef8;border-color:rgba(255,255,255,.16)}
+body.azul .btn.primario{background:linear-gradient(135deg,#8be2ff,#6fd8ff 45%,#4fb8e8);color:#071427;border:0}
+body.azul .btn.perigo{color:#ff9d94}
+body.azul input:not([type=checkbox]):not([type=file]),body.azul select{background:rgba(3,10,22,.55);border-color:rgba(111,216,255,.22);color:#fff}
+body.azul .link{color:#8fdcff}
+body.azul .toast{background:#e9eef8;color:#071427}
+
+/* jornada em cards na tela inicial */
+.casa-secao-j{justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px 24px}
+.casa-secao-j>div:first-child{display:flex;flex-direction:column;gap:6px}
+.casa-secao-j span{font-size:14px;color:#9fb0cc}
+.casa-troca{display:inline-flex;gap:4px;padding:4px;border-radius:12px;background:rgba(8,18,38,.7);border:1px solid rgba(111,216,255,.16);max-width:100%;overflow-x:auto}
+.casa-troca button{border:0;background:transparent;color:#9fb0cc;font:600 14px var(--f-body);padding:9px 16px;border-radius:9px;cursor:pointer;white-space:nowrap}
+.casa-troca button[aria-selected=true]{background:linear-gradient(135deg,#8be2ff,#6fd8ff 45%,#4fb8e8);color:#071427}
+.casa-troca button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.jornada{list-style:none;margin:0 0 40px;padding:0;display:grid;gap:22px;counter-reset:j}
+.jornada.j4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.jornada.j3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.jornada>li{position:relative;display:flex}
+.jornada>li:not(:last-child)::after{content:"›";position:absolute;right:-19px;top:50%;transform:translateY(-50%);width:16px;text-align:center;color:#6fd8ff;font:700 22px/1 var(--f-display);z-index:2;text-shadow:0 0 12px rgba(111,216,255,.6)}
+.j-card{width:100%}
+.j-num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:700 16px/1 var(--f-display);color:#e8d68d;border:1.5px solid rgba(215,195,110,.55);background:rgba(215,195,110,.08)}
+.j-etapa{font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#d7c36e;margin-top:4px}
+.j-card h3{font-size:21px}
+.j-card p{font-size:14.5px}
+@media (max-width:1100px){.jornada.j4{grid-template-columns:repeat(2,minmax(0,1fr))}.jornada.j4>li:nth-child(2)::after{display:none}}
+@media (max-width:860px){.jornada.j3{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:760px){.jornada.j4,.jornada.j3{grid-template-columns:minmax(0,1fr)}.jornada>li:not(:last-child)::after{content:"⌄";right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}.jornada.j4>li:nth-child(2)::after{display:block}}
+</style>
 </head>
 <body>
 <div id="raiz"></div>
@@ -22,20 +179,42 @@
   ALTA.ehHub = true;
   const $ = s => document.querySelector(s);
   const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const NOME = (ALTA.config.nome || 'Plataforma Leite');
-  const PAPEL = { gestao: 'Gestão', tecnico: 'Equipe técnica', representante: 'Representante' };
+  const NOME = 'Central de Atendimento Técnico de Leite';
+  const LOGO = 'logo-alta-branca.png';
+  const FONE = '(34) 9 9824-4562', WHATS = 'https://wa.me/5534998244562';
+  const logoImg = cls => `<img class="${cls}" src="${LOGO}" alt="Alta" onerror="this.outerHTML='<span class=&quot;${cls} logo-txt&quot;>Alta</span>'">`;
+  const TITULO = 'Central de Atendimento Técnico de <span class="ouro">Leite</span>';
+  const PAPEL = { gestao: 'Gestão', tecnico: 'Equipe técnica', distrital: 'Distrital', regional: 'Regional', representante: 'Regional' };
   const params = new URLSearchParams(location.search);
 
-  const MODULOS = [
-    { id: 'central', nome: 'Central de Atendimento Técnico', desc: 'Pedidos de agenda técnica, agendamento, relatórios de visita e indicadores.', href: 'central/', tag: 'Atendimento',
-      icone: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/>' },
-    { id: 'crm', nome: 'CRM da Equipe Leite', desc: 'Contas, visitas, funil de oportunidades e equipe.', href: 'crm/', tag: 'Relacionamento',
-      icone: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>' },
-    { id: 'novo1', nome: 'Nova ferramenta', desc: 'Espaço reservado para a próxima ferramenta da equipe.', breve: true,
-      icone: '<path d="M12 5v14M5 12h14"/>' },
-    { id: 'novo2', nome: 'Nova ferramenta', desc: 'Espaço reservado para a próxima ferramenta da equipe.', breve: true,
-      icone: '<path d="M12 5v14M5 12h14"/>' }
+  const IC = {
+    sol: '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 13h6M9 17h4"/>',
+    agenda: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/>',
+    rel: '<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>',
+    dados: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/>',
+    pend: '<path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/>',
+    ok: '<path d="M20 6 9 17l-5-5"/>',
+    novo: '<path d="M12 5v14M5 12h14"/>',
+    lista: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>'
+  };
+  // Jornada de cada área: os cards levam direto à etapa dentro da Central
+  const AREAS_UI = [
+    { id: 'gestao', nome: 'Gestão', area: 'gest', sub: 'Do pedido ao resultado: acompanhe e decida em cada etapa.', etapas: [
+      { tab: 'gsol', nome: 'Solicitações', desc: 'Pedidos que chegaram e o caminho de cada um até o relatório.', itens: ['Acompanhamento', 'Indicadores'], ic: IC.sol },
+      { tab: 'gagt', nome: 'Agenda Técnica', desc: 'Calendário de cada técnico, agenda geral e visitas agendadas.', itens: ['Calendário', 'Visão da equipe', 'Visitas'], ic: IC.agenda },
+      { tab: 'grel2', nome: 'Relatórios', desc: 'Capacidade de atendimento, cobertura da carteira e resultados.', itens: ['Capacidade', 'Cobertura', 'Resultados'], ic: IC.rel },
+      { tab: 'gdados', nome: 'Dados e backup', desc: 'Acessos, usuários, cadastros e bases de dados.', itens: ['Usuários', 'Cadastros', 'Bases', 'Backup'], ic: IC.dados } ] },
+    { id: 'tecnica', nome: 'Equipe Técnica', area: 'tec', sub: 'Sua agenda, as visitas e os relatórios, na ordem do trabalho.', etapas: [
+      { tab: 'tagenda', nome: 'Minha agenda', desc: 'Calendário do mês, compromissos e visitas agendadas.', itens: ['Calendário', 'Visitas agendadas'], ic: IC.agenda },
+      { tab: 'tpend', nome: 'Relatórios pendentes', desc: 'Visitas realizadas que ainda precisam do relatório.', itens: ['Responder relatório'], ic: IC.pend },
+      { tab: 'tconc', nome: 'Concluídos', desc: 'Atendimentos com relatório entregue.', itens: ['Histórico'], ic: IC.ok } ] },
+    { id: 'comercial', nome: 'Distritais e Regionais', area: 'rep', sub: 'Peça agenda técnica e acompanhe cada atendimento até o relatório.', etapas: [
+      { tab: 'nova', nome: 'Solicitar agenda', desc: 'Peça um atendimento da equipe técnica.', itens: ['Novo pedido'], ic: IC.novo },
+      { tab: 'rlista', nome: 'Minhas solicitações', desc: 'Acompanhe o que foi pedido, agendado e realizado.', itens: ['Aguardando', 'Agendadas'], ic: IC.lista },
+      { tab: 'rconc', nome: 'Visitas concluídas', desc: 'Atendimentos com relatório entregue.', itens: ['Relatórios entregues'], ic: IC.ok } ] }
   ];
+  const AREAS_POR_PAPEL = { gestao: ['gestao', 'tecnica', 'comercial'], tecnico: ['tecnica'], distrital: ['comercial'], regional: ['comercial'], representante: ['comercial'] };
+  const areasDe = u => (u.areas && u.areas.length ? u.areas : AREAS_POR_PAPEL[u.papel] || []);
 
   const S = { passo: 'email', email: '', msg: '', erro: '', ocupado: false, aba: 'inicio', usuarios: null, edit: null, imp: null };
 
@@ -44,42 +223,36 @@
 
   /* ====================== login ====================== */
   function telaLogin() {
+    document.body.classList.remove('azul');
     const semConfig = !ALTA.configurado();
     $('#raiz').innerHTML = `
-    <div class="login">
-      <section class="login-lado">
-        <div class="login-card">
-          <div class="login-marca">${MARCA}<span>${esc(NOME)}</span></div>
-          <h1>${esc(NOME)}</h1>
-          <p class="sub">Acesso restrito à equipe da Alta. Entre com seu e-mail institucional.</p>
-          ${params.get('expirou') ? '<p class="aviso">Sua sessão terminou. Entre novamente.</p>' : ''}
-          ${semConfig ? `<p class="aviso">A plataforma ainda não está ligada à planilha. Cole o endereço do Apps Script no arquivo <b>config.js</b> (veja o guia de instalação).</p>` : ''}
-          ${S.passo === 'email' ? `
-          <form id="femail" novalidate>
-            <label for="email">E-mail</label>
-            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="nome@altagenetics.com" value="${esc(S.email)}" required ${semConfig ? 'disabled' : ''}>
-            <button class="btn primario" type="submit" ${S.ocupado || semConfig ? 'disabled' : ''}>${S.ocupado ? 'Enviando…' : 'Enviar código de acesso'}</button>
-          </form>` : `
-          <form id="fcodigo" novalidate>
-            <p class="ok">Enviamos um código de 6 dígitos para <b>${esc(S.email)}</b>. Ele vale por 10 minutos.</p>
-            <label for="codigo">Código de acesso</label>
-            <input id="codigo" name="codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" class="codigo" required>
-            <button class="btn primario" type="submit" ${S.ocupado ? 'disabled' : ''}>${S.ocupado ? 'Entrando…' : 'Entrar'}</button>
-            <div class="linha-acoes"><button class="link" type="button" id="outro">Usar outro e-mail</button><button class="link" type="button" id="reenviar">Reenviar código</button></div>
-          </form>`}
-          <p class="erro" role="alert">${esc(S.erro)}</p>
-          <p class="rodape">Se seu e-mail não estiver autorizado, fale com ${esc(ALTA.config.contato || 'a gestão da plataforma')}.</p>
-        </div>
-      </section>
-      <aside class="login-hero" aria-hidden="true">
-        <div class="hero-grade"></div>
-        <div class="hero-texto">
-          <span class="hero-tag">Equipe técnica de leite</span>
-          <h2>Atendimento, relacionamento e indicadores em um só lugar.</h2>
-          <ul><li>Central de Atendimento Técnico</li><li>CRM da Equipe Leite</li><li>Novas ferramentas em breve</li></ul>
-        </div>
-      </aside>
+    <div class="gate">
+      <div class="gate-card${S.animou ? '' : ' anim'}">
+        ${logoImg('gate-logo')}
+        <h1>${TITULO}</h1>
+        <p class="gate-sub">Atendimento, relacionamento, acompanhamento e indicadores em um só lugar.</p>
+        ${params.get('expirou') ? '<p class="gate-aviso">Sua sessão terminou. Entre novamente.</p>' : ''}
+        ${semConfig ? '<p class="gate-aviso">A plataforma ainda não está ligada à planilha (config.js).</p>' : ''}
+        ${S.passo === 'email' ? `
+        <form id="femail" class="gate-form" novalidate>
+          <label for="email" class="sr">E-mail institucional</label>
+          <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="seu.nome@altagenetics.com" value="${esc(S.email)}" required ${semConfig ? 'disabled' : ''}>
+          <button class="gate-btn" type="submit" ${S.ocupado || semConfig ? 'disabled' : ''}>${S.ocupado ? 'Enviando…' : 'Enviar código de acesso'}</button>
+        </form>` : `
+        <form id="fcodigo" class="gate-form" novalidate>
+          <p class="gate-ok">Enviamos um código de 6 dígitos para <b>${esc(S.email)}</b>. Ele vale por 10 minutos.</p>
+          <label for="codigo" class="sr">Código de acesso</label>
+          <input id="codigo" name="codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" class="codigo" required>
+          <button class="gate-btn" type="submit" ${S.ocupado ? 'disabled' : ''}>${S.ocupado ? 'Entrando…' : 'Confirmar e entrar'}</button>
+          <div class="gate-links"><button class="gate-link" type="button" id="outro">Usar outro e-mail</button><button class="gate-link" type="button" id="reenviar">Reenviar código</button></div>
+        </form>`}
+        <p class="gate-erro" role="alert">${esc(S.erro)}</p>
+        ${S.passo === 'email'
+          ? `<p class="gate-rodape">Se seu e-mail não estiver autorizado, fale com Paula Tiveron pelo <a href="${WHATS}" target="_blank" rel="noopener">${FONE}</a>.</p>`
+          : `<p class="gate-rodape">Se o e-mail com o código não estiver aparecendo na sua caixa de entrada, verifique o spam ou o lixo eletrônico. Caso continue com problemas no acesso, fale com Paula Tiveron pelo WhatsApp <a href="${WHATS}" target="_blank" rel="noopener">${FONE}</a>.</p>`}
+      </div>
     </div>`;
+    S.animou = true;
     const fe = $('#femail'), fc = $('#fcodigo');
     if (fe) {
       $('#email').focus();
@@ -119,156 +292,58 @@
   }
 
   /* ====================== início ====================== */
+  function iniciais(t) { return String(t || '?').trim().split(/\s+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join(''); }
   function topo(u) {
-    return `<header class="topo"><div class="topo-in">
-      <a class="topo-marca" href="./">${MARCA}<span>${esc(NOME)}</span></a>
-      <div class="topo-dir">
-        <span class="quem"><b>${esc(u.nome || u.email)}</b><small>${esc(PAPEL[u.papel] || u.papel)}</small></span>
-        <button class="btn fantasma" id="sair" type="button">Sair</button>
+    return `<header class="casa-topo"><div class="casa-in casa-topo-in">
+      <a class="casa-marca" href="./">${logoImg('casa-logo')}<span class="casa-div" aria-hidden="true"></span><span class="casa-nome">${TITULO}</span></a>
+      <div class="casa-user">
+        <span class="casa-av" aria-hidden="true">${esc(iniciais(u.nome || u.email))}</span>
+        <span class="casa-quem"><b>${esc(u.nome || u.email)}</b><small>${esc(PAPEL[u.papel] || u.papel)}</small></span>
+        <button class="casa-sair" id="sair" type="button">Sair</button>
       </div></div></header>`;
   }
   function telaInicio() {
     const u = ALTA.usuario();
     if (!u) return telaLogin();
-    const gest = u.papel === 'gestao';
+    document.body.classList.add('azul');
     const primeiro = (u.nome || '').split(' ')[0];
+    const hoje = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).replace(/^./, c => c.toUpperCase());
     $('#raiz').innerHTML = topo(u) + `
-    <main class="painel">
-      <section class="boas">
-        <div><span class="kicker">${esc(PAPEL[u.papel] || '')}</span><h1>Olá${primeiro ? ', ' + esc(primeiro) : ''}!</h1><p>Escolha uma ferramenta para começar.</p></div>
+    <main class="casa-in casa">
+      <section class="casa-hero">
+        <span class="casa-kicker"><i aria-hidden="true"></i>${esc(PAPEL[u.papel] || '')} · ${esc(hoje)}</span>
+        <h1>Olá${primeiro ? ', ' + esc(primeiro) : ''}!</h1>
+        <p>Atendimento, relacionamento, acompanhamento e indicadores em um só lugar.</p>
       </section>
-      ${gest ? `<nav class="abas" role="tablist">
-        <button role="tab" data-aba="inicio" aria-selected="${S.aba === 'inicio'}">Ferramentas</button>
-        <button role="tab" data-aba="usuarios" aria-selected="${S.aba === 'usuarios'}">Usuários</button>
-        <button role="tab" data-aba="dados" aria-selected="${S.aba === 'dados'}">Dados e backup</button>
-      </nav>` : ''}
       <div id="conteudo"></div>
-    </main>`;
+    </main>
+    <footer class="casa-in casa-rodape">${NOME} · Equipe Técnica de Leite · Alta · uso interno</footer>`;
     $('#sair').addEventListener('click', () => ALTA.sair());
-    document.querySelectorAll('[data-aba]').forEach(b => b.addEventListener('click', () => { S.aba = b.dataset.aba; telaInicio(); }));
-    if (!gest || S.aba === 'inicio') return abaFerramentas();
-    if (S.aba === 'usuarios') return abaUsuarios();
-    if (S.aba === 'dados') return abaDados();
+    abaAreas(u);
   }
 
-  function abaFerramentas() {
-    $('#conteudo').innerHTML = `<div class="modulos">${MODULOS.map(m => m.breve ? `
-      <div class="modulo breve"><span class="mod-ic">${svg(m.icone)}</span><span class="tag">Em breve</span><h2>${esc(m.nome)}</h2><p>${esc(m.desc)}</p></div>` : `
-      <a class="modulo" href="${m.href}"><span class="mod-ic">${svg(m.icone)}</span><span class="tag">${esc(m.tag)}</span><h2>${esc(m.nome)}</h2><p>${esc(m.desc)}</p><span class="abrir">Abrir ${svg('<path d="M5 12h14M13 6l6 6-6 6"/>', 16)}</span></a>`).join('')}</div>`;
-  }
-
-  /* ====================== usuários (Gestão) ====================== */
-  async function abaUsuarios(recarregar) {
-    const c = $('#conteudo');
-    if (!S.usuarios || recarregar) {
-      c.innerHTML = '<p class="vazio">Carregando usuários…</p>';
-      try { S.usuarios = (await ALTA.api('usuarios')).usuarios; } catch (x) { c.innerHTML = `<p class="erro">${esc(x.message)}</p>`; return; }
-    }
-    const l = [...S.usuarios].sort((a, b) => (a.papel + a.nome).localeCompare(b.papel + b.nome));
-    const e = S.edit || { email: '', nome: '', papel: 'representante', ativo: true, novo: true };
-    c.innerHTML = `<div class="duas">
-      <section class="cartao">
-        <h2>Pessoas com acesso <span class="cont">${l.length}</span></h2>
-        <input class="busca" id="ubusca" type="search" placeholder="Procurar por nome ou e-mail">
-        <div class="tabela-wrap"><table class="tabela" id="utab"><thead><tr><th>Nome</th><th>E-mail</th><th>Papel</th><th>Situação</th><th></th></tr></thead><tbody>
-        ${l.map(x => `<tr data-q="${esc((x.nome + ' ' + x.email).toLowerCase())}"><td>${esc(x.nome || '—')}</td><td>${esc(x.email)}</td><td>${esc(PAPEL[x.papel])}</td><td>${x.ativo ? '<span class="chip ok">Ativo</span>' : '<span class="chip">Bloqueado</span>'}</td><td><button class="link" data-editar="${esc(x.email)}">Editar</button></td></tr>`).join('')}
-        </tbody></table></div>
-      </section>
-      <section class="cartao">
-        <h2>${e.novo ? 'Dar acesso a alguém' : 'Editar acesso'}</h2>
-        <form id="fusu" class="form">
-          <label>E-mail<input name="email" type="email" required value="${esc(e.email)}" ${e.novo ? '' : 'readonly'}></label>
-          <label>Nome<input name="nome" value="${esc(e.nome)}" placeholder="Nome e sobrenome"></label>
-          <label>Papel<select name="papel">${Object.keys(PAPEL).map(p => `<option value="${p}" ${e.papel === p ? 'selected' : ''}>${PAPEL[p]}</option>`).join('')}</select></label>
-          <label class="check"><input type="checkbox" name="ativo" ${e.ativo ? 'checked' : ''}> Acesso ativo</label>
-          <p class="ajuda">Gestão: aceita pedidos, envia e-mails, vê indicadores e bases. Equipe técnica: agenda e relatórios. Representante: faz e acompanha pedidos.</p>
-          <p class="erro" id="uerr" role="alert"></p>
-          <div class="linha-acoes">
-            <button class="btn primario" type="submit">${e.novo ? 'Dar acesso' : 'Salvar'}</button>
-            ${e.novo ? '' : `<button class="btn" type="button" id="ucancel">Cancelar</button><button class="btn perigo" type="button" id="uremover">Remover acesso</button>`}
-          </div>
-        </form>
-      </section></div>`;
-    $('#ubusca').addEventListener('input', ev => { const q = ev.target.value.trim().toLowerCase(); document.querySelectorAll('#utab tbody tr').forEach(tr => { tr.hidden = q && !tr.dataset.q.includes(q); }); });
-    c.querySelectorAll('[data-editar]').forEach(b => b.addEventListener('click', () => { S.edit = S.usuarios.find(x => x.email === b.dataset.editar); abaUsuarios(); $('#fusu').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }));
-    const f = $('#fusu');
-    f.addEventListener('submit', async ev => {
-      ev.preventDefault();
-      const d = { email: f.email.value.trim().toLowerCase(), nome: f.nome.value.trim(), papel: f.papel.value, ativo: f.ativo.checked };
-      if (!/^\S+@\S+\.\S+$/.test(d.email)) { $('#uerr').textContent = 'Digite um e-mail válido.'; return; }
-      f.querySelector('[type=submit]').disabled = true;
-      try { await ALTA.api('usuarioSalvar', { usuario: d }); S.edit = null; toast('Acesso salvo'); abaUsuarios(true); }
-      catch (x) { $('#uerr').textContent = x.message; f.querySelector('[type=submit]').disabled = false; }
-    });
-    const cancel = $('#ucancel'); if (cancel) cancel.addEventListener('click', () => { S.edit = null; abaUsuarios(); });
-    const rem = $('#uremover');
-    if (rem) rem.addEventListener('click', async () => {
-      if (rem.dataset.conf !== '1') { rem.dataset.conf = '1'; rem.textContent = 'Confirmar remoção'; return; }
-      try { await ALTA.api('usuarioRemover', { email: e.email }); S.edit = null; toast('Acesso removido'); abaUsuarios(true); }
-      catch (x) { $('#uerr').textContent = x.message; }
-    });
-  }
-
-  /* ====================== dados e backup (Gestão) ====================== */
-  function abaDados() {
-    const p = S.imp;
-    $('#conteudo').innerHTML = `<div class="duas">
-      <section class="cartao">
-        <h2>Importar dados</h2>
-        <p>Use para carregar o arquivo <b>backup-inicial.json</b> (cadastros, técnicos, bases de vendas e programas) ou um backup feito aqui. Documentos com a mesma identificação são substituídos.</p>
-        <label class="arquivo"><input type="file" id="arq" accept=".json,application/json"><span>${p && p.nome ? esc(p.nome) : 'Escolher arquivo .json'}</span></label>
-        ${p && p.total ? `<div class="barra"><span style="width:${Math.round(100 * p.feito / p.total)}%"></span></div><p class="ajuda">${p.feito} de ${p.total} documentos${p.fim ? ' — concluído' : '…'}</p>` : ''}
-        <p class="erro" role="alert">${esc(p && p.erro || '')}</p>
-        <button class="btn primario" id="importar" type="button" ${p && p.docs && !p.rodando && !p.fim ? '' : 'disabled'}>${p && p.rodando ? 'Importando…' : 'Importar'}</button>
-      </section>
-      <section class="cartao">
-        <h2>Fazer backup</h2>
-        <p>Baixa um arquivo com todos os dados da plataforma. Os dados também ficam na própria Planilha Google, que mantém histórico de versões (Arquivo › Histórico de versões).</p>
-        <p class="erro" id="berr" role="alert"></p>
-        <button class="btn" id="backup" type="button">Baixar backup</button>
-      </section></div>`;
-    $('#arq').addEventListener('change', async ev => {
-      const f = ev.target.files[0]; if (!f) return;
-      S.imp = { nome: f.name };
-      try {
-        const j = JSON.parse(await f.text());
-        const docs = Array.isArray(j) ? j : j.docs;
-        if (!Array.isArray(docs) || !docs.every(d => d && d.col && d.id && typeof d.data === 'object')) throw new Error();
-        S.imp.docs = docs; S.imp.total = docs.length; S.imp.feito = 0;
-      } catch (x) { S.imp.erro = 'Este arquivo não é um backup da plataforma.'; }
-      abaDados();
-    });
-    $('#importar').addEventListener('click', importar);
-    $('#backup').addEventListener('click', async ev => {
-      const b = ev.target; b.disabled = true; b.textContent = 'Preparando…';
-      try {
-        const cols = (await ALTA.api('colecoes')).colecoes;
-        const docs = [];
-        for (const c of cols) { const r = await ALTA.api('ler', { col: c }); (r.docs || []).forEach(d => docs.push({ col: c, id: d.id, data: d.data })); }
-        const nome = 'plataforma-leite-backup-' + new Date().toISOString().slice(0, 10) + '.json';
-        const dl = await window.claude.use('downloads');
-        await dl.save({ filename: nome, data: new Blob([JSON.stringify({ versao: 1, criadoEm: Date.now(), docs: docs })], { type: 'application/json' }) });
-        toast(docs.length + ' documentos no backup');
-      } catch (x) { $('#berr').textContent = x.message; }
-      b.disabled = false; b.textContent = 'Baixar backup';
-    });
-  }
-  async function importar() {
-    const p = S.imp; if (!p || !p.docs) return;
-    p.rodando = true; p.erro = ''; abaDados();
-    // envia em lotes de até ~1,5 MB para não estourar o tempo do Apps Script
-    let lote = [], tam = 0;
-    const enviar = async () => { if (!lote.length) return; await ALTA.api('importar', { docs: lote }); p.feito += lote.length; lote = []; tam = 0; abaDados(); };
-    try {
-      for (const d of p.docs.slice(p.feito)) {
-        const t = JSON.stringify(d).length;
-        if (lote.length && (tam + t > 1500000 || lote.length >= 25)) await enviar();
-        lote.push(d); tam += t;
-      }
-      await enviar();
-      p.fim = true; toast('Importação concluída');
-    } catch (x) { p.erro = x.message + ' Clique em Importar para continuar de onde parou.'; }
-    p.rodando = false; abaDados();
+  function abaAreas(u) {
+    const minhas = areasDe(u);
+    const lista = AREAS_UI.filter(a => minhas.indexOf(a.id) >= 0);
+    if (!lista.length) { $('#conteudo').innerHTML = `<div class="casa-breve"><div><h3>Nenhuma área liberada</h3><p>Fale com Paula Tiveron pelo <a href="${WHATS}" target="_blank" rel="noopener">${FONE}</a> para liberar o seu acesso.</p></div></div>`; return; }
+    let sel = ''; try { sel = localStorage.getItem('hub-area') || ''; } catch (e) {}
+    const A = lista.find(a => a.id === sel) || lista[0];
+    const seta = svg('<path d="M5 12h14M13 6l6 6-6 6"/>', 18);
+    $('#conteudo').innerHTML = `
+      <div class="casa-secao casa-secao-j"><div><h2>Sua jornada · ${esc(A.nome)}</h2><span>${esc(A.sub)}</span></div>
+        ${lista.length > 1 ? `<div class="casa-troca" role="tablist" aria-label="Escolher área">${lista.map(a => `<button type="button" role="tab" data-hubarea="${a.id}" aria-selected="${a.id === A.id}">${esc(a.nome)}</button>`).join('')}</div>` : ''}
+      </div>
+      <ol class="jornada j${A.etapas.length}">${A.etapas.map((e, i) => `
+        <li><a class="casa-card j-card" href="central/?area=${A.area}&tab=${e.tab}">
+          <div class="casa-card-topo"><span class="casa-ic">${svg(e.ic, 26)}</span><span class="j-num" aria-hidden="true">${i + 1}</span></div>
+          <span class="j-etapa">Etapa ${i + 1}</span>
+          <h3>${esc(e.nome)}</h3>
+          <p>${esc(e.desc)}</p>
+          <ul class="casa-itens">${e.itens.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+          <span class="casa-abrir">Entrar ${seta}</span>
+        </a></li>`).join('')}
+      </ol>`;
+    document.querySelectorAll('[data-hubarea]').forEach(b => b.addEventListener('click', () => { try { localStorage.setItem('hub-area', b.dataset.hubarea); } catch (e) {} abaAreas(u); }));
   }
 
   let tt;

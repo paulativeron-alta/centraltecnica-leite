@@ -6,5 +6,8 @@ window.ALTA_CONFIG = {
   // De quanto em quanto tempo as telas buscam novidades (milissegundos):
   intervalo: 30000,
   // Quem procurar quando o e-mail não tiver acesso:
-  contato: 'Paula Tiveron'
+  contato: 'Paula Tiveron — (34) 9 9824-4562',
+  // Modo de teste dos e-mails: enquanto for true, todo e-mail da Central vai só para quem está usando.
+  // Troque para false quando a Central for liberada para a equipe.
+  emailTeste: true
 };

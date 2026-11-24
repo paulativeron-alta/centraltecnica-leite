@@ -169,6 +169,7 @@ body.azul .toast{background:#e9eef8;color:#071427}
 @media (max-width:1100px){.jornada.j4{grid-template-columns:repeat(2,minmax(0,1fr))}.jornada.j4>li:nth-child(2)::after{display:none}}
 @media (max-width:860px){.jornada.j3{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:760px){.jornada.j4,.jornada.j3{grid-template-columns:minmax(0,1fr)}.jornada>li:not(:last-child)::after{content:"⌄";right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}.jornada.j4>li:nth-child(2)::after{display:block}}
+.casa-bv{color:#fff;font-weight:700}
 </style>
 </head>
 <body>
@@ -306,14 +307,16 @@ body.azul .toast{background:#e9eef8;color:#071427}
     const u = ALTA.usuario();
     if (!u) return telaLogin();
     document.body.classList.add('azul');
-    const primeiro = (u.nome || '').split(' ')[0];
+    const papeis = Object.values(PAPEL).map(x => String(x).toLowerCase());
+    let primeiro = (u.nome || '').trim().split(/\s+/)[0];
+    if (papeis.indexOf(String(u.nome || '').trim().toLowerCase()) >= 0) primeiro = '';
     const hoje = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).replace(/^./, c => c.toUpperCase());
     $('#raiz').innerHTML = topo(u) + `
     <main class="casa-in casa">
       <section class="casa-hero">
         <span class="casa-kicker"><i aria-hidden="true"></i>${esc(PAPEL[u.papel] || '')} · ${esc(hoje)}</span>
         <h1>Olá${primeiro ? ', ' + esc(primeiro) : ''}!</h1>
-        <p>Atendimento, relacionamento, acompanhamento e indicadores em um só lugar.</p>
+        <p><b class="casa-bv">Seja bem-vindo(a)!</b> Atendimento, relacionamento, acompanhamento e indicadores em um só lugar.</p>
       </section>
       <div id="conteudo"></div>
     </main>

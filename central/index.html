@@ -528,6 +528,13 @@ header.top .brand{padding-block:12px}
 .pipe-c .pipe-l{display:block;min-height:2.6em;line-height:1.3}
 .f label.chk-mail,.f .chk-mail{display:flex!important;flex-direction:row;align-items:center;gap:10px}
 
+.lista-ctl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:4px 0 10px}
+.lista-ctl .ord-l{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.lista-ctl .ord-l select{width:auto;min-width:240px}
+.lista-ctl .muted{font-size:13px}
+.lista-ctl .btn{margin-left:auto}
+@media(max-width:640px){.lista-ctl .ord-l{width:100%}.lista-ctl .ord-l select{flex:1;min-width:0}.lista-ctl .btn{margin-left:0}}
+
 </style>
 </head>
 <body>
@@ -1952,7 +1959,7 @@ const papelPlat=()=>(NA_PLATAFORMA&&ALTA.usuario()||{}).papel||'';
 const PAPEL_LBL={gestao:'Gestão',tecnico:'Equipe técnica',distrital:'Distrital',regional:'Regional'};
 S.sub=Object.assign({gsol:'acomp',gagt:'cal',grel2:'cap',gdados:'usu'},(()=>{try{return JSON.parse(localStorage.getItem('cat-sub')||'{}')}catch(_){return{}}})());
 S.ag={docs:{},carregada:false,pessoa:'',ano:+hoje().slice(0,4),mes:+hoje().slice(5,7)};
-S.f.tec=S.f.tec||'';S.f.aper=S.f.aper||'tudo';
+S.f.tec=S.f.tec||'';S.f.aper=S.f.aper||'tudo';S.f.ord=S.f.ord||'etapa';
 const salvarSub=()=>{try{localStorage.setItem('cat-sub',JSON.stringify(S.sub))}catch(_){}};
 const subnav=(tab,itens)=>`<div class="subnav" role="tablist" aria-label="Seções">${itens.map(([k,l])=>`<button type="button" role="tab" data-sub="${tab}:${k}" aria-selected="${S.sub[tab]===k}">${l}</button>`).join('')}</div>`;
 const titulo=(n,t,sub,dir)=>`<div class="bar etapa-h">${n?`<span class="etapa-n">${n}</span>`:''}<div class="grow"><h2>${t}</h2>${sub?`<p class="muted etapa-sub">${sub}</p>`:''}</div>${dir||''}</div>`;
@@ -2056,12 +2063,50 @@ function linhaAcomp(s){
    ${linhaTempo(s)}
    <div class="end"><span class="chip dot ${stCls(e)}">${e==='Solicitada'?'Chegou':e==='Relatório pendente'?'Realizada':e}</span>${extra}</div></div>`;
 }
+const ORD_ACOMP=[['etapa','Etapa (padrão)'],['pedNovo','Pedido mais recente primeiro'],['pedVelho','Pedido mais antigo primeiro'],['atNovo','Atendimento mais recente primeiro'],['atVelho','Atendimento mais antigo primeiro'],['atraso','Maior atraso de relatório']];
+function ordenarAcomp(l){
+  const o=S.f.ord||'etapa';if(o==='etapa')return l;
+  const ped=s=>s.criadoEm||0,at=s=>s.agendamento?.inicio||s.relatorio?.inicio||'';
+  const cmp={pedNovo:(a,b)=>ped(b)-ped(a),pedVelho:(a,b)=>ped(a)-ped(b),
+   atNovo:(a,b)=>(at(b)||'0').localeCompare(at(a)||'0')||ped(b)-ped(a),
+   atVelho:(a,b)=>(at(a)||'9').localeCompare(at(b)||'9')||ped(a)-ped(b),
+   atraso:(a,b)=>atrasoLista(b)-atrasoLista(a)||ped(a)-ped(b)}[o];
+  return [...l].sort(cmp);
+}
+function atrasoLista(s){return etapa(s)==='Relatório pendente'?Math.max(0,atrasoRel(s)):-1}
+const ROT_ETAPA={Solicitada:'Aguardando agendamento','Relatório pendente':'Realizada (relatório pendente)'};
+async function exportarAcompXlsx(bt){
+  const l=S.listaAcomp||[];if(!l.length)return toast('Nada para exportar com esses filtros');
+  const dl=await window.claude?.use?.('downloads');if(!dl)return toast('A exportação não está disponível nesta visualização');
+  if(bt){bt.disabled=true;bt.textContent='Gerando planilha…'}
+  try{
+    const X=await carregarXLSX();
+    const dt=iso=>{if(!iso)return'';const[y,m,d]=String(iso).slice(0,10).split('-').map(Number);return new Date(y,m-1,d)};
+    const dts=ts=>ts?dt(tsDia(ts)):'';
+    const cab=['Código','Data do pedido','Situação','Regional','Distrital','Solicitante','E-mail do solicitante','Temas','Clientes previstos','Cidade de chegada','Técnico','Início do atendimento','Fim do atendimento','Dias de atraso do relatório','Remarcações','Relatório enviado em','Retorno do técnico (preencher)'];
+    const linhas=l.map(s=>{const a=s.agendamento||{},e=etapa(s);return[s.codigo||'',dts(s.criadoEm),ROT_ETAPA[e]||e,s.regional||'',s.distrital||'',s.gerenteNome||'',s.gerenteEmail||'',(s.temas||[]).join(', '),s.clientesPrev||'',s.cidadeChegada||'',a.tecnicoId?tecNome(a.tecnicoId):'',dt(a.inicio),dt(a.fim||a.inicio),e==='Relatório pendente'&&atrasoRel(s)>0?atrasoRel(s):'',(s.reagendamentos||[]).length||'',dts(s.relatorio?.enviadoEm),'']});
+    const ws=X.utils.aoa_to_sheet([cab,...linhas],{cellDates:true,dateNF:'dd/mm/yyyy'});
+    ws['!cols']=[12,13,26,22,24,26,28,30,30,18,26,14,14,12,12,14,40].map(w=>({wch:w}));
+    ws['!autofilter']={ref:X.utils.encode_range({s:{r:0,c:0},e:{r:linhas.length,c:cab.length-1}})};
+    const wb=X.utils.book_new();X.utils.book_append_sheet(wb,ws,'Solicitações');
+    const filtros=[['Gerado em',new Date().toLocaleString('pt-BR')],['Técnico',S.f.tec?tecNome(S.f.tec):'Todos'],['Distrital',S.f.dist||'Todos'],['Regional',S.f.reg||'Todas'],['Etapa',S.f.st==='Todas'?'Todas':(ROT_ETAPA[S.f.st]||S.f.st)],['Período do pedido',{tudo:'Todo o período','30':'Últimos 30 dias','90':'Últimos 90 dias',mes:'Este mês',ano:'Este ano'}[S.f.aper]||S.f.aper],['Busca',S.f.q||'—'],['Ordenação',(ORD_ACOMP.find(o=>o[0]===S.f.ord)||ORD_ACOMP[0])[1]],['Total de solicitações',linhas.length]];
+    const wf=X.utils.aoa_to_sheet([['Filtros usados na exportação',''],...filtros]);wf['!cols']=[{wch:24},{wch:40}];
+    X.utils.book_append_sheet(wb,wf,'Filtros');
+    const buf=X.write(wb,{bookType:'xlsx',type:'array',cellDates:true});
+    const slug=t=>norm(t).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    const nome=`solicitacoes${S.f.tec?'-'+slug(tecNome(S.f.tec)):''}-${hoje()}.xlsx`;
+    await dl.save({filename:nome,data:new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})});
+    toast('Planilha pronta');
+  }catch(x){toast('Não foi possível gerar a planilha.')}
+  finally{if(bt){bt.disabled=false;bt.textContent='⬇ Exportar para Excel'}}
+}
 function gsolAcomp(){
   const base=filtroGest(S.sol).filter(noPeriodoA);
   const remarc=s=>(s.reagendamentos||[]).length>0;
   let l;if(S.f.st==='Remarcada'){S.f.st='Todas';l=filtroLista(base).filter(remarc);S.f.st='Remarcada'}else l=filtroLista(base);
   const cnt=k=>k==='Todas'?base.length:k==='Remarcada'?base.filter(remarc).length:base.filter(s=>etapa(s)===k).length;
   const temFiltro=!!(S.f.dist||S.f.reg||S.f.tec||S.f.q||(S.f.aper&&S.f.aper!=='tudo')||(S.f.st&&S.f.st!=='Todas'));
+  l=ordenarAcomp(l);S.listaAcomp=l;
   const lim=S.f.lim||60;
   const P=painelPartes();
   return `<div class="pipe">${ESTAG.map(([k,l1,d,c],i)=>`${i>1?'<span class="pipe-seta" aria-hidden="true">→</span>':''}<button type="button" class="pipe-c" data-st="${k}" aria-pressed="${S.f.st===k}" style="--k:${c}"><span class="pipe-l">${l1}</span><b class="num">${cnt(k)}</b><small>${d}</small></button>`).join('')}</div>
@@ -2069,6 +2114,7 @@ function gsolAcomp(){
   ${filtrosGest(false,true)}
   <div class="filters"><div class="seg" role="group" aria-label="Pedidos feitos">${[['tudo','Todo o período'],['30','Últimos 30 dias'],['90','Últimos 90 dias'],['mes','Este mês'],['ano','Este ano']].map(([k,t])=>`<button type="button" data-aper="${k}" aria-pressed="${S.f.aper===k}">${t}</button>`).join('')}</div>
    <input class="field" id="fq" type="search" placeholder="Buscar por representante, tema, cidade, técnico ou código" value="${esc(S.f.q)}"></div>
+  ${S.sol.length?`<div class="lista-ctl"><label class="ord-l">Ordenar por <select class="field" id="ford">${ORD_ACOMP.map(([k,t])=>`<option value="${k}" ${S.f.ord===k?'selected':''}>${t}</option>`).join('')}</select></label><span class="muted num">${l.length} ${l.length===1?'solicitação':'solicitações'} na lista</span><button class="btn small" type="button" data-act="exportxl" ${l.length?'':'disabled'}>⬇ Exportar para Excel</button></div>`:''}
   ${!S.sol.length?`<div class="empty"><b>Nenhuma solicitação ainda</b><p>Quando um distrital ou regional pedir agenda, o pedido aparece aqui em "Aguardando agendamento".</p></div>`:l.length?`<section class="panel trows">${l.slice(0,lim).map(linhaAcomp).join('')}${l.length>lim?`<button class="btn small" type="button" data-act="mais" style="margin-top:10px">Mostrar mais ${Math.min(60,l.length-lim)} de ${l.length-lim}</button>`:''}</section>`:`<div class="empty"><b>Nada com esses filtros</b></div>`}
   <details class="att-det" ${P.atencao.includes('Tudo em dia')?'':'open'}><summary>O que precisa da sua atenção</summary>${P.atencao}</details>`;
 }
@@ -2405,6 +2451,7 @@ document.addEventListener('click',async e=>{
   const t=e.target.closest('[data-act]');if(!t)return;
   switch(t.dataset.act){
    case'mais':S.f.lim=(S.f.lim||60)+60;render();return;
+   case'exportxl':return exportarAcompXlsx(t);
    case'agadd':agLerLinhas();S.agEd.linhas.push({cat:'atendimento',txt:'',nova:true});agDesenharDia();return;
    case'agimport':return agImportarAbrir();
    case'agimpok':return agImportarExecutar(t);
@@ -2514,6 +2561,8 @@ async function posAcao(id,obj,f,msg){
   catch(x){flash(msg+'. Não foi possível enviar o e-mail: use o botão "Enviar e-mail agora" abaixo.',id)}
 }
 window.__central={get S(){return S},openSol:(...a)=>openSol(...a),etapa:s=>etapa(s),agVisitas:()=>agVisitas(),dispensaRel:s=>dispensaRel(s)};
+
+document.addEventListener('change',e=>{if(e.target.id==='ford'){S.f.ord=e.target.value;S.f.lim=60;render()}});
 
 
 /* ================= boot ================= */

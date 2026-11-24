@@ -1892,7 +1892,7 @@ function abrirMapa(){
    <form class="f" id="fmapa" novalidate>
     ${I.wb.SheetNames.length>1?`<label class="full">Aba da planilha<select class="field" id="m_aba" name="aba">${I.wb.SheetNames.map(n=>`<option ${n===I.aba?'selected':''}>${esc(n)}</option>`).join('')}</select></label>`:''}
     <p class="hint-box full" style="margin:0">Confira qual coluna corresponde a cada informação. A central já sugeriu pelo nome das colunas.${(I.files||[]).length>1?` As outras ${I.files.length-1} planilhas precisam ter as mesmas colunas.`:''}</p>
-    ${I.k==='vendas'?`<label class="full" style="display:flex;gap:8px;align-items:center;color:var(--ink);font-weight:500"><input type="checkbox" id="m_soleite" name="soLeite" checked> Considerar só clientes de perfil LEITE ou AMBOS (e os clientes dos programas)</label>`:''}
+    ${I.k==='vendas'?`<label class="full" style="display:flex;gap:8px;align-items:center;color:var(--ink);font-weight:500"><input type="checkbox" id="m_soleite" name="soLeite" checked> Considerar só clientes de perfil LEITE ou AMBOS (e os clientes dos programas e os vinculados a relatórios técnicos)</label>`:''}
     ${B.campos.map(([c,l,req])=>`<label>${l}${req?' <span class="req">*</span>':''}<select class="field" id="m_${c}" name="${c}"><option value="-1">${req?'— Selecione —':'Não tenho essa coluna'}</option>${head.map((h,i)=>`<option value="${i}" ${I.map[c]===i?'selected':''}>${esc(h)}</option>`).join('')}</select></label>`).join('')}
     <div class="full"><span style="font-size:.86rem;font-weight:600;color:var(--muted)">Prévia</span><div class="tablewrap" style="margin-top:6px"><table style="min-width:520px"><thead><tr>${head.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${prev.map(r=>`<tr style="cursor:default">${head.map((_,i)=>`<td>${esc(r[i] instanceof Date?r[i].toLocaleDateString('pt-BR'):r[i]??'')}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>
     <p class="ferr" id="merr" hidden></p><p class="full muted" id="mprog" hidden></p>
@@ -1909,8 +1909,10 @@ async function importar(f){
     if(I.k==='vendas'){
       const agg={};let ign=0,ok=0,fora=0,ini='',fim='';const so=f.elements.soLeite?.checked&&mp.perfil>=0;
       const prog=new Set();[...(S.cria?.lista||[]),...(S.integra?.lista||[])].forEach(x=>[x.n,...(x.a||[])].forEach(n=>prog.add(normKey(n))));
+      const vincC=new Set(),vincN=new Set();(S.sol||[]).forEach(s=>(s.relatorio?.clientes||[]).forEach(c=>{if(c.codigo)vincC.add(normCod(c.codigo));if(c.nomeFaturamento)vincN.add(normKey(c.nomeFaturamento))}));
+      const vinculado=(cd,n)=>(cd&&(vincC.has(cd)||vincC.has(hcod(cd))))||vincN.has(normKey(n));const mantidos=new Set();
       const hd=I.head;const proc=(rows,m2)=>{for(const r of rows){const n=String(r[m2.nome]??'').trim(),ym=parseYM(r[m2.data]),v=parseValor(r[m2.valor]);if(!n||!ym||!isFinite(v)){ign++;continue}
-        if(so){const pf=norm(r[m2.perfil]).toUpperCase().trim();if(pf!=='LEITE'&&pf!=='AMBOS'&&!prog.has(normKey(n))){fora++;continue}}
+        if(so){const pf=norm(r[m2.perfil]).toUpperCase().trim();if(pf!=='LEITE'&&pf!=='AMBOS'&&!prog.has(normKey(n))){{const cd=m2.codigo>=0?normCod(r[m2.codigo]):'';if(vinculado(cd,n))mantidos.add(cd||normKey(n));else{fora++;continue}}}}
         const cod=m2.codigo>=0?normCod(r[m2.codigo]):'';const ln=m2.linha>=0?catLinha(r[m2.linha]):'O';
         const key=cod||normKey(n);const a=agg[key]=agg[key]||{n,c:cod,m:{}};const mo=a.m[ym]=a.m[ym]||{t:0,l:{}};mo.t+=v;mo.l[ln]=(mo.l[ln]||0)+v;ok++;
         if(!ini||ym<ini)ini=ym;if(!fim||ym>fim)fim=ym}};
@@ -1926,7 +1928,7 @@ async function importar(f){
       const T=300,partes=Math.ceil(lista.length/T),antes=S.vendasMeta?.partes||0;
       for(let p=0;p<partes;p++){prog_(`Salvando ${p+1} de ${partes}…`);await S.db.collection('bases/vendas/partes').doc('p'+p).set({clientes:lista.slice(p*T,(p+1)*T),v:2})}
       for(let p=partes;p<antes;p++)await S.db.collection('bases/vendas/partes').doc('p'+p).delete();
-      const meta={atualizadoEm:Date.now(),arquivo:I.arquivo,linhas:ok,ignoradas:ign,clientes:lista.length,partes,mesIni:ini,mesFim:fim,formato:2};if(so)meta.perfis='LEITE e AMBOS (mais clientes dos programas)';
+      const meta={atualizadoEm:Date.now(),arquivo:I.arquivo,linhas:ok,ignoradas:ign,clientes:lista.length,partes,mesIni:ini,mesFim:fim,formato:2};if(so){meta.perfis='LEITE e AMBOS (mais clientes dos programas e clientes vinculados a relatórios técnicos)';meta.vinculadosOutroPerfil=mantidos.size}
       await S.db.doc('bases/vendas').set(meta);S.vendasMeta=meta;await carregarVendas();
     }else{
       const vis=new Set(),lista=[];const txt=i=>i>=0?String(r_[i]??'').trim():'';let r_;for(const r of linhas){r_=r;const n=txt(mp.nome);if(!n)continue;const c=mp.codigo>=0?normCod(r[mp.codigo]):'';const key=c||normKey(n);if(vis.has(key))continue;vis.add(key);const o={n};if(c)o.c=c;const al=[txt(mp.nome2??-1),txt(mp.nome3??-1)].filter(x=>x&&x.replace(/[.\-\s]/g,'')&&normKey(x)!==normKey(n));if(al.length)o.a=al;if(mp.dataAdesao>=0){const d=parseDia(r[mp.dataAdesao]);if(d)o.d=d}if(mp.saida>=0){const d=parseDia(r[mp.saida]);if(d)o.sd=d}if(mp.situacao>=0&&txt(mp.situacao))o.s=txt(mp.situacao);if(mp.categoria>=0&&txt(mp.categoria))o.cat=txt(mp.categoria);lista.push(o)}

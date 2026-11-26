@@ -655,6 +655,7 @@ table.disp tbody th b{font-weight:600;color:var(--ink,#0f172a)}
 .ch-r .ch-box{border-radius:5px}
 .ch-r.is-on .ch-box::after{width:9px;height:5px;border-radius:0;background:none;border:2px solid #fff;border-top:0;border-right:0;transform:translateY(-1px) rotate(-45deg)}
 .perna{display:grid;gap:14px;padding:14px 16px;border-radius:12px;border:1px dashed color-mix(in srgb,var(--alta,#295097) 40%,var(--line));background:color-mix(in srgb,var(--alta,#295097) 3%,var(--surface))}
+.nv .cb .cb-in{padding-left:36px;padding-right:34px}
 
 </style>
 </head>
@@ -2825,7 +2826,7 @@ function nova(){
       :st==='tec'?cb('cbNTec',{kind:'tec',name:'gerenteNome',value:d.gerenteNome,placeholder:'Digite para procurar…',onPick:nm=>{const t=S.tec.find(x=>x.nome===nm)||{};S.draft={...lerNova($('#fnova')),gerenteNome:nm,gerenteEmail:t.email||'',gerenteTelefone:t.telefone||''};render()}})
       :inp('gerenteNome',d.gerenteNome);
     const regCb=cb('cbNReg',{kind:'reg',name:'regional',value:d.regional,placeholder:'Digite a regional ou o representante…',onPick:rg=>{const r=regInfo(rg)||{};const x={...lerNova($('#fnova')),regional:rg,distrital:r.distrital||''};if(st==='reg'){x.gerenteNome=r.representante||'';x.gerenteEmail=r.email||'';x.gerenteTelefone=r.telefone||''}S.draft=x;render()}});
-    const regFd=fd('cbNReg',st==='reg'?'Regional':'Regional atendida',true,regCb,st==='reg'?'':'Para qual regional é o atendimento.');
+    const regFd=fd('cbNReg','Regional',true,regCb,st==='reg'?'':'Para qual regional é o atendimento.');
     const nomeFd=fd(st==='reg'?'n_gerenteNome':st==='gp'?'cbNGp':'cbNTec','Seu nome',true,nomeCb);
     const contato=`<div class="row2">${fd('n_gerenteEmail','E-mail',true,inp('gerenteEmail',d.gerenteEmail,'type="email" placeholder="nome@altagenetics.com"'))}${fd('n_gerenteTelefone','Telefone',true,inp('gerenteTelefone',d.gerenteTelefone,'type="tel" placeholder="(00) 00000-0000"'))}</div>`;
     quem+=st==='reg'?`${regFd}${d.regional?`<div class="row2">${nomeFd}</div>${contato}`:''}`:`<div class="row2">${nomeFd}</div>${d.gerenteNome?contato:''}${regFd}`;

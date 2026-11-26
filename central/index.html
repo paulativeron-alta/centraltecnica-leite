@@ -544,7 +544,9 @@ header.top .brand{padding-block:12px}
 .nv{--sel:var(--alta,#295097);--sel-bg:color-mix(in srgb,var(--alta,#295097) 8%,var(--surface));--ch-line:color-mix(in srgb,var(--line) 85%,var(--ink) 15%)}
 .nv-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start}
 .nv-main{display:grid;gap:18px;min-width:0}
-.st{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:clip}
+.st{background:var(--surface);border:1px solid var(--line);border-radius:16px;position:relative}
+.st:focus-within{z-index:5}
+.nv .cb-list{z-index:30}
 .st-h{display:flex;gap:14px;align-items:flex-start;padding:20px 24px 16px;border-bottom:1px solid var(--line)}
 .st-n{flex:0 0 auto;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--alta-deep,#17305C);color:#fff;font-family:var(--f-display);font-weight:700;font-size:15px}
 .st-h h3{margin:2px 0 2px;font-family:var(--f-display);font-size:1.15rem;color:var(--ink)}

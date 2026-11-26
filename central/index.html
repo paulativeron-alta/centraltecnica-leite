@@ -2817,7 +2817,7 @@ function nova(){
   if(!S.draft){S.draft={solTipo:p.regional?'reg':'',regional:p.regional||'',distrital:p.distrital||'',gerenteNome:p.nome||'',gerenteEmail:p.email||'',perfis:['Leite'],demandas:[],tl:[],tc:[],swOpc:[],tecPrefs:[],hoteis:[{},{},{}]}}
   const d=S.draft,st=d.solTipo,on=soOnline(d),tl=tecsSel(d),orig=tl[0]?.cidadeBase||'';
   /* 1 · quem */
-  let quem=grupo('Você é',true,`<div class="chs chs-3">${SOL_TIPOS.map(([k,l])=>chx('radio','solTipo',k,l,st===k,{gp:'Escolha seu nome na lista',tec:'Escolha seu nome na lista',reg:'Escolha a regional e os dados vêm juntos'}[k])).join('')}</div>`);
+  let quem=grupo('Você é',true,`<div class="chs chs-3">${SOL_TIPOS.map(([k,l])=>chx('radio','solTipo',k,l,st===k)).join('')}</div>`);
   if(st){
     const nomeCb=st==='gp'?cb('cbNGp',{kind:'gp',name:'gerenteNome',value:d.gerenteNome,placeholder:'Digite para procurar…',onPick:nm=>{const g=(S.gp||[]).find(x=>x.nome===nm)||{};S.draft={...lerNova($('#fnova')),gerenteNome:nm,gerenteEmail:g.email||'',gerenteTelefone:g.telefone||''};render()}})
       :st==='tec'?cb('cbNTec',{kind:'tec',name:'gerenteNome',value:d.gerenteNome,placeholder:'Digite para procurar…',onPick:nm=>{const t=S.tec.find(x=>x.nome===nm)||{};S.draft={...lerNova($('#fnova')),gerenteNome:nm,gerenteEmail:t.email||'',gerenteTelefone:t.telefone||''};render()}})

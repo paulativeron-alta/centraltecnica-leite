@@ -535,6 +535,125 @@ header.top .brand{padding-block:12px}
 .lista-ctl .btn{margin-left:auto}
 @media(max-width:640px){.lista-ctl .ord-l{width:100%}.lista-ctl .ord-l select{flex:1;min-width:0}.lista-ctl .btn{margin-left:0}}
 
+.aviso-canc{margin:8px 0 4px;padding:10px 12px;border-radius:8px;background:var(--warn-bg,#fff4e0);color:var(--warn-ink,#7a4b00);font-size:14px;line-height:1.45}
+
+/* formulário v2 — redesenho (26/11) */
+.nv-top{margin:4px 0 18px;max-width:70ch}
+.nv-top h2{margin:0 0 4px;font-family:var(--f-display);font-size:1.6rem;letter-spacing:-.01em;color:var(--ink)}
+.nv-top p{margin:0;color:var(--muted);font-size:.98rem}
+.nv{--sel:var(--alta,#295097);--sel-bg:color-mix(in srgb,var(--alta,#295097) 8%,var(--surface));--ch-line:color-mix(in srgb,var(--line) 85%,var(--ink) 15%)}
+.nv-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start}
+.nv-main{display:grid;gap:18px;min-width:0}
+.st{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:clip}
+.st-h{display:flex;gap:14px;align-items:flex-start;padding:20px 24px 16px;border-bottom:1px solid var(--line)}
+.st-n{flex:0 0 auto;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--alta-deep,#17305C);color:#fff;font-family:var(--f-display);font-weight:700;font-size:15px}
+.st-h h3{margin:2px 0 2px;font-family:var(--f-display);font-size:1.15rem;color:var(--ink)}
+.st-h p{margin:0;color:var(--muted);font-size:.9rem}
+.st-b{padding:20px 24px 24px;display:grid;gap:20px}
+.nv fieldset.gp{border:0;margin:0;padding:0;min-width:0;display:grid;gap:10px}
+.nv .fd{display:grid;gap:6px;min-width:0}
+.nv .fd-l{display:block;padding:0;margin:0;font-size:.9rem;font-weight:600;color:var(--ink)}
+.nv .fd-x{font-weight:400;color:var(--muted);font-size:.84rem}
+.nv .fd-h{margin:0;font-size:.84rem;color:var(--muted)}
+.nv .obr{font-style:normal;color:var(--bad,#c0392b);font-weight:700}
+.nv .field{font-size:.95rem;padding:10px 12px;border-radius:10px;background:var(--surface)}
+.nv .field:focus{outline:2px solid color-mix(in srgb,var(--sel) 45%,transparent);outline-offset:1px;border-color:var(--sel)}
+.nv textarea.field{resize:vertical;min-height:72px}
+.nv .cb{max-width:none;flex:none}
+.nv .row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+/* escolhas */
+.chs{display:grid;gap:8px}
+.chs-2{grid-template-columns:repeat(2,minmax(0,170px))}
+.chs-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.chs-4{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.chs-tec{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.ch{position:relative;display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border:1px solid var(--ch-line);border-radius:10px;background:var(--surface);cursor:pointer;color:var(--ink);font-weight:500;font-size:.93rem;line-height:1.3;margin:0;transition:border-color .12s,background-color .12s}
+.ch:hover{border-color:var(--sel)}
+.ch input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.ch:has(input:focus-visible){outline:2px solid var(--sel);outline-offset:2px}
+.ch-box{flex:0 0 auto;width:18px;height:18px;margin-top:1px;border:1.5px solid var(--ch-line);background:var(--surface);display:grid;place-items:center}
+.ch-c .ch-box{border-radius:5px}.ch-r .ch-box{border-radius:50%}
+.ch-t{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ch-t small{font-size:.8rem;font-weight:400;color:var(--muted)}
+.ch.is-on{border-color:var(--sel);background:var(--sel-bg)}
+.ch.is-on .ch-box{border-color:var(--sel);background:var(--sel)}
+.ch-c.is-on .ch-box::after{content:"";width:9px;height:5px;border:2px solid #fff;border-top:0;border-right:0;transform:translateY(-1px) rotate(-45deg)}
+.ch-r.is-on .ch-box::after{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg .ch{padding:7px 12px;font-size:.88rem;border-radius:999px}
+.seg .ch .ch-box{width:15px;height:15px}
+.det{display:grid;grid-template-columns:170px minmax(0,1fr);gap:10px;align-items:center;padding:10px 14px;border-left:3px solid var(--sel);background:var(--sel-bg);border-radius:0 10px 10px 0}
+.det-t{font-size:.88rem;font-weight:600;color:var(--ink)}
+.det-o{display:flex;flex-wrap:wrap;gap:8px 16px}
+.sub-t{margin:4px 0 -2px;font-size:.86rem;font-weight:600;color:var(--muted)}
+/* contatos da regional */
+.ctts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ctt{display:grid;gap:2px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--alta,#295097) 5%,var(--surface));border:1px solid color-mix(in srgb,var(--alta,#295097) 18%,var(--line));font-size:.88rem;color:var(--ink)}
+.ctt-t{font-size:.8rem;color:var(--muted)}
+.ctt b{font-size:.95rem}
+.ctt-l{color:var(--ink);opacity:.85}
+.ctt i{font-style:normal;color:#b45309}
+/* agenda */
+.ag-alert{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 14px;align-items:center;padding:16px 18px;border-radius:12px;background:color-mix(in srgb,var(--gold,#d7c36e) 16%,var(--surface));border:1px solid color-mix(in srgb,var(--gold,#d7c36e) 55%,var(--line))}
+.ag-ic{font-size:22px;line-height:1}
+.ag-tx{display:grid;gap:2px}.ag-tx b{color:var(--ink);font-size:.95rem}.ag-tx span{color:var(--muted);font-size:.86rem}
+.ag-btn{white-space:nowrap}
+.ag-alert>.ch{grid-column:2/-1;justify-self:start;background:var(--surface)}
+.blk{display:grid;gap:16px;padding-top:18px;border-top:1px solid var(--line)}
+.blk-t{margin:0;font-family:var(--f-display);font-size:1rem;color:var(--ink)}
+.ext{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.ext .fd-h{flex:1 1 260px}
+.ext-c{align-self:end}
+.ext-b{border-color:var(--sel);color:var(--sel)}
+.ext-b.is-off{opacity:.45;pointer-events:none}
+.hoteis{display:grid;gap:8px}
+.hotel{display:grid;grid-template-columns:72px minmax(0,1.2fr) minmax(0,1fr);gap:8px;align-items:center}
+.h-n{font-size:.84rem;color:var(--muted);font-weight:600}
+.note-on{margin:0;padding:12px 14px;border-radius:10px;background:var(--sel-bg);color:var(--ink);font-size:.9rem}
+/* resumo: o cartão de embarque do pedido */
+.rs{position:sticky;top:84px}
+.rs-in{background:var(--alta-deep,#17305C);color:#e8eef8;border-radius:16px;padding:20px 20px 18px;display:grid;gap:14px;box-shadow:0 10px 30px -18px rgba(7,20,39,.55)}
+.rs-k{margin:0;font-family:var(--f-display);font-size:1.05rem;font-weight:700;color:#fff}
+.rs dl{margin:0;display:grid;gap:10px}
+.rs-l{display:grid;gap:1px}
+.rs dt{font-size:.78rem;color:var(--gold,#d7c36e)}
+.rs dd{margin:0;font-size:.9rem;font-weight:500;color:#fff;line-height:1.35}
+.rs dd small{display:block;color:#b9c6da;font-weight:400;font-size:.8rem}
+.rota{display:flex;flex-wrap:wrap;align-items:center;gap:6px}.rota i{font-style:normal;color:var(--gold,#d7c36e)}
+.rota-x{color:#cdd7e6}
+.rs-f{border-top:1.5px dashed rgba(255,255,255,.28);padding-top:12px;font-size:.86rem}
+.rs-f b{color:#fff}
+.rs-f ul{margin:6px 0 0;padding-left:18px;color:#cdd7e6;display:grid;gap:2px}
+.rs-ok{border-top:1.5px dashed rgba(255,255,255,.28);padding-top:12px;font-size:.88rem;color:#bff0cf}
+.rs-b{width:100%;padding:12px;font-size:1rem;background:var(--gold,#d7c36e)!important;border-color:var(--gold,#d7c36e)!important;color:#0b1b33!important}
+.rs .ferr{margin:0;color:#ffd0c8;font-size:.86rem}
+@media(max-width:980px){.nv-grid{grid-template-columns:1fr}.rs{position:static}}
+@media(max-width:640px){.st-h,.st-b{padding-left:16px;padding-right:16px}.nv .row2,.ctts,.chs-3{grid-template-columns:1fr}.chs-2{grid-template-columns:repeat(2,minmax(0,1fr))}.det{grid-template-columns:1fr}.ag-alert{grid-template-columns:auto minmax(0,1fr)}.ag-btn{grid-column:1/-1;justify-self:start}.ag-alert>.ch{grid-column:1/-1}.hotel{grid-template-columns:1fr}.h-n{margin-top:6px}}
+/* disponibilidade */
+.disp-nav{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px}.disp-nav b{text-transform:capitalize;min-width:150px;text-align:center}
+.disp-leg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-left:auto;font-size:12.5px;color:var(--muted,#64748b);align-items:center}
+.disp-leg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+.disp-wrap{overflow-x:auto;padding:0}
+table.disp{border-collapse:separate;border-spacing:2px;font-size:12px;min-width:100%}
+table.disp thead th{font-weight:600;color:var(--muted,#64748b);text-align:center;min-width:22px;line-height:1.1}
+table.disp thead th span{display:block;font-size:10px;font-weight:400}
+table.disp thead th.fds{color:#94a3b8}
+table.disp tbody th{text-align:left;padding:4px 10px 4px 6px;white-space:nowrap;position:sticky;left:0;background:#fff;z-index:1}
+table.disp tbody th small{display:block;font-weight:400;color:var(--muted,#64748b)}
+table.disp td{height:26px;border-radius:4px}
+.c-l{background:#dcfce7}.c-p{background:#fde68a}.c-o{background:#f87171}.c-f{background:#e2e8f0}
+.casc{align-items:start}
+table.disp th{text-transform:none!important;letter-spacing:0!important;background:transparent}
+table.disp tbody th b{font-weight:600;color:var(--ink,#0f172a)}
+.disp-nav b{text-transform:none!important}
+.disp-leg i.c-l{border:1px solid #86efac}
+.nv .fd{align-content:start}
+.nv .row2{align-items:start}
+/* padrão visual: quadradinho também nas escolhas únicas */
+.ch-r .ch-box{border-radius:5px}
+.ch-r.is-on .ch-box::after{width:9px;height:5px;border-radius:0;background:none;border:2px solid #fff;border-top:0;border-right:0;transform:translateY(-1px) rotate(-45deg)}
+.perna{display:grid;gap:14px;padding:14px 16px;border-radius:12px;border:1px dashed color-mix(in srgb,var(--alta,#295097) 40%,var(--line));background:color-mix(in srgb,var(--alta,#295097) 3%,var(--surface))}
+
 </style>
 </head>
 <body>
@@ -578,8 +697,8 @@ const ATIV=[['treinEquipe','Treinamentos da equipe Alta'],['palestras','Treiname
 const CFG_PADRAO={segA:300000,segB:100000,prazoRel:3,metaAceite:90,metaVisita:80,metaRel:90,metaCanc:10,metaNaoAg:10,ocupMin:60,ocupMax:80,assinatura:'Dra. Paula Tiveron\nCoordenadora de Produtos e Serviços Leite'};
 const AREAS={rep:'Distritais e Regionais',tec:'Equipe Técnica',gest:'Gestão'};
 const TABS={
-  rep:[['rinicio','Início'],['nova','Solicitar agenda'],['rlista','Minhas solicitações'],['rconc','Visitas concluídas']],
-  tec:[['tinicio','Início'],['tagenda','Minha agenda'],['tpend','Relatórios pendentes'],['tconc','Concluídos']],
+  rep:[['rinicio','Início'],['nova','Solicitar agenda'],['disp','Disponibilidade'],['rlista','Minhas solicitações'],['rconc','Visitas concluídas']],
+  tec:[['tinicio','Início'],['tagenda','Minha agenda'],['tpend','Relatórios pendentes'],['tconc','Concluídos'],['nova','Solicitar agenda'],['disp','Disponibilidade']],
   gest:[['gvisao','Visão geral'],['gsol','<i>1</i>Solicitações'],['gagt','<i>2</i>Agenda Técnica'],['grel2','<i>3</i>Relatórios'],['gdados','<i>4</i>Dados e backup']]
 };
 
@@ -649,7 +768,8 @@ const ICO_BUSCA='<svg class="cb-ic" width="16" height="16" viewBox="0 0 24 24" f
 function cbOptions(c){
   if(c.kind==='cli'){if(S._cliO?.src!==S.clientes)S._cliO={src:S.clientes,o:S.clientes.map(x=>{const s=(x.p||[]).map(p=>'Alta '+p).join(' · ');return{v:x.n,l:x.n,s,q:norm(x.n+' '+s)}})};return S._cliO.o}
   if(c.kind==='prosp')return sortN(S.prosp).map(p=>({v:p.nome,l:p.nome,s:[p.cidade,p.regional].filter(Boolean).join(' · ')}));
-  if(c.kind==='tec')return sortN(S.tec).map(t=>({v:t.nome,l:t.nome,s:''}));
+  if(c.kind==='tec')return sortN(S.tec).map(t=>({v:t.nome,l:t.nome,s:t.cidadeBase||''}));
+  if(c.kind==='gp')return sortN(S.gp||[]).map(g=>({v:g.nome,l:g.nome,s:g.cidade||''}));
   if(c.kind==='dist')return sortN(S.dist).map(d=>{const n=S.reg.filter(r=>r.distrital===d.nome).length;return{v:d.nome,l:d.nome,s:`${n} regiona${n===1?'l':'is'}`}});
   let rs=sortN(S.reg);if(c.dist)rs=rs.filter(r=>r.distrital===c.dist);
   return rs.map(r=>({v:r.nome,l:r.nome,s:[r.representante,r.distrital?'Distrital '+r.distrital:''].filter(Boolean).join(' · ')}));
@@ -710,7 +830,7 @@ Resumo da Solicitação – Regional ${s.regional||''}${s.distrital?` · Distrit
 - Tipo de demanda: ${s.tipo||''}
 - Temas principais: ${temas}
 - Objetivo e descrição breve da solicitação: ${s.objetivo||''}
-${PERGUNTAS.map(([k,l])=>`- ${l} ${sn(s[k])}`).join('\n')}
+${s.v===2?[`- Perfil: ${(s.perfis||[]).join(' e ')}`,s.dataInicio?`- Período dos atendimentos: ${fmtD(s.dataInicio)} a ${fmtD(s.dataFim)}`:'',s.online?'- Atendimento on-line':s.dataIda?`- Deslocamento: ${({Técnico:'transporte sob responsabilidade do técnico (a)',Comercial:'transporte sob responsabilidade da equipe comercial'})[s.transporte]||s.transporte||''}${s.aeroporto?` (aeroporto ${s.aeroporto})`:''}, ida ${fmtD(s.dataIda)} e volta ${fmtD(s.dataVolta)}${s.horaChegada?`, chegada até ${s.horaChegada}`:''}`:''].filter(Boolean).join('\n'):PERGUNTAS.map(([k,l])=>`- ${l} ${sn(s[k])}`).join('\n')}
 - Urgência: ${s.urgencia||''}${s.dataSugerida?`, com data sugerida para ${fmtD(s.dataSugerida)}`:''}
 - Duração estimada: ${s.duracao||''}
 - Cidade de chegada: ${s.cidadeChegada||''}
@@ -780,7 +900,7 @@ function render(){
   if(loading){app.innerHTML=`<div class="empty"><b>Carregando a central…</b><p>Buscando solicitações, agenda e cadastros.</p></div>`;return}
   if(!S.canWrite)pre=`<div class="notice">Seu acesso é só para consulta. Para solicitar agenda ou enviar relatórios, peça à gestão acesso de Colaborador.</div>`;
   if(!S.area){app.innerHTML=pre+telaPerfil();return}
-  const V={rinicio,nova,rlista,rconc,tagenda,tpend,tconc,gpainel,glista,gagenda,grel,gbases,gcad,gvisao,gsol,gagt,grel2,gdados,tinicio};
+  const V={rinicio,nova,disp,rlista,rconc,tagenda,tpend,tconc,gpainel,glista,gagenda,grel,gbases,gcad,gvisao,gsol,gagt,grel2,gdados,tinicio};
   app.innerHTML=pre+(typeof navArea==='function'?navArea():'')+(V[S.tab]||rinicio)();
   if(S.tab==='nova')bindNova();
 }
@@ -1518,6 +1638,7 @@ function openCad(tipo,id){
    <label class="full">Nome do técnico <span class="req">*</span><input class="field" id="k_nome" name="nome" value="${esc(d.nome||'')}"></label>
    <label>E-mail <span class="req">*</span><input class="field" id="k_email" name="email" type="email" value="${esc(d.email||'')}"></label>
    <label>Telefone<input class="field" id="k_ttel" name="telefone" type="tel" value="${esc(d.telefone||'')}"></label>
+   <label>Cidade de moradia<input class="field" id="k_tcid" name="cidadeBase" placeholder="Ex.: Uberaba/MG" value="${esc(d.cidadeBase||'')}"></label>
    <label>Região de atuação<input class="field" id="k_regiao" name="regiao" value="${esc(d.regiao||'')}"></label>
    <label class="full">Tratamento no e-mail<select class="field" id="k_trat" name="tratamento"><option value="o" ${d.tratamento!=='a'?'selected':''}>com o (ex.: "reservada com o Alexandre")</option><option value="a" ${d.tratamento==='a'?'selected':''}>com a (ex.: "reservada com a Ana")</option></select></label>`}
   else if(tipo==='reg'){const d=id?regInfo(id)||{}:{};titulo=id?'Editar regional':'Nova regional';corpo=`
@@ -1544,12 +1665,12 @@ function openSol(id,modo){
   const a=s.agendamento,r=s.relatorio,e=etapa(s);
   const passos=[['Solicitada',fmtTs(s.criadoEm)],['Agendada',a?.agendadoEm?fmtTs(a.agendadoEm):''],['Realizada',a&&['Relatório pendente','Concluída'].includes(e)?fmtD(a.fim||a.inicio):''],['Concluída',r?.enviadoEm?fmtTs(r.enviadoEm):'']];
   const idx={Solicitada:0,Agendada:1,'Relatório pendente':2,Concluída:3}[e]??-1;
-  const dl=[['Código',s.codigo],['Solicitante',`${s.gerenteNome}${s.gerenteEmail?' · '+s.gerenteEmail:''}`],['Regional',s.regional],['Telefone da regional',regInfo(s.regional)?.telefone],['Distrital',s.distrital],['Telefone do distrital',distInfo(s.distrital)?.telefone],['Tipo de demanda',s.tipo],['Temas principais',(s.temas||[]).join(', ')+(s.temaOutro?` (${s.temaOutro})`:'')],['Objetivo',s.objetivo],['Clientes a visitar',s.clientesPrev],...PERGUNTAS.map(([k,l])=>[l,sn(s[k])]),['Urgência',`${s.urgencia}${s.dataSugerida?', data sugerida '+fmtD(s.dataSugerida):''}`],['Duração estimada',s.duracao],['Técnico de preferência',s.tecPref?tecNome(s.tecPref):''],['Cidade de chegada',s.cidadeChegada],['Cidade de hospedagem',s.cidadeHospedagem]].filter(x=>x[1]);
+  const dl=[['Código',s.codigo],['Solicitante',`${s.gerenteNome}${s.gerenteEmail?' · '+s.gerenteEmail:''}`],['Regional',s.regional],['Telefone da regional',regInfo(s.regional)?.telefone],['Distrital',s.distrital],['Telefone do distrital',distInfo(s.distrital)?.telefone],['Tipo de demanda',s.tipo],['Temas principais',(s.temas||[]).join(', ')+(s.temaOutro?` (${s.temaOutro})`:'')],['Objetivo',s.objetivo],['Clientes a visitar',s.clientesPrev],...(s.v===2?[]:PERGUNTAS.map(([k,l])=>[l,sn(s[k])])),['Urgência',`${s.urgencia}${s.dataSugerida?', data sugerida '+fmtD(s.dataSugerida):''}`],['Duração estimada',s.duracao],['Técnico de preferência',s.tecPref?tecNome(s.tecPref):''],['Cidade de chegada',s.cidadeChegada],['Cidade de hospedagem',s.v===2?'':s.cidadeHospedagem],...dlV2(s)].filter(x=>x[1]);
   const gest=S.gestor,souTec=S.perfil?.papel==='tecnico'&&a?.tecnicoId===S.perfil.tecnicoId;
   let corpo='';
   if(modo==='agendar')corpo=formAgendar(s);
   else if(modo==='naoag')corpo=`<div class="box"><b>Não agendar esta solicitação</b><form class="f" id="fnaoag" data-id="${s.id}" novalidate><fieldset class="full"><legend>Motivo <span class="req">*</span></legend><div class="opts">${MOT_NAOAG.map((m,i)=>`<label><input type="radio" name="motivo" id="na_${i}" value="${m}"> ${m}</label>`).join('')}</div></fieldset><label class="full">Observação para o solicitante<textarea class="field" id="na_obs" name="obs" placeholder="Ex.: sugerimos remarcar para a segunda quinzena de novembro."></textarea></label>${chkEmail()}<p class="ferr" id="naerr" hidden></p><div class="actions"><div class="right"><button class="btn" type="button" data-act="ver" data-id="${s.id}">Voltar</button><button class="btn primary" type="submit">Confirmar</button></div></div></form></div>`;
-  else if(modo==='cancelar')corpo=`<div class="box"><b>Cancelar esta solicitação</b><form class="f" id="fcanc" data-id="${s.id}" novalidate><fieldset class="full"><legend>Cancelamento por necessidade de quem? <span class="req">*</span></legend><div class="opts">${ORIGENS.map((o,i)=>`<label><input type="radio" name="origem" id="xo_${i}" value="${o}"> ${o}</label>`).join('')}</div></fieldset><label class="full">Motivo <span class="req">*</span><textarea class="field" id="x_motivo" name="motivo"></textarea></label>${chkEmail(s.agendamento?.tecnicoId?'Enviar e-mail agora ao solicitante, com cópia para o distrital e o técnico':'')}<p class="ferr" id="xerr" hidden></p><div class="actions"><div class="right"><button class="btn" type="button" data-act="ver" data-id="${s.id}">Voltar</button><button class="btn danger" type="submit">Confirmar cancelamento</button></div></div></form></div>`;
+  else if(modo==='cancelar')corpo=`<div class="box"><b>Cancelar esta solicitação</b>${s.relatorio?'<p class="aviso-canc">Esta solicitação já tem relatório. Ao cancelar, o relatório deixa de contar nos indicadores, mas fica guardado aqui. Se for engano, use <b>Reabrir</b> para voltar como estava.</p>':''}<form class="f" id="fcanc" data-id="${s.id}" novalidate><fieldset class="full"><legend>Cancelamento por necessidade de quem? <span class="req">*</span></legend><div class="opts">${ORIGENS.map((o,i)=>`<label><input type="radio" name="origem" id="xo_${i}" value="${o}"> ${o}</label>`).join('')}</div></fieldset><label class="full">Motivo <span class="req">*</span><textarea class="field" id="x_motivo" name="motivo"></textarea></label>${s.relatorio?'':chkEmail(s.agendamento?.tecnicoId?'Enviar e-mail agora ao solicitante, com cópia para o distrital e o técnico':'')}<p class="ferr" id="xerr" hidden></p><div class="actions"><div class="right"><button class="btn" type="button" data-act="ver" data-id="${s.id}">Voltar</button><button class="btn danger" type="submit">Confirmar cancelamento</button></div></div></form></div>`;
   else{
     const ac=[];
     if(gest&&e==='Solicitada')ac.push(`<button class="btn primary" type="button" data-act="agendar" data-id="${s.id}">Dar aceite e agendar</button>`,`<button class="btn" type="button" data-act="naoag" data-id="${s.id}">Não agendar</button>`);
@@ -1557,14 +1678,14 @@ function openSol(id,modo){
     if((souTec||gest)&&(e==='Relatório pendente'||(e==='Agendada'&&hoje()>=a.inicio)))ac.push(`<button class="btn primary" type="button" data-act="relatorio" data-id="${s.id}">Preencher relatório</button>`);
     if((souTec||gest)&&e==='Concluída')ac.push(`<button class="btn" type="button" data-act="relatorio" data-id="${s.id}">${r?.enviadoEm?'Editar relatório':'Preencher relatório'}</button>`);
     if(gest&&r?.acaoGestao&&!r?.acaoVista)ac.push(`<button class="btn" type="button" data-act="acaovista" data-id="${s.id}">Marcar ação como tratada</button>`);
-    if(S.canWrite&&(e==='Solicitada'&&(gest||s.criadoPor===S.uid)||gest&&(e==='Agendada'||e==='Relatório pendente')))ac.push(`<button class="btn danger" type="button" data-act="cancelar" data-id="${s.id}">Cancelar</button>`);
+    if(S.canWrite&&(e==='Solicitada'&&(gest||s.criadoPor===S.uid)||gest&&(e==='Agendada'||e==='Relatório pendente'||e==='Concluída')))ac.push(`<button class="btn danger" type="button" data-act="cancelar" data-id="${s.id}">Cancelar</button>`);
     if(gest&&(e==='Cancelada'||e==='Não agendada'))ac.push(`<button class="btn" type="button" data-act="reabrir" data-id="${s.id}">Reabrir</button>`);
     corpo=(typeof dispensaRel==='function'&&dispensaRel(s)?`<p class="hint-box" style="margin:0 0 8px">Concluída sem relatório: em 2026, ${ehOnline(s)?'atendimentos online':'atendimentos de '+esc(tecNome(a.tecnicoId))} não precisavam enviar relatório.</p>`:'')+(ac.length?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px">${ac.join('')}</div>`:'')
      +(a?.tecnicoId&&!encerrada(s)?`<h3>Agendamento</h3><dl class="dl"><dt>Técnico</dt><dd>${esc(tecNome(a.tecnicoId))}${[byId(S.tec,a.tecnicoId)?.email,byId(S.tec,a.tecnicoId)?.telefone].filter(Boolean).map(x=>' · '+esc(x)).join('')}</dd><dt>Período</dt><dd>${periodoCurto(a)}</dd>${s.tecPref?`<dt>Técnico sugerido</dt><dd>${esc(tecNome(s.tecPref))}${s.tecPref!==a.tecnicoId?` · <b>trocado</b>${a.trocaMotivo?' ('+esc(a.trocaMotivo)+')':''}`:' · mantido'}</dd>`:''}${a.obs?`<dt>Observação</dt><dd>${esc(a.obs)}</dd>`:''}<dt>Confirmação por e-mail</dt><dd>${s.emailEnviadoEm?'Enviada em '+fmtTs(s.emailEnviadoEm):'Ainda não enviada'}</dd></dl>`:'')
      +(gest&&a?.tecnicoId&&!encerrada(s)&&e!=='Concluída'?painelEmail(s):'')
      +(r?.enviadoEm?relResumo(s):'')
      +(e==='Não agendada'?`<h3>Não agendada</h3><dl class="dl"><dt>Motivo</dt><dd>${esc(s.naoAg?.motivo||'—')}</dd>${s.naoAg?.obs?`<dt>Observação</dt><dd>${esc(s.naoAg.obs)}</dd>`:''}<dt>Decidido em</dt><dd>${fmtTs(s.naoAg?.em)}</dd><dt>Aviso por e-mail</dt><dd>${s.emailEnviadoEm?'Enviado em '+fmtTs(s.emailEnviadoEm):'Ainda não enviado'}</dd></dl>${gest?painelEmail(s,emailNaoAg(s),'E-mail ao representante'):''}`:'')
-     +(e==='Cancelada'?`<h3>Cancelamento</h3><dl class="dl"><dt>Origem</dt><dd>${esc(s.cancelOrigem||'Não informada')}</dd><dt>Motivo</dt><dd>${esc(s.motivoCancelamento||'Sem motivo informado')}</dd><dt>Aviso por e-mail</dt><dd>${s.emailEnviadoEm?'Enviado em '+fmtTs(s.emailEnviadoEm):'Ainda não enviado'}</dd></dl>${gest?painelEmail(s,emailCancel(s),'E-mail de cancelamento'):''}`:'')
+     +(e==='Cancelada'?`<h3>Cancelamento</h3><dl class="dl"><dt>Origem</dt><dd>${esc(s.cancelOrigem||'Não informada')}</dd><dt>Motivo</dt><dd>${esc(s.motivoCancelamento||'Sem motivo informado')}</dd>${s.relatorioCancelado?`<dt>Relatório</dt><dd>Desconsiderado (enviado em ${s.relatorioCancelado.enviadoEm?fmtTs(s.relatorioCancelado.enviadoEm):'—'}, cancelado em ${fmtTs(s.relatorioCancelado.canceladoEm)}). Use Reabrir para trazê-lo de volta.</dd>`:''}<dt>Aviso por e-mail</dt><dd>${s.emailEnviadoEm?'Enviado em '+fmtTs(s.emailEnviadoEm):'Ainda não enviado'}</dd></dl>${gest?painelEmail(s,emailCancel(s),'E-mail de cancelamento'):''}`:'')
      +((s.reagendamentos||[]).length?`<h3>Reagendamentos <span class="chip num">${s.reagendamentos.length}</span></h3><div class="rows">${s.reagendamentos.map(r=>`<div class="row" style="cursor:default"><div class="main"><div class="t">${esc(r.origem)}</div><div class="s">${esc(r.motivo)}</div><div class="s">Antes: ${esc(tecNome(r.de?.tecnicoId))} · ${periodoCurto(r.de)}</div></div><span class="chip num">${fmtTs(r.em)}</span></div>`).join('')}</div>`:'')
      +`<h3>Solicitação</h3><dl class="dl">${dl.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`;
   }
@@ -1659,7 +1780,7 @@ document.addEventListener('click',async e=>{
    case'enviaragora':{const m=mailDe(byId(S.sol,id));t.disabled=true;t.textContent='Enviando…';try{await enviarMail(m);await ref.update({emailEnviadoEm:Date.now(),atualizadoEm:Date.now()});flash('E-mail enviado para '+m.para,id)}catch(x){t.disabled=false;t.textContent='Enviar e-mail agora';toast(x&&x.message||'Não foi possível enviar o e-mail.')}return}
    case'enviado':try{await ref.update({emailEnviadoEm:Date.now(),atualizadoEm:Date.now()});flash('Confirmação marcada como enviada',id)}catch(x){toast('Não foi possível salvar.')}return;
    case'acaovista':try{const s=byId(S.sol,id);await ref.update({relatorio:{...s.relatorio,acaoVista:Date.now()},atualizadoEm:Date.now()});flash('Ação marcada como tratada',id)}catch(x){toast('Não foi possível salvar.')}return;
-   case'reabrir':try{await ref.update({status:'Solicitada',motivoCancelamento:null,cancelOrigem:null,naoAg:null,emailEnviadoEm:null,atualizadoEm:Date.now()});flash('Solicitação reaberta',id)}catch(x){toast('Não foi possível reabrir.')}return;
+   case'reabrir':try{const s0=byId(S.sol,id),rc=s0?.relatorioCancelado;if(rc){const{canceladoEm,canceladoPor,...rel}=rc;await ref.update({status:'Concluída',relatorio:rel,relatorioCancelado:null,motivoCancelamento:null,cancelOrigem:null,atualizadoEm:Date.now()});flash('Solicitação reaberta com o relatório de volta',id)}else{await ref.update({status:'Solicitada',motivoCancelamento:null,cancelOrigem:null,naoAg:null,emailEnviadoEm:null,atualizadoEm:Date.now()});flash('Solicitação reaberta',id)}}catch(x){toast('Não foi possível reabrir.')}return;
    case'pcsave':{const row=t.closest('[data-pc]'),k=row.dataset.pc,em=row.querySelector('[data-pck=email]').value.trim(),tl=fmtTel(row.querySelector('[data-pck=telefone]').value);
     if(em&&!/^\S+@\S+\.\S+$/.test(em))return toast('Confira o e-mail de '+k);
     if(!em&&!tl)return toast('Preencha o e-mail ou o telefone de '+k);
@@ -1711,7 +1832,8 @@ document.addEventListener('submit',async e=>{
   if(f.id==='fcanc'){const id=f.dataset.id,m=f.elements.motivo.value.trim(),err=$('#xerr'),og=new FormData(f).get('origem');
     if(!og)return erro(err,'Informe se o cancelamento foi por necessidade da equipe técnica ou comercial.');
     if(!m)return erro(err,'Escreva o motivo do cancelamento.');
-    try{await S.db.collection(P_SOL).doc(id).update({status:'Cancelada',motivoCancelamento:m,cancelOrigem:og,emailEnviadoEm:null,atualizadoEm:Date.now()});await posAcao(id,{...byId(S.sol,id),status:'Cancelada',motivoCancelamento:m,cancelOrigem:og},f,'Solicitação cancelada')}catch(x){erro(err,'Não foi possível cancelar.')}return}
+    const s0=byId(S.sol,id),rc=s0?.relatorio?{relatorio:null,relatorioCancelado:{...s0.relatorio,canceladoEm:Date.now(),canceladoPor:S.uid}}:{};
+    try{await S.db.collection(P_SOL).doc(id).update({status:'Cancelada',motivoCancelamento:m,cancelOrigem:og,emailEnviadoEm:null,...rc,atualizadoEm:Date.now()});await posAcao(id,{...s0,status:'Cancelada',motivoCancelamento:m,cancelOrigem:og,...rc},f,'Solicitação cancelada')}catch(x){erro(err,'Não foi possível cancelar.')}return}
   if(f.id==='frel'){const d=S.relDraft,err=$('#rerr'),s=byId(S.sol,S.relId);
     const cl=d.clientes.filter(c=>(c.nome||'').trim()||(c.nota||'').trim()||c.tipo);
     const falta=[];
@@ -1734,7 +1856,7 @@ document.addEventListener('submit',async e=>{
       for(const c of rel.clientes.filter(c=>c.tipo==='Prospecto')){if(!S.prosp.some(p=>normKey(p.nome)===normKey(c.nome))){try{await S.db.collection('prospectos').add({nome:c.nome,cidade:c.cidade||'',contato:c.contato||'',regional:s.regional,distrital:s.distrital||'',tecnicoId:s.agendamento?.tecnicoId||'',solId:s.id,criadoEm:Date.now(),criadoPor:S.uid||null})}catch(_){}}}const id=S.relId;S.relDraft=null;delete S.relDrafts[id];try{localStorage.removeItem('cat-rel-'+id)}catch(_){}closeSheet();flash('Relatório enviado. Atendimento concluído.',id)}
     catch(x){b.disabled=false;b.textContent='Enviar relatório e concluir';erro(err,'Não foi possível enviar. Verifique a conexão e tente de novo.')}return}
   if(f.id==='fcad'){const err=$('#kerr'),tp=f.dataset.tipo,old=f.dataset.id,ok=v=>/^\S+@\S+\.\S+$/.test(v);
-    if(tp==='tec'){const d={nome:f.elements.nome.value.trim(),email:f.elements.email.value.trim(),regiao:f.elements.regiao.value.trim(),telefone:fmtTel(f.elements.telefone.value),tratamento:f.elements.tratamento.value};
+    if(tp==='tec'){const d={nome:f.elements.nome.value.trim(),email:f.elements.email.value.trim(),regiao:f.elements.regiao.value.trim(),telefone:fmtTel(f.elements.telefone.value),cidadeBase:(f.elements.cidadeBase?.value||'').trim(),tratamento:f.elements.tratamento.value};
       if(!d.nome)return erro(err,'Informe o nome.');if(!ok(d.email))return erro(err,'Informe um e-mail válido para o técnico receber as confirmações.');
       try{const col=S.db.collection(P_TEC);if(old)await col.doc(old).set(d);else await col.add(d);closeSheet();toast('Técnico salvo')}catch(x){erro(err,'Não foi possível salvar.')}return}
     if(tp==='reg'){const d={nome:f.elements.nome.value.trim().replace(/\s+/g,' ').toUpperCase(),representante:f.elements.representante.value.trim(),email:f.elements.email.value.trim(),telefone:f.elements.telefone.value.trim(),distrital:f.elements.distrital.value.trim()};
@@ -2500,7 +2622,7 @@ function perfilAutomatico(){
 function assinarAgenda(){
   if(!S.db||S.agSub)return;
   if(!(S.gestor||papelPlat()==='tecnico'))return;
-  S.agSub=S.db.collection(P_AG).onSnapshot(sn=>{const o={};sn.docs.forEach(d=>o[d.id]=d.data());S.ag.docs=o;S.ag.carregada=true;if(['gagt','tagenda','grel2','gvisao'].includes(S.tab))render()},()=>{S.ag.carregada=true});
+  S.agSub=S.db.collection(P_AG).onSnapshot(sn=>{const o={};sn.docs.forEach(d=>o[d.id]=d.data());S.ag.docs=o;S.ag.carregada=true;if(typeof publicarOcupacao==='function')publicarOcupacao();if(['gagt','tagenda','grel2','gvisao','disp'].includes(S.tab))render()},()=>{S.ag.carregada=true});
 }
 
 
@@ -2508,7 +2630,7 @@ function assinarAgenda(){
 const cbFiltroTec=()=>cb('cbFTec',{kind:'tec',value:S.f.tec?tecNome(S.f.tec):'',allLabel:'Todos os técnicos',placeholder:'Técnicos · procurar…',onPick:v=>{S.f.tec=(S.tec.find(t=>t.nome===v)||{}).id||'';render()}});
 /* 2026: atendimento online, ou feito por quem não precisava enviar relatório, conta como concluído */
 const SEM_REL_2026=['guilherme','gustavo','ricardo-bertola','tiago-ferreira'];
-const ehOnline=s=>s.tipo==='Atendimento remoto / online'||/on-?\s?line|remot|virtual/i.test([s.tipo,s.cidadeChegada,s.objetivo].join(' '));
+const ehOnline=s=>Array.isArray(s.demandas)?(s.demandas.length>0&&s.demandas.every(x=>x.modo==='On-line')):s.tipo==='Atendimento remoto / online'||/on-?\s?line|remot|virtual/i.test([s.tipo,s.cidadeChegada,s.objetivo].join(' '));
 function dispensaRel(s){
   const a=s.agendamento;if(!a?.tecnicoId||s.relatorio?.enviadoEm||s.status==='Cancelada'||s.status==='Não agendada')return false;
   const fim=a.fim||a.inicio;if(!fim||hoje()<fim||!String(a.inicio).startsWith('2026'))return false;
@@ -2566,6 +2688,309 @@ window.__central={get S(){return S},openSol:(...a)=>openSol(...a),etapa:s=>etapa
 
 document.addEventListener('change',e=>{if(e.target.id==='ford'){S.f.ord=e.target.value;S.f.lim=60;render()}});
 
+/* ================= Nova solicitação v2 (26/11): solicitante por tipo, demanda em cascata, deslocamento e hospedagem ================= */
+const P_PES='cad/pessoas';
+const SOL_TIPOS=[['gp','Gestor de Pasta'],['tec','Técnico'],['reg','Distrital e Regional']];
+const DEMANDAS=[
+  {k:'at',l:'Atendimento Técnico',sub:['modo']},
+  {k:'trein',l:'Treinamento de Equipe Alta',sub:['modo']},
+  {k:'pal',l:'Palestra',sub:['modo','ambito']},
+  {k:'ev',l:'Evento',sub:['ambito','origem']},
+  {k:'dc',l:'Dia de Campo',sub:[]},
+  {k:'expo',l:'Exposição',sub:['ambito']},
+  {k:'julg',l:'Julgamento',sub:['ambito']},
+  {k:'acw',l:'Instalação ACW',sub:[]}
+];
+const SUBS={modo:['Presencial','On-line'],ambito:['Nacional','Internacional'],origem:['Interno','Externo']};
+const SUB_ROT={modo:'Formato',ambito:'Abrangência',origem:'Evento interno ou externo'};
+const TEMAS_LEITE=[
+  {k:'gen',l:'Genética',radio:['Leite Europeu','Leite Tropical','Ambos']},
+  {k:'ia',l:'Inseminação Artificial',v:'Inseminação Artificial - Leite'},
+  {k:'neo',l:'Neonatos',v:'Neonatos - Leite'},
+  {k:'pp',l:'Pecuária de Precisão',v:'Pecuária de Precisão'},
+  {k:'rep',l:'Reprodução',v:'Reprodução'},
+  {k:'emb',l:'Embriões',v:'Embriões'},
+  {k:'sw',l:'Softwares',chk:['DCU','MyDC','Alta Gestão']}
+];
+const TEMAS_CORTE=[{k:'neo',l:'Neonatos',v:'Neonatos - Corte'},{k:'ia',l:'Inseminação Artificial',v:'Inseminação Artificial - Corte'}];
+const URG_NOTA={Alta:'atendimento em até 1 mês',Média:'atendimento dentro do trimestre',Baixa:'atendimento dentro do semestre'};
+
+function temasDe(d){
+  const t=[];
+  if((d.perfis||[]).includes('Leite'))for(const x of TEMAS_LEITE){if(!(d.tl||[]).includes(x.k))continue;
+    if(x.radio){const g=d.genOpc;if(g==='Ambos')t.push('Genética - Leite Europeu','Genética - Leite Tropical');else if(g)t.push('Genética - '+g)}
+    else if(x.chk)(d.swOpc||[]).forEach(o=>t.push('Softwares - '+o));
+    else t.push(x.v)}
+  if((d.perfis||[]).includes('Corte'))for(const x of TEMAS_CORTE)if((d.tc||[]).includes(x.k))t.push(x.v);
+  return t;
+}
+function demandaTxt(x){const D=DEMANDAS.find(y=>y.k===x.k);const o=D.sub.map(s=>x[s]).filter(Boolean);return D.l+(o.length?` (${o.join(', ')})`:'')}
+const soOnline=d=>(d.demandas||[]).length>0&&d.demandas.every(x=>x.modo==='On-line');
+const tecCidade=id=>(byId(S.tec,id)||{}).cidadeBase||'';
+const diasEntre=(a,b)=>a&&b?Math.round((new Date(b+'T12:00')-new Date(a+'T12:00'))/864e5)+1:0;
+const cidadeQ=c=>String(c||'').replace(/\s*\/\s*/g,', ');
+function linkVoo(orig,dest,ida,volta){if(!dest)return '';const q=`Voos ${orig?'de '+cidadeQ(orig)+' ':''}para ${cidadeQ(dest)}${ida?' em '+ida:''}${volta?' volta em '+volta:''}`;return 'https://www.google.com/travel/flights?hl=pt-BR&q='+encodeURIComponent(q)}
+function linkRota(orig,dest){if(!dest)return '';return 'https://www.google.com/maps/dir/?api=1&travelmode=driving'+(orig?'&origin='+encodeURIComponent(cidadeQ(orig)):'')+'&destination='+encodeURIComponent(cidadeQ(dest))}
+function linkHotel(cid,ent,sai){if(!cid)return '';let u='https://www.booking.com/searchresults.pt-br.html?ss='+encodeURIComponent(cidadeQ(cid))+'&group_adults=1&no_rooms=1';if(ent)u+='&checkin='+ent;if(sai)u+='&checkout='+sai;return u}
+
+function contatoCard(tit,nome,email,tel){
+  if(!nome)return '';
+  return `<div class="ctt"><span class="ctt-t">${esc(tit)}</span><b>${esc(nome)}</b><span>${email?esc(email):'<i>e-mail não cadastrado</i>'}</span><span>${tel?esc(tel):'<i>telefone não cadastrado</i>'}</span></div>`;
+}
+function cttRegDist(reg,dist){
+  const r=regInfo(reg),d=distInfo(dist||r?.distrital);
+  return (r?contatoCard('Regional '+reg,r.representante||'Representante não cadastrado',r.email,r.telefone):'')+(d?contatoCard('Distrital',d.nome,d.email,d.telefone):'');
+}
+
+/* ---- peças visuais do formulário ---- */
+const chx=(type,name,value,label,on,sub)=>`<label class="ch ch-${type==='radio'?'r':'c'}${on?' is-on':''}"><input type="${type}" name="${name}" value="${esc(value)}"${on?' checked':''}><span class="ch-box" aria-hidden="true"></span><span class="ch-t">${label}${sub?`<small>${sub}</small>`:''}</span></label>`;
+const fd=(id,label,req,ctrl,hint,cls='')=>`<div class="fd ${cls}"><label class="fd-l" for="${id}">${label}${req?' <em class="obr" aria-label="obrigatório">*</em>':''}</label>${ctrl}${hint?`<p class="fd-h">${hint}</p>`:''}</div>`;
+const grupo=(label,req,body,hint,cls='')=>`<fieldset class="gp ${cls}"><legend class="fd-l">${label}${req?' <em class="obr" aria-label="obrigatório">*</em>':''}${hint?` <span class="fd-x">${hint}</span>`:''}</legend>${body}</fieldset>`;
+const inp=(name,val,attrs='')=>`<input class="field" id="n_${name}" name="${name}" value="${esc(val??'')}" ${attrs}>`;
+function contatoCard(tit,nome,email,tel){
+  if(!nome)return '';
+  return `<div class="ctt"><span class="ctt-t">${esc(tit)}</span><b>${esc(nome)}</b><span class="ctt-l">${email?esc(email):'<i>e-mail não cadastrado</i>'}</span><span class="ctt-l">${tel?esc(tel):'<i>telefone não cadastrado</i>'}</span></div>`;
+}
+const tecsSel=d=>(d.tecPrefs||[]).map(id=>byId(S.tec,id)).filter(Boolean);
+const TRANSP=[['Técnico','Transporte sob responsabilidade do técnico (a)','Carro próprio ou outro meio, por conta do técnico'],['Comercial','Transporte sob responsabilidade da equipe comercial','O regional ou o distrital busca o técnico'],['Aéreo','Aéreo','Voo até o aeroporto mais próximo']];
+const TRANSP_ROT={Técnico:'Transporte sob responsabilidade do técnico (a)',Comercial:'Transporte sob responsabilidade da equipe comercial',Aéreo:'Aéreo'};
+const TRECHO=[['Mesma','O aeroporto já é na cidade do atendimento',''],['Técnico','Transporte sob responsabilidade do técnico (a)','Carro alugado, táxi ou aplicativo'],['Comercial','Transporte sob responsabilidade da equipe comercial','O regional ou o distrital busca no aeroporto']];
+const precisaDesl=d=>!soOnline(d)&&['Técnico','Comercial','Aéreo'].includes(d.transporte);
+
+function faltasNova(d){
+  const f=[],on=soOnline(d),temas=temasDe(d);
+  if(!d.solTipo)f.push(['quem','Quem está solicitando']);
+  else{if(!d.gerenteNome)f.push(['quem','Seu nome']);if(!/^\S+@\S+\.\S+$/.test(d.gerenteEmail||''))f.push(['quem','Seu e-mail']);if(!d.gerenteTelefone)f.push(['quem','Seu telefone']);if(!d.regional)f.push(['quem','Regional'])}
+  if(!(d.perfis||[]).length)f.push(['dem','Perfil']);
+  if(!(d.demandas||[]).length)f.push(['dem','Tipo de demanda']);
+  (d.demandas||[]).forEach(x=>{const D=DEMANDAS.find(y=>y.k===x.k);D.sub.forEach(s=>{if(!x[s])f.push(['dem',`${SUB_ROT[s]} de ${D.l}`])})});
+  if(!temas.length&&!((d.tl||[]).length||(d.tc||[]).length))f.push(['dem','Temas']);
+  if((d.tl||[]).includes('gen')&&!d.genOpc)f.push(['dem','Opção de Genética']);
+  if((d.tl||[]).includes('sw')&&!(d.swOpc||[]).length)f.push(['dem','Qual software']);
+  if(!d.objetivo)f.push(['dem','Objetivo']);
+  if(!d.agendaOk)f.push(['qd','Confirmar a consulta à agenda']);
+  if(!d.urgencia)f.push(['qd','Urgência']);
+  if(!d.dataInicio)f.push(['qd','Início dos atendimentos']);if(!d.dataFim)f.push(['qd','Fim dos atendimentos']);
+  if(d.dataInicio&&d.dataFim&&d.dataFim<d.dataInicio)f.push(['qd','Fim antes do início']);
+  if(!on){
+    if(!d.transporte)f.push(['qd','Transporte']);
+    if(precisaDesl(d)){
+      if(!d.dataIda)f.push(['qd','Data de ida']);if(!d.dataVolta)f.push(['qd','Data de volta']);
+      if(d.dataIda&&d.dataInicio&&d.dataIda>d.dataInicio)f.push(['qd','Ida depois do início']);
+      if(d.dataVolta&&d.dataFim&&d.dataVolta<d.dataFim)f.push(['qd','Volta antes do fim']);
+      if(!d.cidadeChegada)f.push(['qd','Cidade de destino']);
+      if(d.transporte==='Comercial'){if(!d.buscaNome)f.push(['qd','Quem vai buscar o técnico']);if(!d.localEncontro)f.push(['qd','Local de encontro']);if(!d.horaSaida)f.push(['qd','Horário de saída'])}
+      else if(!d.horaChegada)f.push(['qd','Horário de chegada']);
+      if(d.transporte==='Aéreo'){if(!d.aeroporto)f.push(['qd','Aeroporto de chegada']);if(!d.vooIda||!d.vooVolta)f.push(['qd','Voos sugeridos']);if(!d.trechoFinal)f.push(['qd','Trecho do aeroporto ao destino']);
+        if(d.trechoFinal==='Comercial'){if(!d.buscaNome)f.push(['qd','Quem busca no aeroporto']);if(!d.horaBusca)f.push(['qd','Horário da busca no aeroporto'])}}
+    }
+    if(!d.semHosp){if(!d.cidadeHospedagem)f.push(['qd','Cidade de hospedagem']);if(!(d.hoteis||[]).filter(h=>h.nome).length)f.push(['qd','Sugestão de hotel'])}
+  }
+  return f;
+}
+
+function resumoNova(d){
+  const tl=tecsSel(d),on=soOnline(d),temas=temasDe(d),fal=faltasNova(d);
+  const lin=(k,v)=>v?`<div class="rs-l"><dt>${k}</dt><dd>${v}</dd></div>`:'';
+  const per=d.dataInicio&&d.dataFim&&d.dataFim>=d.dataInicio?`${fmtD(d.dataInicio)} a ${fmtD(d.dataFim)}<small>${diasEntre(d.dataInicio,d.dataFim)} dia${diasEntre(d.dataInicio,d.dataFim)>1?'s':''} de atendimento</small>`:'';
+  const orig=tl[0]?.cidadeBase||'';
+  const ic={Técnico:'🚗',Comercial:'🚙',Aéreo:'✈'};
+  const pernas=d.transporte==='Aéreo'?[orig||'Cidade do técnico','✈',d.aeroporto,...(d.trechoFinal&&d.trechoFinal!=='Mesma'&&d.cidadeChegada?[d.trechoFinal==='Comercial'?'🚙':'🚗',d.cidadeChegada]:[])]:[d.transporte==='Comercial'?(d.localEncontro||orig||'Local de encontro'):(orig||'Cidade do técnico'),ic[d.transporte]||'→',d.cidadeChegada];
+  const rota=on?'<span class="rota-x">On-line, sem deslocamento</span>':(d.transporte&&(d.cidadeChegada||d.aeroporto))?`<span class="rota">${pernas.filter(Boolean).map((x,k)=>k%2?`<i aria-hidden="true">${x}</i>`:`<span>${esc(x)}</span>`).join('')}</span><small>${esc(TRANSP_ROT[d.transporte]||'')}${d.transporte==='Comercial'&&d.buscaNome?' · busca: '+esc(d.buscaNome):''}${d.trechoFinal==='Comercial'&&d.buscaNome?' · busca no aeroporto: '+esc(d.buscaNome):''}</small>`:d.transporte?`<span class="rota-x">${esc(TRANSP_ROT[d.transporte])}</span>`:'';
+  const hot=d.semHosp?'Não precisa':(d.hoteis||[]).filter(h=>h.nome).length?`${(d.hoteis||[]).filter(h=>h.nome).length} sugest${(d.hoteis||[]).filter(h=>h.nome).length>1?'ões':'ão'} em ${esc(d.cidadeHospedagem||'')}`:'';
+  const total=fal.length;
+  return `<aside class="rs" aria-label="Resumo do pedido"><div class="rs-in">
+    <p class="rs-k">Resumo do pedido</p>
+    <dl>${lin('Solicitante',d.gerenteNome?esc(d.gerenteNome):'')}${lin('Regional',d.regional?esc(d.regional)+(d.distrital?`<small>Distrital ${esc(d.distrital)}</small>`:''):'')}
+    ${lin('Demanda',(d.demandas||[]).map(x=>esc(demandaTxt(x))).join('<br>'))}${lin('Temas',temas.map(esc).join('<br>'))}
+    ${lin(tl.length>1?'Técnicos':'Técnico',tl.map(t=>esc(t.nome)).join('<br>'))}${lin('Período',per)}${lin('Deslocamento',rota)}${lin('Hospedagem',on?'':hot)}</dl>
+    ${total?`<div class="rs-f"><b>${total===1?'Falta 1 item':`Faltam ${total} itens`}</b><ul>${fal.slice(0,6).map(([,t])=>`<li>${esc(t)}</li>`).join('')}${total>6?`<li>e mais ${total-6}</li>`:''}</ul></div>`:'<div class="rs-ok">Tudo preenchido. Revise e envie.</div>'}
+    <button class="btn primary rs-b" type="submit" id="nsend">Enviar solicitação</button>
+    <p class="ferr" id="nerr" hidden></p>
+  </div></aside>`;
+}
+
+function nova(){
+  if(!S.canWrite)return `<div class="empty"><b>Seu acesso é só para consulta</b><p>Peça à gestão acesso de Colaborador para enviar solicitações.</p></div>`;
+  if(S.enviado)return `<div class="section done-card"><div class="ok">✓</div><h2>Solicitação enviada</h2><p class="muted" style="margin:0;max-width:52ch">A gestão vai avaliar e reservar o técnico. Você recebe a confirmação por e-mail e acompanha o andamento em "Minhas solicitações".</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button class="btn primary" type="button" data-act="ver" data-id="${S.enviado}">Ver solicitação</button><button class="btn" type="button" data-act="outra">Fazer outra solicitação</button></div></div>`;
+  const p=S.perfil?.papel==='rep'?S.perfil:{};
+  if(!S.draft){S.draft={solTipo:p.regional?'reg':'',regional:p.regional||'',distrital:p.distrital||'',gerenteNome:p.nome||'',gerenteEmail:p.email||'',perfis:['Leite'],demandas:[],tl:[],tc:[],swOpc:[],tecPrefs:[],hoteis:[{},{},{}]}}
+  const d=S.draft,st=d.solTipo,on=soOnline(d),tl=tecsSel(d),orig=tl[0]?.cidadeBase||'';
+  /* 1 · quem */
+  let quem=grupo('Você é',true,`<div class="chs chs-3">${SOL_TIPOS.map(([k,l])=>chx('radio','solTipo',k,l,st===k,{gp:'Escolha seu nome na lista',tec:'Escolha seu nome na lista',reg:'Escolha a regional e os dados vêm juntos'}[k])).join('')}</div>`);
+  if(st){
+    const nomeCb=st==='gp'?cb('cbNGp',{kind:'gp',name:'gerenteNome',value:d.gerenteNome,placeholder:'Digite para procurar…',onPick:nm=>{const g=(S.gp||[]).find(x=>x.nome===nm)||{};S.draft={...lerNova($('#fnova')),gerenteNome:nm,gerenteEmail:g.email||'',gerenteTelefone:g.telefone||''};render()}})
+      :st==='tec'?cb('cbNTec',{kind:'tec',name:'gerenteNome',value:d.gerenteNome,placeholder:'Digite para procurar…',onPick:nm=>{const t=S.tec.find(x=>x.nome===nm)||{};S.draft={...lerNova($('#fnova')),gerenteNome:nm,gerenteEmail:t.email||'',gerenteTelefone:t.telefone||''};render()}})
+      :inp('gerenteNome',d.gerenteNome);
+    const regCb=cb('cbNReg',{kind:'reg',name:'regional',value:d.regional,placeholder:'Digite a regional ou o representante…',onPick:rg=>{const r=regInfo(rg)||{};const x={...lerNova($('#fnova')),regional:rg,distrital:r.distrital||''};if(st==='reg'){x.gerenteNome=r.representante||'';x.gerenteEmail=r.email||'';x.gerenteTelefone=r.telefone||''}S.draft=x;render()}});
+    const regFd=fd('cbNReg',st==='reg'?'Regional':'Regional atendida',true,regCb,st==='reg'?'':'Para qual regional é o atendimento.');
+    const nomeFd=fd(st==='reg'?'n_gerenteNome':st==='gp'?'cbNGp':'cbNTec','Seu nome',true,nomeCb);
+    const contato=`<div class="row2">${fd('n_gerenteEmail','E-mail',true,inp('gerenteEmail',d.gerenteEmail,'type="email" placeholder="nome@altagenetics.com"'))}${fd('n_gerenteTelefone','Telefone',true,inp('gerenteTelefone',d.gerenteTelefone,'type="tel" placeholder="(00) 00000-0000"'))}</div>`;
+    quem+=st==='reg'?`${regFd}${d.regional?`<div class="row2">${nomeFd}</div>${contato}`:''}`:`<div class="row2">${nomeFd}</div>${d.gerenteNome?contato:''}${regFd}`;
+    quem+=`<input type="hidden" name="distrital" value="${esc(d.distrital||'')}">`;
+    if(d.regional)quem+=`<div class="ctts">${cttRegDist(d.regional,d.distrital)}</div>`;
+  }
+  /* 2 · demanda */
+  const pf=d.perfis||[];
+  let dem=grupo('Perfil',true,`<div class="chs chs-2">${['Leite','Corte'].map(x=>chx('checkbox','perfis',x,x,pf.includes(x))).join('')}</div>`,'pode marcar os dois');
+  const demSel=(d.demandas||[]);
+  dem+=grupo('Tipo de demanda',true,`<div class="chs chs-4">${DEMANDAS.map(D=>chx('checkbox','dem',D.k,D.l,demSel.some(y=>y.k===D.k))).join('')}</div>${demSel.filter(x=>DEMANDAS.find(D=>D.k===x.k).sub.length).map(x=>{const D=DEMANDAS.find(y=>y.k===x.k);return `<div class="det"><span class="det-t">${D.l}</span><div class="det-o">${D.sub.map(sk=>`<div class="seg" role="radiogroup" aria-label="${SUB_ROT[sk]} de ${D.l}">${SUBS[sk].map(o=>chx('radio',`dem_${D.k}_${sk}`,o,o,x[sk]===o)).join('')}</div>`).join('')}</div></div>`}).join('')}`,'pode marcar mais de um');
+  if(pf.length){
+    const bloco=(lista,pre,sel,tit)=>`${tit?`<p class="sub-t">${tit}</p>`:''}<div class="chs chs-4">${lista.map(T=>chx('checkbox',pre,T.k,T.l,(sel||[]).includes(T.k))).join('')}</div>`;
+    let tb='';
+    if(pf.includes('Leite')){tb+=bloco(TEMAS_LEITE,'tl',d.tl,pf.length>1?'Leite':'');
+      if((d.tl||[]).includes('gen'))tb+=`<div class="det"><span class="det-t">Genética</span><div class="det-o"><div class="seg">${['Leite Europeu','Leite Tropical','Ambos'].map(o=>chx('radio','genOpc',o,o,d.genOpc===o)).join('')}</div></div></div>`;
+      if((d.tl||[]).includes('sw'))tb+=`<div class="det"><span class="det-t">Softwares</span><div class="det-o"><div class="seg">${['DCU','MyDC','Alta Gestão'].map(o=>chx('checkbox','swOpc',o,o,(d.swOpc||[]).includes(o))).join('')}</div></div></div>`}
+    if(pf.includes('Corte'))tb+=bloco(TEMAS_CORTE,'tc',d.tc,pf.length>1?'Corte':'');
+    dem+=grupo('Temas',true,tb,'pode marcar mais de um');
+  }
+  dem+=fd('n_objetivo','Objetivo e descrição breve',true,`<textarea class="field" id="n_objetivo" name="objetivo" rows="3" placeholder="Ex.: visitar dois clientes em Chapecó e fazer uma palestra para a cooperativa.">${esc(d.objetivo||'')}</textarea>`);
+  dem+=fd('n_clientesPrev','Clientes a visitar',false,`<textarea class="field" id="n_clientesPrev" name="clientesPrev" rows="2" placeholder="Nome de faturamento, cidade e contato de cada um.">${esc(d.clientesPrev||'')}</textarea>`,'Opcional, mas ajuda a gestão a escolher o técnico.');
+  /* 3 · quando e onde */
+  let qd=`<div class="ag-alert"><div class="ag-ic" aria-hidden="true">📅</div><div class="ag-tx"><b>Antes de escolher as datas, veja quem está livre.</b><span>A agenda abre em outra aba. O que você já preencheu aqui continua salvo.</span></div><a class="btn ag-btn" href="?area=rep&tab=disp" target="_blank" rel="noopener">Ver disponibilidade dos técnicos</a>${chx('checkbox','agendaOk','1','<span>Já consultei a agenda <em class="obr">*</em></span>',d.agendaOk)}</div>`;
+  qd+=grupo('Urgência',true,`<div class="chs chs-3">${['Alta','Média','Baixa'].map(u=>chx('radio','urgencia',u,u,d.urgencia===u,URG_NOTA[u].replace('atendimento ','Atendimento '))).join('')}</div>`);
+  qd+=grupo('Técnicos de preferência',false,`<div class="chs chs-tec">${sortN(S.tec).filter(t=>!SEM_REL_2026.includes(t.id)).map(t=>chx('checkbox','tecPrefs',t.id,esc(t.nome),(d.tecPrefs||[]).includes(t.id),t.cidadeBase?esc(t.cidadeBase):'cidade não cadastrada')).join('')}</div>`,'opcional · pode marcar mais de um');
+  qd+=`<div class="row2">${fd('n_dataInicio','Início dos atendimentos',true,`<input class="field" type="date" id="n_dataInicio" name="dataInicio" min="${hoje()}" value="${esc(d.dataInicio||'')}">`)}${fd('n_dataFim','Fim dos atendimentos',true,`<input class="field" type="date" id="n_dataFim" name="dataFim" min="${esc(d.dataInicio||hoje())}" value="${esc(d.dataFim||'')}">`)}</div>`;
+  if(!on){
+    qd+=`<div class="blk"><h4 class="blk-t">Deslocamento</h4>`+grupo('Como o técnico vai chegar',true,`<div class="chs chs-3">${TRANSP.map(([v,l,x])=>chx('radio','transporte',v,l,d.transporte===v,x)).join('')}</div>`);
+    if(precisaDesl(d)){
+      const tp=d.transporte,r=regInfo(d.regional)||{},di=distInfo(d.distrital)||{};
+      const saida=tl.length?`<p class="fd-h">Saindo de ${tl.map(t=>`<b>${esc(t.cidadeBase||'cidade não cadastrada')}</b> (${esc(primeiroNome(t.nome))})`).join(', ')}.</p>`:`<p class="fd-h">Marque um técnico de preferência para já vermos a cidade de saída.</p>`;
+      const sugBusca=[r.representante,di.nome].filter(Boolean);
+      const busca=(rot,hora,horaRot,extra)=>`<div class="row2">${fd('n_buscaNome',rot,true,inp('buscaNome',d.buscaNome,`placeholder="${esc(sugBusca.length?'Ex.: '+sugBusca.join(' ou '):'Nome de quem busca')}" list="dl_busca"`)+`<datalist id="dl_busca">${sugBusca.map(n=>`<option value="${esc(n)}">`).join('')}</datalist>`)}${extra}</div>`;
+      qd+=`<div class="row2">${fd('n_dataIda',tp==='Comercial'?'Saída (ida)':'Ida',true,`<input class="field" type="date" id="n_dataIda" name="dataIda" min="${hoje()}" max="${esc(d.dataInicio||'')}" value="${esc(d.dataIda||'')}">`,'Dia em que o técnico viaja.')}${fd('n_dataVolta','Volta',true,`<input class="field" type="date" id="n_dataVolta" name="dataVolta" min="${esc(d.dataFim||hoje())}" value="${esc(d.dataVolta||'')}">`)}</div>`;
+      if(tp==='Técnico'){const lr=linkRota(orig,d.cidadeChegada);
+        qd+=`<div class="row2">${fd('n_cidadeChegada','Cidade de destino',true,inp('cidadeChegada',d.cidadeChegada,'placeholder="Ex.: Chapecó/SC"'))}${fd('n_horaChegada','Precisa chegar até',true,inp('horaChegada',d.horaChegada,'type="time"'),'Horário aproximado no dia da ida.')}</div>
+        <div class="ext">${saida}<a class="btn ext-b${lr?'':' is-off'}" ${lr?`href="${lr}" target="_blank" rel="noopener"`:'aria-disabled="true"'}>Ver rota no Google Maps</a></div>
+        ${fd('n_obsTrajeto','Observações do trajeto',false,inp('obsTrajeto',d.obsTrajeto,'placeholder="Estrada de terra, pedágio, ponto de referência…"'))}`}
+      if(tp==='Comercial'){
+        qd+=busca('Quem vai buscar o técnico','','',fd('n_localEncontro','Local de encontro',true,inp('localEncontro',d.localEncontro||orig,'placeholder="Ex.: Uberaba/MG, posto na saída da cidade"')))
+          +`<div class="row2">${fd('n_horaSaida','Horário de saída',true,inp('horaSaida',d.horaSaida,'type="time"'))}${fd('n_cidadeChegada','Cidade de destino',true,inp('cidadeChegada',d.cidadeChegada,'placeholder="Ex.: Chapecó/SC"'))}</div>
+          ${fd('n_obsTrajeto','Observações do trajeto',false,inp('obsTrajeto',d.obsTrajeto,'placeholder="Telefone de quem busca, ponto de referência…"'))}`}
+      if(tp==='Aéreo'){const lv=linkVoo(orig,d.aeroporto||d.cidadeChegada,d.dataIda,d.dataVolta);
+        qd+=`<div class="row2">${fd('n_aeroporto','Aeroporto de chegada',true,inp('aeroporto',d.aeroporto,'placeholder="Ex.: Chapecó/SC (XAP)"'))}${fd('n_horaChegada','Precisa chegar até',true,inp('horaChegada',d.horaChegada,'type="time"'),'Horário aproximado no local do atendimento.')}</div>
+        <div class="ext">${saida}<a class="btn ext-b${lv?'':' is-off'}" ${lv?`href="${lv}" target="_blank" rel="noopener"`:'aria-disabled="true"'}>Pesquisar voos no Google Flights</a>${lv?'':'<span class="fd-h">Preencha o aeroporto para gerar a pesquisa.</span>'}</div>
+        <div class="row2">${fd('n_vooIda','Voo de ida sugerido',true,inp('vooIda',d.vooIda,'placeholder="Companhia, nº do voo e horário de chegada"'))}${fd('n_vooVolta','Voo de volta sugerido',true,inp('vooVolta',d.vooVolta,'placeholder="Companhia, nº do voo e horário"'))}</div>
+        ${fd('n_vooLink','Link do voo escolhido',false,inp('vooLink',d.vooLink,'type="url" placeholder="Cole o link do Google Flights"'))}
+        <div class="perna">${grupo('Do aeroporto até o local do atendimento, como o técnico segue?',true,`<div class="chs chs-3">${TRECHO.map(([v,l,x])=>chx('radio','trechoFinal',v,l,d.trechoFinal===v,x)).join('')}</div>`)}
+        ${d.trechoFinal&&d.trechoFinal!=='Mesma'?`<div class="row2">${fd('n_cidadeChegada','Cidade do atendimento',true,inp('cidadeChegada',d.cidadeChegada,'placeholder="Ex.: Xanxerê/SC"'))}${d.trechoFinal==='Comercial'?fd('n_horaBusca','Horário da busca no aeroporto',true,inp('horaBusca',d.horaBusca,'type="time"')):''}</div>`:d.trechoFinal==='Mesma'?`<input type="hidden" name="cidadeChegada" value="${esc(d.aeroporto||d.cidadeChegada||'')}">`:''}
+        ${d.trechoFinal==='Técnico'?(()=>{const lr=linkRota(d.aeroporto,d.cidadeChegada);return `<div class="ext"><span class="fd-h">Trecho do aeroporto até a cidade do atendimento.</span><a class="btn ext-b${lr?'':' is-off'}" ${lr?`href="${lr}" target="_blank" rel="noopener"`:'aria-disabled="true"'}>Ver rota no Google Maps</a></div>`})():''}
+        ${d.trechoFinal==='Comercial'?busca('Quem vai buscar no aeroporto','','',fd('n_obsTrajeto','Ponto de encontro no aeroporto',false,inp('obsTrajeto',d.obsTrajeto,'placeholder="Ex.: saída do desembarque"'))):''}</div>`}
+    }
+    qd+=`</div>`;
+    const ent=d.dataIda||d.dataInicio,sai=d.dataVolta||d.dataFim,lh=linkHotel(d.cidadeHospedagem||d.cidadeChegada,ent,sai);
+    qd+=`<div class="blk"><h4 class="blk-t">Hospedagem</h4>${chx('checkbox','semHosp','1','Não precisa de hospedagem',d.semHosp,'Ida e volta no mesmo dia, ou o técnico fica em casa')}`;
+    if(!d.semHosp)qd+=`<div class="row2">${fd('n_cidadeHospedagem','Cidade de hospedagem',true,inp('cidadeHospedagem',d.cidadeHospedagem,'placeholder="Ex.: Chapecó/SC"'))}<div class="ext ext-c"><a class="btn ext-b${lh?'':' is-off'}" ${lh?`href="${lh}" target="_blank" rel="noopener"`:'aria-disabled="true"'}>Pesquisar hotéis no Booking.com</a></div></div>
+      <div class="hoteis"><p class="fd-l">Sugestões de hotel <em class="obr">*</em> <span class="fd-x">até 3 opções; cole o link de cada uma se tiver</span></p>${[0,1,2].map(i=>{const h=(d.hoteis||[])[i]||{};return `<div class="hotel"><span class="h-n">${i+1}ª opção</span><input class="field" name="hotelNome" aria-label="Nome do hotel, ${i+1}ª opção" placeholder="Nome do hotel" value="${esc(h.nome||'')}"><input class="field" name="hotelLink" type="url" aria-label="Link do hotel, ${i+1}ª opção" placeholder="Link" value="${esc(h.link||'')}"></div>`}).join('')}</div>`;
+    qd+=`</div>`;
+  }else qd+=`<p class="note-on">Como todas as demandas são on-line, não há deslocamento nem hospedagem.</p>`;
+  const sec=(n,id,t,desc,body)=>`<section class="st" id="st-${id}"><header class="st-h"><span class="st-n" aria-hidden="true">${n}</span><div><h3>${t}</h3><p>${desc}</p></div></header><div class="st-b">${body}</div></section>`;
+  return `<div class="nv-top"><h2>Solicitar agenda técnica</h2><p>Três etapas, uns cinco minutos. O resumo ao lado mostra o que já está pronto e o que falta.</p></div>
+  <form class="nv" id="fnova" novalidate><div class="nv-grid"><div class="nv-main">
+   ${sec(1,'quem','Quem está solicitando','Seus dados e a regional que vai receber o atendimento.',quem)}
+   ${sec(2,'dem','A demanda','O que precisa ser feito e sobre quais temas.',dem)}
+   ${sec(3,'qd','Quando e onde','Datas, técnicos, deslocamento e hospedagem.',qd)}
+  </div>${resumoNova(d)}</div></form>`;
+}
+
+function lerNova(f){
+  const d0=S.draft||{};if(!f)return d0;
+  const fd=new FormData(f),g=k=>(fd.get(k)??'').toString().trim(),d={};
+  d.solTipo=g('solTipo');
+  for(const k of ['regional','distrital','gerenteNome','gerenteEmail','gerenteTelefone','objetivo','clientesPrev','urgencia','dataIda','dataInicio','dataFim','dataVolta','transporte','cidadeChegada','horaChegada','vooIda','vooVolta','vooLink','obsTrajeto','cidadeHospedagem','genOpc','aeroporto','trechoFinal','buscaNome','localEncontro','horaSaida','horaBusca'])d[k]=fd.has(k)?g(k):(d0[k]??'');
+  d.perfis=fd.getAll('perfis');
+  const dem=fd.getAll('dem');d.demandas=DEMANDAS.filter(D=>dem.includes(D.k)).map(D=>{const x={k:D.k};D.sub.forEach(s=>{x[s]=(fd.get(`dem_${D.k}_${s}`)||'').toString()});return x});
+  d.tl=fd.getAll('tl');d.tc=fd.getAll('tc');d.swOpc=fd.getAll('swOpc');d.tecPrefs=fd.getAll('tecPrefs');
+  d.agendaOk=fd.has('agendaOk');d.semHosp=fd.has('semHosp');
+  const hn=fd.getAll('hotelNome'),hl=fd.getAll('hotelLink');
+  d.hoteis=hn.length?[0,1,2].map(i=>({nome:(hn[i]||'').toString().trim(),link:(hl[i]||'').toString().trim()})):(d0.hoteis||[{},{},{}]);
+  return d;
+}
+function bindNova(){
+  const f=$('#fnova');if(!f)return;
+  const reRender=['solTipo','perfis','dem','tl','tc','tecPrefs','transporte','trechoFinal','semHosp','dataIda','dataInicio','dataFim','dataVolta','agendaOk','urgencia','genOpc','swOpc'];
+  const rr=()=>{const y=window.scrollY,a=document.activeElement?.name;render();window.scrollTo(0,y)};
+  f.addEventListener('change',e=>{
+    S.draft=lerNova(f);
+    if(e.target.name==='solTipo'){const st=S.draft.solTipo;S.draft={...S.draft,gerenteNome:'',gerenteEmail:'',gerenteTelefone:''};if(st==='reg'&&S.draft.regional){const r=regInfo(S.draft.regional)||{};S.draft.gerenteNome=r.representante||'';S.draft.gerenteEmail=r.email||'';S.draft.gerenteTelefone=r.telefone||''}}
+    if(reRender.includes(e.target.name)||/^dem_/.test(e.target.name))rr();
+  });
+  f.addEventListener('input',e=>{if(e.target.matches('.cb-in'))return;S.draft=lerNova(f)});
+  f.addEventListener('focusout',e=>{if(['cidadeChegada','cidadeHospedagem','aeroporto','buscaNome','gerenteNome','gerenteEmail','gerenteTelefone','objetivo','horaChegada','vooIda','vooVolta','hotelNome'].includes(e.target.name)){S.draft=lerNova(f);const r=$('.rs');if(r){r.outerHTML=resumoNova(S.draft)}if(['cidadeChegada','cidadeHospedagem','aeroporto'].includes(e.target.name))setTimeout(()=>{if(!f.contains(document.activeElement)||document.activeElement===document.body)rr();else{const nx=document.activeElement.name;rr();const el=nx&&$(`#fnova [name="${nx}"]`);if(el)el.focus()}},0)}});
+  f.addEventListener('submit',async e=>{
+    e.preventDefault();const d=lerNova(f);S.draft=d;const fal=faltasNova(d);
+    if(fal.length){const r=$('.rs');if(r)r.outerHTML=resumoNova(d);const err=$('#nerr');err.textContent='Complete os itens da lista para enviar.';err.hidden=false;const alvo=$('#st-'+fal[0][0]);if(alvo)alvo.scrollIntoView({block:'start',behavior:'smooth'});return}
+    const b=$('#nsend'),err=$('#nerr');b.disabled=true;b.textContent='Enviando…';
+    const on=soOnline(d),n=diasEntre(d.dataInicio,d.dataFim),desl=precisaDesl(d);
+    const doc={v:2,solTipo:d.solTipo,gerenteNome:d.gerenteNome,gerenteEmail:d.gerenteEmail,gerenteTelefone:d.gerenteTelefone,regional:d.regional,distrital:d.distrital||regInfo(d.regional)?.distrital||'',
+      perfis:d.perfis,demandas:d.demandas,tipo:d.demandas.map(demandaTxt).join(' · '),temas:temasDe(d),genOpc:d.genOpc||'',swOpc:d.swOpc,objetivo:d.objetivo,clientesPrev:d.clientesPrev,
+      urgencia:d.urgencia,tecPrefs:d.tecPrefs,tecPref:d.tecPrefs[0]||'',dataInicio:d.dataInicio,dataFim:d.dataFim,dataSugerida:d.dataInicio,duracao:n===1?'1 dia':n+' dias',agendaConsultada:true,
+      ...(on?{online:true}:{transporte:d.transporte,
+        ...(desl?{dataIda:d.dataIda,dataVolta:d.dataVolta,cidadeChegada:d.cidadeChegada,obsTrajeto:d.obsTrajeto,
+          ...(d.transporte==='Comercial'?{buscaNome:d.buscaNome,localEncontro:d.localEncontro,horaSaida:d.horaSaida}:{horaChegada:d.horaChegada}),
+          ...(d.transporte==='Aéreo'?{aeroporto:d.aeroporto,vooIda:d.vooIda,vooVolta:d.vooVolta,vooLink:d.vooLink,trechoFinal:d.trechoFinal,...(d.trechoFinal==='Comercial'?{buscaNome:d.buscaNome,horaBusca:d.horaBusca}:{})}:{})}:{}),
+        ...(d.semHosp?{semHospedagem:true}:{cidadeHospedagem:d.cidadeHospedagem,hoteis:(d.hoteis||[]).filter(h=>h.nome)})}),
+      status:'Solicitada',criadoEm:Date.now(),atualizadoEm:Date.now(),codigo:'AT-'+Date.now().toString(36).slice(-5).toUpperCase()};
+    if(S.uid)doc.criadoPor=S.uid;
+    try{const ref=await S.db.collection(P_SOL).add(doc);S.draft=null;S.enviado=ref.id;render();window.scrollTo(0,0)}
+    catch(x){b.disabled=false;b.textContent='Enviar solicitação';err.textContent=x?.code==='invalid_argument'?'Você não tem permissão para enviar. Peça acesso de Colaborador à gestão.':'Não foi possível enviar agora. Verifique a conexão e tente de novo.';err.hidden=false}
+  });
+}
+
+/* linhas extras no detalhe da solicitação (formulário v2) */
+function dlV2(s){
+  if(s.v!==2)return [];
+  const rot={gp:'Gestor de Pasta',tec:'Técnico',reg:'Distrital e Regional'}[s.solTipo]||'';
+  const hot=(s.hoteis||[]).map((h,i)=>`${i+1}. ${h.nome}${h.link?' — '+h.link:''}`).join('\n');
+  return [['Solicitante é',rot],['Telefone do solicitante',s.gerenteTelefone],['Perfil',(s.perfis||[]).join(' e ')],
+    ['Período dos atendimentos',s.dataInicio?`${fmtD(s.dataInicio)} a ${fmtD(s.dataFim)}`:''],
+    ['Técnicos de preferência',(s.tecPrefs||[]).length>1?s.tecPrefs.map(tecNome).join(', '):''],['Deslocamento',s.online?'Atendimento on-line':s.transporte?`${({Técnico:'Transporte sob responsabilidade do técnico (a)',Comercial:'Transporte sob responsabilidade da equipe comercial'})[s.transporte]||s.transporte}${s.dataIda?`\nIda ${fmtD(s.dataIda)} e volta ${fmtD(s.dataVolta)}`:''}`:''],
+    ['Quem busca o técnico',s.transporte==='Comercial'&&s.buscaNome?`${s.buscaNome}${s.localEncontro?' · encontro em '+s.localEncontro:''}${s.horaSaida?' · saída às '+s.horaSaida:''}`:''],
+    ['Aeroporto de chegada',s.aeroporto],
+    ['Do aeroporto ao destino',s.transporte==='Aéreo'&&s.trechoFinal?({Mesma:'O aeroporto já é na cidade do atendimento',Técnico:'Transporte sob responsabilidade do técnico (a)',Comercial:`Equipe comercial busca: ${s.buscaNome||''}${s.horaBusca?' às '+s.horaBusca:''}`})[s.trechoFinal]:''],
+    ['Chegar até',s.horaChegada?`${s.horaChegada} em ${s.cidadeChegada||''}`:''],
+    ['Voo de ida sugerido',s.vooIda],['Voo de volta sugerido',s.vooVolta],['Link do voo',s.vooLink],['Observações do trajeto',s.obsTrajeto],
+    ['Hospedagem',s.semHospedagem?'Não precisa':s.cidadeHospedagem?`${s.cidadeHospedagem}${hot?'\n'+hot:''}`:''],
+    ['Agenda consultada pelo solicitante',s.agendaConsultada?'Sim':'']];
+}
+
+/* ================= Disponibilidade dos técnicos (para quem solicita) ================= */
+const OCUP_CATS={atendimento:'o',deslocamento:'o',treinamento:'o',evento:'o',ferias:'o',particular:'o',reuniao:'p',homeoffice:'p',outros:'p'};
+function ocupacaoDe(){
+  /* visitas agendadas (todos podem ler) + resumo da agenda pessoal publicado pela gestão */
+  const m={};const marca=(t,d,v)=>{const o=(m[t]=m[t]||{});if(o[d]!=='o')o[d]=v};
+  const pub=S.ocup?.porTec||{};for(const[t,o] of Object.entries(pub))for(const[d,v] of Object.entries(o))marca(t,d,v);
+  const av=agVisitas();for(const[t,o] of Object.entries(av))for(const d of Object.keys(o))marca(t,d,'o');
+  return m;
+}
+function disp(){
+  const mes=S.f.dmes||hoje().slice(0,7);const[y,mm]=mes.split('-').map(Number);
+  const n=new Date(y,mm,0).getDate(),dias=[...Array(n)].map((_,i)=>`${mes}-${String(i+1).padStart(2,'0')}`);
+  const oc=ocupacaoDe(),fer=agFeriados(y);
+  const tecs=sortN(S.tec).filter(t=>!SEM_REL_2026.includes(t.id));
+  const nav=(k)=>{const d=new Date(y,mm-1+k,1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`};
+  const nomeMes=(m=>m[0].toUpperCase()+m.slice(1))(new Date(y,mm-1,1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}));
+  const wd=d=>new Date(d+'T12:00').getDay();
+  return `<div class="bar"><h2>Disponibilidade dos técnicos</h2></div>
+  <p class="muted" style="margin:-4px 0 14px;max-width:70ch">Consulte os dias livres antes de sugerir as datas na sua solicitação. Aqui aparecem só os períodos ocupados, sem detalhes dos atendimentos.${S.ocup?.atualizadoEm?` Agenda pessoal dos técnicos atualizada em ${fmtTs(S.ocup.atualizadoEm)}.`:''}</p>
+  <div class="disp-nav"><button class="btn small" type="button" data-dmes="${nav(-1)}" aria-label="Mês anterior">‹</button><b>${nomeMes}</b><button class="btn small" type="button" data-dmes="${nav(1)}" aria-label="Próximo mês">›</button>
+   <span class="disp-leg"><i class="c-l"></i>Livre <i class="c-p"></i>Compromisso parcial <i class="c-o"></i>Ocupado <i class="c-f"></i>Feriado / fim de semana</span></div>
+  <section class="panel disp-wrap"><table class="disp"><thead><tr><th>Técnico</th>${dias.map(d=>`<th class="${[0,6].includes(wd(d))?'fds':''}"><span>${'DSTQQSS'[wd(d)]}</span>${+d.slice(8)}</th>`).join('')}</tr></thead>
+  <tbody>${tecs.map(t=>`<tr><th><b>${esc(t.nome)}</b>${t.cidadeBase?`<small>${esc(t.cidadeBase)}</small>`:''}</th>${dias.map(d=>{const f=fer[d],w=[0,6].includes(wd(d)),v=(oc[t.id]||{})[d];const c=v==='o'?'c-o':v==='p'?'c-p':(f||w)?'c-f':'c-l';const tt=v==='o'?'Ocupado':v==='p'?'Compromisso parcial':f?'Feriado: '+f.join(', '):w?'Fim de semana':'Livre';return `<td class="${c}" title="${esc(t.nome+' · '+fmtD(d)+' · '+tt)}"></td>`}).join('')}</tr>`).join('')}</tbody></table></section>`;
+}
+document.addEventListener('click',e=>{const b=e.target.closest?.('[data-dmes]');if(b){S.f.dmes=b.dataset.dmes;render()}});
+/* a gestão publica um resumo (sem detalhes) da agenda pessoal dos técnicos, para quem solicita poder ver */
+let _ocupT=null,_ocupH='';
+function publicarOcupacao(){
+  if(!S.gestor||!S.ag?.carregada)return;clearTimeout(_ocupT);
+  _ocupT=setTimeout(async()=>{
+    const ini=hoje().slice(0,7)+'-01',fim=addDias(ini,400),porTec={};
+    for(const t of S.tec){const o={};for(let d=ini;d<=fim;d=addDias(d,1)){let v='';for(const s of agBruto(t.id,d)){const c=OCUP_CATS[agParse(s).cat];if(c==='o'){v='o';break}if(c==='p')v='p'}if(v)o[d]=v}if(Object.keys(o).length)porTec[t.id]=o}
+    const h=JSON.stringify(porTec);if(h===_ocupH||h===JSON.stringify(S.ocup?.porTec||{})){_ocupH=h;return}
+    try{await S.db.doc('cad/ocupacao').set({porTec,atualizadoEm:Date.now()});_ocupH=h}catch(_){}
+  },1500);
+}
+
 
 /* ================= boot ================= */
 function onData(){
@@ -2595,6 +3020,8 @@ render();
     db.doc('bases/cria').onSnapshot(d=>{S.cria=d.exists?d.data():null;S.criaIx=S.cria?indexar(S.cria.lista):null;render()},()=>{});
     db.doc('bases/integra').onSnapshot(d=>{S.integra=d.exists?d.data():null;S.integraIx=S.integra?indexar(S.integra.lista):null;render()},()=>{});
   }
+  db.doc('cad/pessoas').onSnapshot(d=>{S.gp=(d.exists?d.data():{}).gestoresPasta||[];if(S.tab==='nova')render()},()=>{});
+  db.doc('cad/ocupacao').onSnapshot(d=>{S.ocup=d.exists?d.data():null;if(S.tab==='disp')render()},()=>{});
   db.doc(P_EST).onSnapshot(d=>{const x=d.exists?d.data():{};S.reg=x.regionais||[];S.dist=x.distritais||[];S.loaded.reg=1;onData()},()=>{S.loaded.reg=1;render();toast('Falha ao sincronizar. Recarregue a página.')});
   db.doc(P_CFG).onSnapshot(d=>{S.cfg=d.exists?d.data():{};S.loaded.cfg=1;render()},()=>{S.loaded.cfg=1;render()});
 })();
